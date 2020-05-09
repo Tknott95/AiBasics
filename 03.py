@@ -41,17 +41,20 @@ np.random.seed(4)
         [0. 0. 0. 0.]
         [0. 0. 0. 0.]]
 """
+def main():
+  i = [
+    [1.8, 2.1, -1.2, -1.77],
+    [1.75, -3.33, 2.13, -1.37],
+    [-1.33, 2.22, 1.44, -1.88]
+  ]
 
-i = [
-  [1.8, 2.1, -1.2, -1.77],
-  [1.75, -3.33, 2.13, -1.37],
-  [-1.33, 2.22, 1.44, -1.88]
-]
+  class Layer_Dense:
+    def __init__(self, _inputs, _neurons):
+      self.weights = 0.10 * np.random.randn(_inputs, _neurons)
+      self.biases = np.zeros((1, _neurons))
+    def next(self):
+      pass
 
-class Layer_Dense:
-  def __init__(self, _inputs, _neurons):
-    self.weights = 0.10 * np.random.randn(_inputs, _neurons)
-    self.biases = np.zeros((1, _neurons))
-
+main()
 
 print(np.zeros((2, 4)))
