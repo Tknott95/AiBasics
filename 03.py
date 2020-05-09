@@ -3,7 +3,7 @@ import numpy as np
 np.random.seed(4)
 
 """
-|| CREATING AN OBJECT ||
+|| Creating an obj w/ random generators for neural net theory ||
   i -> inputs   | when array, they become batches
   w -> weights  | will be random for this example
   b -> bias     | 
