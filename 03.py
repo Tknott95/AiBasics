@@ -12,6 +12,12 @@ np.random.seed(4)
   transposing an array w/ numpy -> np.array().T
   dot prod w/ numpy             -> np.dot()
   random seed w/ same rand vals -> np.random.seed(int)
+
+  np.random.randn()              -> randn generates an array from the shape given of rand floats from
+    a "univariate normal Gaussian distribution" | a rand float generator for arrays essentially from -1 <-> 1
+    Example: 
+      run    -> print(np.random.randn(2,3))
+      output -> [[0.79,-0.2, 0.3], [-0.1,-0.42,0.44]]
 """
 
 i = [
@@ -20,4 +26,6 @@ i = [
   [-1.33, 2.22, 1.44, -1.88]
 ]
 
-# CREATE LAYER CLASS HERE
+class Layer_Dense:
+  def __init__(self, _inputs, _neurons):
+    self.weights = np.random.randn(_inputs, _neurons)
