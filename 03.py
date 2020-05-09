@@ -18,6 +18,14 @@ np.random.seed(4)
     Example: 
       run    -> print(np.random.randn(2,3))
       output -> [[0.79,-0.2, 0.3], [-0.1,-0.42,0.44]]
+
+      run ->
+      output -> [
+        [ 0.05056171  0.49995133 -0.99590893]
+        [ 0.69359851 -0.41830152 -1.58457724]
+        [-0.64770677  0.59857517  0.33225003]
+        [-1.14747663  0.61866969 -0.08798693]]
+
 """
 
 i = [
@@ -29,3 +37,6 @@ i = [
 class Layer_Dense:
   def __init__(self, _inputs, _neurons):
     self.weights = np.random.randn(_inputs, _neurons)
+
+
+print(np.random.randn(4,3))
