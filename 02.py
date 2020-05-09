@@ -1,9 +1,10 @@
 import numpy as np
 
 """
-i -> inputs   | when array, they become batches
-w -> weights  | need to transpose to have dotProd work proper, i_size(3,4) w_size(4,3) -> after transpose
-b -> bias     | 
+|| CREATING A LAYER ||
+  i -> inputs   | when array, they become batches
+  w -> weights  | need to transpose to have dotProd work proper, i_size(3,4) w_size(4,3) -> after transpose
+  b -> bias     | 
 
 @NOTES
   transposing an array w/ numpy -> np.array().T
