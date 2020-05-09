@@ -39,6 +39,10 @@ np.random.seed(4)
       output -> [
         [0. 0. 0. 0.]
         [0. 0. 0. 0.]]
+
+  @Custom
+    Layer_Dense(<numberOfInputs/features, so 4>, <num of neurons, can be any #>)
+     next layer input = _numOfNeurons of prior layer
 """
 
 def main():
@@ -48,13 +52,20 @@ def main():
     [-1.33, 2.22, 1.44, -1.88]
   ]
 
-  print(np.zeros((2, 4)))
-
   class Layer_Dense:
-    def __init__(self, _inputs, _neurons):
-      self.weights = 0.10 * np.random.randn(_inputs, _neurons)
-      self.biases = np.zeros((1, _neurons))
-    def next(self):
-      pass
+    def __init__(self, _numOfInputs, _numOfNeurons):
+      self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
+      self.biases = np.zeros((1, _numOfNeurons))
+    def next(self, _inputs):
+      self.output = np.dot(_inputs, self.weights) + self.biases
+
+
+  layer1 = Layer_Dense(4, 13)
+  layer2 = Layer_Dense(13, 4)
+
+  layer1.next(i)
+  #layer2.next()
+  print(layer1.output)
+
 
 main()
