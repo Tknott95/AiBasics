@@ -42,7 +42,7 @@ np.random.seed(4)
 
   @Custom
     Layer_Dense(<numberOfInputs/features, so 4>, <num of neurons, can be any #>)
-     next layer input = _numOfNeurons of prior layer
+     next layer input = lastLayer.output
 """
 
 def main():
