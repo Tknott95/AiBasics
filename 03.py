@@ -60,12 +60,15 @@ def main():
       self.output = np.dot(_inputs, self.weights) + self.biases
 
 
-  layer1 = Layer_Dense(4, 13)
-  layer2 = Layer_Dense(13, 4)
+  layer1 = Layer_Dense(4, 8)
+  layer2 = Layer_Dense(8, 6)
+  layer3 = Layer_Dense(6, 4)
 
   layer1.next(i)
-  #layer2.next()
-  print(layer1.output)
-
+  print('\n\n layer1: \n',layer1.output)
+  layer2.next(layer1.output)
+  print('\n\n layer2: \n',layer2.output)
+  layer3.next(layer2.output)
+  print('\n\n layer3: \n', layer3.output)
 
 main()
