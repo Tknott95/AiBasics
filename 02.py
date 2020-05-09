@@ -1,5 +1,11 @@
 import numpy as np
 
+"""
+i -> inputs   | when array, they become batches
+w -> weights  | need to transpose to have dotProd work proper, i_size(3,4) w_size(4,3) -> after transpose
+b -> bias     | 
+"""
+
 i = [
   [1.8, 2.1, -1.2, -1.77],
   [1.75, -3.33, 2.13, -1.37],
@@ -17,4 +23,3 @@ b = [0.2, 0.4, 2]
 output = np.dot(w, np.array(i).T) + b
 
 print(output)
-
