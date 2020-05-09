@@ -48,6 +48,8 @@ def main():
     [-1.33, 2.22, 1.44, -1.88]
   ]
 
+  print(np.zeros((2, 4)))
+
   class Layer_Dense:
     def __init__(self, _inputs, _neurons):
       self.weights = 0.10 * np.random.randn(_inputs, _neurons)
@@ -56,5 +58,3 @@ def main():
       pass
 
 main()
-
-print(np.zeros((2, 4)))
