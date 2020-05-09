@@ -15,6 +15,8 @@ np.random.seed(4)
 
   np.random.randn()              -> randn generates an array from the shape given of rand floats from
     a "univariate normal Gaussian distribution" | a rand float generator for arrays essentially from -1 <-> 1
+    using 0.10 * np.random.randn() for better "mock data"
+  
     Example: 
       run    -> print(np.random.randn(2,3))
       output -> [[0.79,-0.2, 0.3], [-0.1,-0.42,0.44]]
@@ -25,7 +27,6 @@ np.random.seed(4)
         [ 0.69359851 -0.41830152 -1.58457724]
         [-0.64770677  0.59857517  0.33225003]
         [-1.14747663  0.61866969 -0.08798693]]
-
 """
 
 i = [
@@ -36,7 +37,7 @@ i = [
 
 class Layer_Dense:
   def __init__(self, _inputs, _neurons):
-    self.weights = np.random.randn(_inputs, _neurons)
+    self.weights = 0.10 * np.random.randn(_inputs, _neurons)
 
 
 print(np.random.randn(4,3))
