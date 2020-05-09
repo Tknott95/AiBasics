@@ -9,7 +9,6 @@ np.random.seed(4)
   b -> bias     | 
 
 @NOTES
-  transposing an array w/ numpy -> np.array().T
   dot prod w/ numpy             -> np.dot()
   random seed w/ same rand vals -> np.random.seed(int)
 
