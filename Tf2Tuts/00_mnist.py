@@ -11,6 +11,7 @@ from matplotlib import pyplot as plt
 def main():
   print("TF-Verison: ", tf.__version__)
 
+  """ IMPORT THE DATA """
   mnist_dataset = keras.datasets.fashion_mnist
   (train_images, train_labels), (test_images, test_labels) = mnist_dataset.load_data()
   '''
@@ -35,8 +36,30 @@ def main():
   plt.imshow(train_images[0])
   plt.colorbar()
   plt.grid(False)
+  plt.show()    # inspect and see that the pixel values fall in the range of 0 to 255
+
+  '''
+    Scale these values to a range of 0 to 1 before feeding them to the neural network model.
+    To do so, divide the values by 255.
+    It's important that the training set and the testing set be preprocessed in the same way
+  '''
+  train_images = train_images / 255.0  # ->  /= 255.0 | bug? output array is read-only
+  test_images = test_images / 255.0    # ->  /= 255.0 | bug? output array is read-only
+  ''' 
+    Display the first 25 images from the training set and display the class name below each image. 
+  '''
+  plt.figure(figsize=(10,10))
+  for i in range(25):
+    plt.subplot(5, 5, i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+  
   plt.show()
 
+  
 
 def testPlt():
   x = np.arange(0, 5, 0.1)
