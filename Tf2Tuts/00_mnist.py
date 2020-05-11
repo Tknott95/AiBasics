@@ -4,8 +4,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 '''
-  Switch w/ matplotlib.plypot on linux
-  matplotlib w/out jupyter use -> plt.show()
+  Avid notetaking for an inline view of this basic mnist set.
+  Every step explains proc in my own words.
+  Followed tensorflow.org docs.
 '''
 
 def main():
@@ -84,6 +85,21 @@ def main():
   
 
   ''' 4-02 Compile the model '''
+
+  '''
+    To be added whilst model is training:
+      LossFunction — Measures model accuracy during training. 
+                      Goal is to minimize this function to guide model in right direction.
+      Optimizer    - How the model is updated via. data it sees from loss func
+      Metrics      - Monitors training & testing steps. Will use accuracy, the fraction of images correctly classified.
+  '''
+  model.compile(
+    optimizer='adam',
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    metrics=['accuracy']
+  )
+
+  """ 5) TRAIN THE MODEL """
   
   
 
