@@ -61,6 +61,31 @@ def main():
   plt.show()
 
   """ 4) BUILD THE MODEL """
+  ''' 4-01 Setup the layers '''
+  # keras.layers.Flatten(input_shape=(28,28)),
+  '''
+      This first layer transforms the format of the imgs from a 2D array, of 28 * 28 = 784 pixels.
+      "Sort of" unstacks rows of pixels in the img and lines them up.
+      Layer has no params to learn, only reformats the data.
+      Now that the pixels are flattened the network consists of two tf.layers.Dense layers.
+      These will be densely connected, or fully connected, neural layers.
+  '''
+  # keras.layers.Dense(128, activation='relu'),
+  # keras.layers.Dense(10)
+  '''
+      The first Dense layer has 128 nodes, or neurons. The second (and last) layer returns a logits array with length of 10.
+      Each node contains a "score" that indicates the curr img belongs to one of the 10 classes.
+  '''
+  model = keras.Sequential([
+    keras.layers.Flatten(input_shape=(28,28)),
+    keras.layers.Dense(128, activation='relu'),
+    keras.layers.Dense(10)
+  ])
+  
+
+  ''' 4-02 Compile the model '''
+  
+  
 
 
   # Turn off interactive plotting w/ show so plt doesn't auto close
