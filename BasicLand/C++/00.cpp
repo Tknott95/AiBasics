@@ -15,8 +15,6 @@ using namespace std;
 *
 ********************/
 
-
-
 int main() {
   int i[] = {1, 2, 3, 4};
   float w[2][4] = {{-0.4, 0.7, 0.2, 0.4}, {1.4, -0.8, -0.4, 0.4}};
@@ -29,7 +27,6 @@ int main() {
 
   cout << output[0][0] << endl;
   cout << output[1][0] << endl;
-  
+
   return 0;
 }
-
