@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-# import matplotlib.pylab as plt <- larger lib, pyplot is standard way
 from matplotlib import pyplot as plt
 
 '''
