@@ -10,6 +10,7 @@ from matplotlib import pyplot as plt
 
 def main():
   print("TF-Verison: ", tf.__version__)
+  plt.ion() # start interactive mode. Run: plt.ioff() when finished
 
   """ 1) IMPORT THE DATA """
   mnist_dataset = keras.datasets.fashion_mnist
@@ -60,8 +61,10 @@ def main():
   plt.show()
 
   """ 4) BUILD THE MODEL """
-
+  plt.ioff()
+  plt.show()
 
 
 if __name__ == '__main__':
   main()
+  
