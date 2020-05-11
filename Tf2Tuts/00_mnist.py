@@ -6,12 +6,12 @@ from matplotlib import pyplot as plt
 '''
   Avid notetaking for an inline view of this basic mnist set.
   Every step explains proc in my own words.
-  Followed tensorflow.org docs.
+  Followed tensorflow.org docs, a François Chollet, the creator of keras, example.
 '''
 
 def main():
   print("TF-Verison: ", tf.__version__)
-  plt.ion() # start interactive mode. Run: plt.ioff() when finished
+  # plt.ion() # start interactive mode. Run: plt.ioff() when finished
 
   """ 1) IMPORT THE DATA """
   mnist_dataset = keras.datasets.fashion_mnist
@@ -31,7 +31,7 @@ def main():
   print("len(train_labels)): ", len(train_labels))        # 60000
   print("train_labels: ", train_labels)                   # [9 0 0 ... 3 0 5] - each an int between 0-9
   print('test_images.shape: ', test_images.shape)         # (10000, 28, 28)
-  print('len(test_labels): ', len(test_labels))           # 10000
+  print('len(test_labels): ', len(test_labels), "\n\n")           # 10000
 
   """ 3) PREPROCESS THE DATA """
   plt.figure()
@@ -100,13 +100,39 @@ def main():
   )
 
   """ 5) TRAIN THE MODEL """
-  
-  
+  '''
+    Requires following steps:
+      1) Feed training data, train_(images/labels) arrays, to model. 
+      2) Model learns image -> label associations
+      3) Ask model to make predictions about the test data, test_images array in this scenario, could use my own if wanted
+      4) Verify that predictions are correct, they match the labels, from the test_labels array in this scenario.
+  '''
+  ''' 5-01 Feed da model bby '''
+  model.fit(train_images, train_labels, epochs=14)
 
+  ''' 5-02 Test the accuracy, observe if overfitting takes place '''
+  test_loss, test_accuracy = model.evaluate(test_images,  test_labels, verbose=2)
+  print('\nTest accuracy: ', test_accuracy)
+  '''
+    After 14 epochs I see my test accuracy, 0.892799973487854, is less than my training accuracy, 0.9224
+    This shows I am overfitting.
+    An overfitted model memorizes the noise and details of a training dataset to a point where it negatively impacts the performance of the model.
+  '''
+
+  ''' 5-03 Go full on nostradamus w/ predictions '''
+  # The model's linear outputs, logits, attach a softmax layer for converting into probabilities for easier interpretation.
+  prob_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
+  predicts = prob_model.predict(test_images)
+  print('\npredicts[0]: ', predicts[0])
+  '''
+    A prediction is an array of 10 numbers of probability to each of the 10 different options.
+    To see the top predict run np.argmax(predicts[0])
+  '''
+  print('\nOption Predicted: ', np.argmax(predicts[0]))
 
   # Turn off interactive plotting w/ show so plt doesn't auto close
-  plt.ioff()
-  plt.show()
+  # plt.ioff()
+  # plt.show()
 
 
 if __name__ == '__main__':
