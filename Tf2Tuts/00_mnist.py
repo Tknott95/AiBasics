@@ -63,7 +63,7 @@ def main():
   """ 4) BUILD THE MODEL """
 
 
-  # Turn off interactive plotting
+  # Turn off interactive plotting w/ show so plt doesn't auto close
   plt.ioff()
   plt.show()
 
