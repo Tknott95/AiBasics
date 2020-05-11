@@ -61,10 +61,12 @@ def main():
   plt.show()
 
   """ 4) BUILD THE MODEL """
+
+
+  # Turn off interactive plotting
   plt.ioff()
   plt.show()
 
 
 if __name__ == '__main__':
   main()
-  
