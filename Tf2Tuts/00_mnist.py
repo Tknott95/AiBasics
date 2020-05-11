@@ -127,6 +127,17 @@ def main():
   '''
     A prediction is an array of 10 numbers of probability to each of the 10 different options.
     To see the top predict run np.argmax(predicts[0])
+
+    0 	T-shirt/top
+    1 	Trouser
+    2 	Pullover
+    3 	Dress
+    4 	Coat
+    5 	Sandal
+    6 	Shirt
+    7 	Sneaker
+    8 	Bag
+    9 	Ankle boot
   '''
   print('\nOption Predicted: ', np.argmax(predicts[0]))
 
