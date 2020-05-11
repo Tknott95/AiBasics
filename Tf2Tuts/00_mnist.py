@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 def main():
   print("TF-Verison: ", tf.__version__)
 
-  """ IMPORT THE DATA """
+  """ 1) IMPORT THE DATA """
   mnist_dataset = keras.datasets.fashion_mnist
   (train_images, train_labels), (test_images, test_labels) = mnist_dataset.load_data()
   '''
@@ -24,14 +24,14 @@ def main():
     'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
   ]
 
-  """ EXPLORE THE DATA """
+  """ 2) EXPLORE THE DATA """
   print("\ntrain_images.shape: ", train_images.shape)     # (60000, 28, 28)
   print("len(train_labels)): ", len(train_labels))        # 60000
   print("train_labels: ", train_labels)                   # [9 0 0 ... 3 0 5] - each an int between 0-9
   print('test_images.shape: ', test_images.shape)         # (10000, 28, 28)
   print('len(test_labels): ', len(test_labels))           # 10000
 
-  """ PREPROCESS THE DATA """
+  """ 3) PREPROCESS THE DATA """
   plt.figure()
   plt.imshow(train_images[0])
   plt.colorbar()
@@ -59,15 +59,8 @@ def main():
   
   plt.show()
 
-  
+  """ 4) BUILD THE MODEL """
 
-def testPlt():
-  x = np.arange(0, 5, 0.1)
-  y = np.sin(x)
-  plt.plot(x, y)
-
-  plt.tight_layout()
-  plt.show()
 
 
 if __name__ == '__main__':
