@@ -64,7 +64,7 @@ def main():
   Helper Functions 
   (not modular in my Tf2KerasRef/*'s)
   These are MVP's
- '''
+'''
 # Each item in the dataset is a batch, represented as a tuple
 def show_batch(dataset):
   print('\n')
