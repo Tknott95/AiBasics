@@ -57,7 +57,6 @@ def main():
       get_dataset(_path, column_names=MY_COL_LABELS_FROM_CSV)
   '''
   temp_dataset = get_dataset(LABEL_COL, train_file_path)
-
   show_batch(temp_dataset)
 
 
