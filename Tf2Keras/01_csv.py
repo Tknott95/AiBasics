@@ -60,7 +60,7 @@ def main():
   show_batch(temp_dataset)
 
 
-
+'''  Helper Functions (not mod in examples for later ref) '''
 # Each item in the dataset is a batch, represented as a tuple
 def show_batch(dataset):
   print('\n')
