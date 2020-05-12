@@ -94,6 +94,19 @@ def main():
   example_batch, labels_batch = next(iter(temp_dataset))
   packed_dataset = temp_dataset.map(pack)
 
+  print('\n')
+  for features, labels in packed_dataset.take(1):
+    print(features.numpy())
+    print()
+    print(labels.numpy())
+  
+  NUMERIC_FEATURES = ['age','n_siblings_spouses','parch', 'fare']
+
+  packed_train_data = raw_train_data.map(PackNumericFeatures(NUMERIC_FEATURES))
+  packed_test_data = raw_test_data.map(PackNumericFeatures(NUMERIC_FEATURES))
+
+
+
 
 
 '''
@@ -124,6 +137,17 @@ def get_dataset(_col_label, _path, **kwargs):
 # Packs together all cols
 def pack(_features, _label):
   return tf.stack(list(_features.values()), axis=-1), _label
+
+# general preprocessor that selects a list of numeric features and packs them into a single col
+class PackNumericFeatures(object):
+  def __init__(self, _names):
+    self.names = _names
+  def __call__(self, _features, _labels):
+    numeric_features = [_features.pop(name) for name in self.names]
+    numeric_features = [tf.cast(feat, tf.float32) for feat in numeric_features]
+    numeric_features = tf.stack(numeric_features, axis=-1)
+    _features['numeric'] = numeric_features
+    return _features, _labels
 
 
 if __name__ == '__main__':
