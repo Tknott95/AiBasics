@@ -177,6 +177,7 @@ def plot_image(i, predictions_array, true_label, img, class_names):
     color=color
   )
 
+
 def plot_value_array(i, predictions_array, true_label):
   predictions_array, true_label = predictions_array, true_label[i]
   plt.grid(False)
