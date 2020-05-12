@@ -4,7 +4,7 @@ import tensorflow as tf
 
 '''
   @TITLE
-    Would I survive the titanic?
+    Would (I|Mock_Person) survive the titanic?
   @DOING
    Will be loading pre-made csv data, from daZ g00gle, and playing w/ it.
   @CREDS
