@@ -50,8 +50,13 @@ def main():
   show_batch(raw_train_data)
   
   # Set col labels after seeing data each batches label
-  CSV_COLUMNS = ['survived', 'sex', 'age', 'n_siblings_spouses', 'parch', 'fare', 'class', 'deck', 'embark_town', 'alone']
-  temp_dataset = get_dataset(train_file_path)
+  '''
+    This is only if data has no col names.
+    If this is the case then pass in, column_names=MY_COL_LABELS_FROM_CSV
+      MY_COL_LABELS_FROM_CSV = ['survived', 'sex', 'age', ...]
+      get_dataset(_path, column_names=MY_COL_LABELS_FROM_CSV)
+  '''
+  temp_dataset = get_dataset(LABEL_COL, train_file_path)
 
   show_batch(temp_dataset)
 
@@ -59,6 +64,7 @@ def main():
 
 # Each item in the dataset is a batch, represented as a tuple
 def show_batch(dataset):
+  print('\n')
   for batch, label in dataset.take(1):
     for key, value in batch.items():
       print("{:20s}: {}".format(key,value.numpy()))
