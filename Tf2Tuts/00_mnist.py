@@ -111,7 +111,7 @@ def main():
   model.fit(train_images, train_labels, epochs=10) # was 14 & 8 epochs yet is overfitting
 
   ''' 5-02 Test the accuracy, observe if overfitting takes place '''
-  test_loss, test_accuracy = model.evaluate(test_images,  test_labels, verbose=2)
+  test_loss, test_accuracy = model.evaluate(test_images, test_labels, verbose=2)
   print('\nTest accuracy: ', test_accuracy)
   '''
     After 14 epochs I see my test accuracy, 0.892799973487854, is less than my training accuracy, 0.9224
