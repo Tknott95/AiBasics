@@ -162,7 +162,7 @@ def main():
   # train model 
   train_data = packed_train_data.shuffle(500)
   test_data = packed_test_data
-  model.fit(train_data, epochs=20)
+  model.fit(train_data, epochs=10)
 
   test_loss, test_accuracy = model.evaluate(test_data)
   print('\n\nTest Loss {}, Test Accuracy {}'.format(test_loss, test_accuracy))
@@ -174,11 +174,10 @@ def main():
   for prediction, survived in zip(predictions[:10], list(test_data)[0][1][:10]):
     prediction = tf.sigmoid(prediction).numpy()
     print(
-      "Predicted survival: {:.2%}".format(prediction[0]), 
+      "Predicted survival: {:.2%}".format(prediction[0]),
       " | Actual outcome: ",
       ("SURVIVED" if bool(survived) else "DIED")
-    )
-
+    ) # Done yet if I wanted better results tweaking stuff around would most likely give such results
 
 
 '''
