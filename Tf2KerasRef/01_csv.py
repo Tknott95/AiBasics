@@ -127,6 +127,26 @@ def main():
   numeric_layer = tf.keras.layers.DenseFeatures(numeric_columns)
   numeric_layer(example_batch).numpy()
 
+  # Categorical Data
+  CATEGORIES = {
+    'sex': ['male', 'female'],
+    'class' : ['First', 'Second', 'Third'],
+    'deck' : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+    'embark_town' : ['Cherbourg', 'Southhampton', 'Queenstown'],
+    'alone' : ['y', 'n']
+  }
+  categorical_columns = []
+  for feature, vocab in CATEGORIES.items():
+    cat_col = tf.feature_column.categorical_column_with_vocabulary_list(key=feature, vocabulary_list=vocab)
+    categorical_columns.append(tf.feature_column.indicator_column(cat_col))
+  print('\n\n categorical_columns\n', categorical_columns)
+  
+  categorical_layer = tf.keras.layers.DenseFeatures(categorical_columns)
+  print('\n\ncategorical_layer(example_batch).numpy()[0]\n', categorical_layer(example_batch).numpy()[0])
+
+
+
+
  
 
 
