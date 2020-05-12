@@ -10,6 +10,7 @@ import tensorflow as tf
   @CREDS
     Will have my own tweaks so think of this as a "fork" in a way.
     From tensorflow.ord docs,original author of base code tfTeam.
+    Tweaked code from: url(https://www.tensorflow.org/tutorials/load_data/csv)
 ''' 
 
 def main():
@@ -90,8 +91,9 @@ def main():
     column_defaults = DEFAULTS)
 
   show_batch(temp_dataset)
+  example_batch, labels_batch = next(iter(temp_dataset))
+  packed_dataset = temp_dataset.map(pack)
 
-  
 
 
 '''
@@ -100,24 +102,28 @@ def main():
   These are MVP's
 '''
 # Each item in the dataset is a batch, represented as a tuple. {:20s} is python for 20 spaces :after
-def show_batch(dataset):
+def show_batch(_dataset):
   print('\n')
-  for batch, label in dataset.take(1):
+  for batch, label in _dataset.take(1):
     for key, value in batch.items():
       print("{:20s}: {}".format(key,value.numpy()))
 
 # For reading csv data and creating dataset. col_label is my label I am testing
-def get_dataset(col_label, _path, **kwargs):
+def get_dataset(_col_label, _path, **kwargs):
   new_dataset = tf.data.experimental.make_csv_dataset(
     _path,
     batch_size=5,
-    label_name=col_label,
+    label_name=_col_label,
     na_value="?",
     num_epochs=1,
     ignore_errors=True,
     **kwargs
   )
   return new_dataset
+
+# Packs together all cols
+def pack(_features, _label):
+  return tf.stack(list(_features.values()), axis=-1), _label
 
 
 if __name__ == '__main__':
