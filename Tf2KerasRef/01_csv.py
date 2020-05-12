@@ -3,6 +3,9 @@ import numpy as np
 import tensorflow as tf
 
 '''
+  @TODO 
+    label my show_batch() prints
+
   @TITLE
     Would (I|Mock_Person) survive the titanic?
   @DOING
@@ -10,7 +13,6 @@ import tensorflow as tf
   @CREDS
     Will have my own tweaks so think of this as a "fork" in a way.
     From tensorflow.ord docs,original author of base code tfTeam.
-    Tweaked code from: url(https://www.tensorflow.org/tutorials/load_data/csv)
 ''' 
 
 def main():
@@ -106,6 +108,7 @@ def main():
   packed_train_data = raw_train_data.map(PackNumericFeatures(NUMERIC_FEATURES))
   packed_test_data = raw_test_data.map(PackNumericFeatures(NUMERIC_FEATURES))
   show_batch(packed_train_data)
+  print("\nnumeric labels: ['age','n_siblings_spouses','parch', 'fare']")
 
   example_batch, labels_batch = next(iter(temp_dataset)) # (3)calling again need to understand why better?
 
