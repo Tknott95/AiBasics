@@ -48,6 +48,13 @@ def main():
   raw_test_data = get_dataset(LABEL_COL, test_file_path)
 
   show_batch(raw_train_data)
+  
+  # Set col labels after seeing data each batches label
+  CSV_COLUMNS = ['survived', 'sex', 'age', 'n_siblings_spouses', 'parch', 'fare', 'class', 'deck', 'embark_town', 'alone']
+  temp_dataset = get_dataset(train_file_path)
+
+  show_batch(temp_dataset)
+
 
 
 # Each item in the dataset is a batch, represented as a tuple
