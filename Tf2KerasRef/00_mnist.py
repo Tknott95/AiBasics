@@ -77,6 +77,7 @@ def main():
       The first Dense layer has 128 nodes, or neurons. The second (and last) layer returns a logits array with length of 10.
       Each node contains a "score" that indicates the curr img belongs to one of the 10 classes.
   '''
+  # seq model is for a plain stack of layers where each layer has exactly one input tensor and one output tensor.
   model = keras.Sequential([
     keras.layers.Flatten(input_shape=(28,28)),
     keras.layers.Dense(128, activation='relu'),
