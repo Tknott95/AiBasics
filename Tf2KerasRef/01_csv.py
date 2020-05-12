@@ -102,7 +102,7 @@ def main():
     print()
     print(labels.numpy())
   
-  example_batch, labels_batch = next(iter(temp_dataset)) # (2)calling again need to understand why better?
+  example_batch, labels_batch = next(iter(temp_dataset)) # called again bc temp_dataset has changed
   
   NUMERIC_FEATURES = ['age','n_siblings_spouses','parch', 'fare']
   packed_train_data = raw_train_data.map(PackNumericFeatures(NUMERIC_FEATURES))
@@ -110,9 +110,24 @@ def main():
   show_batch(packed_train_data)
   print("\nnumeric labels: ['age','n_siblings_spouses','parch', 'fare']")
 
-  example_batch, labels_batch = next(iter(temp_dataset)) # (3)calling again need to understand why better?
+  example_batch, labels_batch = next(iter(packed_train_data))
 
   # Now the continuous data needs to be normalized w/ pandas
+  import pandas as pd
+  description = pd.read_csv(train_file_path)[NUMERIC_FEATURES].describe()
+  print("\n", description)
+  MEAN = np.array(description.T['mean'])
+  STD = np.array(description.T['std'])
+  normalizer = functools.partial(normalize_numeric_data, mean=MEAN, std=STD)
+
+  numeric_column = tf.feature_column.numeric_column('numeric', normalizer_fn=normalizer, shape=[len(NUMERIC_FEATURES)])
+  numeric_columns = [numeric_column]
+  print('\n\n', numeric_column)
+  print("\n\nexample_batch['numeric']\n", example_batch['numeric'])
+  numeric_layer = tf.keras.layers.DenseFeatures(numeric_columns)
+  numeric_layer(example_batch).numpy()
+
+ 
 
 
 '''
@@ -143,6 +158,9 @@ def get_dataset(_col_label, _path, **kwargs):
 # Packs together all cols
 def pack(_features, _label):
   return tf.stack(list(_features.values()), axis=-1), _label
+
+def normalize_numeric_data(data, mean, std):
+  return (data-mean)/std
 
 # general preprocessor that selects a list of numeric feats and packs them into a single col
 class PackNumericFeatures(object):
