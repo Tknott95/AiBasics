@@ -60,7 +60,11 @@ def main():
   show_batch(temp_dataset)
 
 
-'''  Helper Functions (not mod in examples for later ref) '''
+'''
+  Helper Functions 
+  (not modular in my Tf2KerasRef/*'s)
+  These are MVP's
+ '''
 # Each item in the dataset is a batch, represented as a tuple
 def show_batch(dataset):
   print('\n')
@@ -80,7 +84,6 @@ def get_dataset(col_label, _path, **kwargs):
     **kwargs
   )
   return new_dataset
-
 
 
 if __name__ == '__main__':
