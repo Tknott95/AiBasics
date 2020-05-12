@@ -69,7 +69,8 @@ def main():
   '''
   COLS_TO_USE = [
     'survived', 'age', 'n_siblings_spouses',
-    'class', 'deck', 'alone']
+    'class', 'deck', 'alone'
+  ]
   temp_dataset = get_dataset(COL_LABEL, train_file_path, select_columns=COLS_TO_USE)
   show_batch(temp_dataset)
   # DATA FINISHED BEING LOADED IN
@@ -143,6 +144,32 @@ def main():
   
   categorical_layer = tf.keras.layers.DenseFeatures(categorical_columns)
   print('\n\ncategorical_layer(example_batch).numpy()[0]\n', categorical_layer(example_batch).numpy()[0])
+
+  preprocessing_layer = tf.keras.layers.DenseFeatures(categorical_columns+numeric_columns)
+  print('\n\npreprocessing_layer(example_batch).numpy()[0]\n', preprocessing_layer(example_batch).numpy()[0])
+
+  model = tf.keras.Sequential([
+    preprocessing_layer,
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(1),
+  ])
+  model.compile(
+    loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+    optimizer='adam',
+    metrics=['accuracy']
+  )
+  # train model 
+  train_data = packed_train_data.shuffle(500)
+  test_data = packed_test_data
+  model.fit(train_data, epochs=20)
+
+  test_loss, test_accuracy = model.evaluate(test_data)
+  print('\n\nTest Loss {}, Test Accuracy {}'.format(test_loss, test_accuracy))
+
+  
+
+
 
 
 
