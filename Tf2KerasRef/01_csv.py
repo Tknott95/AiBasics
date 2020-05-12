@@ -104,7 +104,7 @@ def main():
 
   packed_train_data = raw_train_data.map(PackNumericFeatures(NUMERIC_FEATURES))
   packed_test_data = raw_test_data.map(PackNumericFeatures(NUMERIC_FEATURES))
-
+  show_batch(packed_train_data)
 
 
 
