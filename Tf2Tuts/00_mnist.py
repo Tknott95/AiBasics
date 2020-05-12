@@ -154,6 +154,7 @@ def main():
   # plt.ioff()
   # plt.show()
 
+
 ''' Spaghetti Coding these functions  -_____-, lulZ python '''
 def plot_image(i, predictions_array, true_label, img, class_names):
   predictions_array, true_label, img = predictions_array, true_label[i], img[i]
