@@ -40,12 +40,12 @@ def main():
   '''
   # Only col I will need w/ label is the one I am predicting, which is: WillISurvive?
   # Following tf2 conventions, aka CAPS
-  LABEL_COL = 'survived'
+  COL_LABEL = 'survived'
   LABELS = [0,1]
 
   # Using Custom Function: get_dataset(path, **kwargs)
-  raw_train_data = get_dataset(LABEL_COL, train_file_path)
-  raw_test_data = get_dataset(LABEL_COL, test_file_path)
+  raw_train_data = get_dataset(COL_LABEL, train_file_path)
+  raw_test_data = get_dataset(COL_LABEL, test_file_path)
 
   show_batch(raw_train_data)
   
@@ -56,7 +56,18 @@ def main():
       MY_COL_LABELS_FROM_CSV = ['survived', 'sex', 'age', ...]
       get_dataset(_path, column_names=MY_COL_LABELS_FROM_CSV)
   '''
-  temp_dataset = get_dataset(LABEL_COL, train_file_path)
+  temp_dataset = get_dataset(COL_LABEL, train_file_path)
+  show_batch(temp_dataset)
+
+  '''  
+    If you need to omit some cols from the data:
+      create list on only cols you want to use
+      pass into the select_columns arg of the constructor.
+  '''
+  COLS_TO_USE = [
+    'survived', 'age', 'n_siblings_spouses',
+    'class', 'deck', 'alone']
+  temp_dataset = get_dataset(COL_LABEL, train_file_path, select_columns=COLS_TO_USE)
   show_batch(temp_dataset)
 
 
