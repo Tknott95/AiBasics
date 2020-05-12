@@ -21,7 +21,7 @@ def main():
     The labels are an array of integers, ranging from 0 to 9.
     These correspond to the class of clothing the image represents:
   '''
-  class_names = [
+  data_names= [
     'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
     'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
   ]
@@ -57,7 +57,7 @@ def main():
     plt.yticks([])
     plt.grid(False)
     plt.imshow(train_images[i], cmap=plt.cm.binary)
-    plt.xlabel(class_names[train_labels[i]])
+    plt.xlabel(data_names[train_labels[i]])
   
   plt.show()
 
@@ -108,7 +108,7 @@ def main():
       4) Verify that predictions are correct, they match the labels, from the test_labels array in this scenario.
   '''
   ''' 5-01 Feed da model bby '''
-  model.fit(train_images, train_labels, epochs=10) # was 14 & 8 epochs yet is overfitting
+  model.fit(train_images, train_labels, epochs=14) # was 14 & 8 epochs yet is overfitting
 
   ''' 5-02 Test the accuracy, observe if overfitting takes place '''
   test_loss, test_accuracy = model.evaluate(test_images, test_labels, verbose=2)
@@ -142,13 +142,28 @@ def main():
   print('\nOption Predicted: ', np.argmax(predicts[0]))
   print('Actual label: ', test_labels[0])
 
-  i = 12 # w/ 8 and 14 epochs it predicted a sandle rather then the sneaker it was. Plotting 0 did work with 14
-  plt.figure(figsize=(6,3))
-  plt.subplot(1,2,1)
-  plot_image(i, predicts[i], test_labels, test_images, class_names)
-  plt.subplot(1,2,2)
-  plot_value_array(i, predicts[i], test_labels)
+  # i = 14 # w/ 8 and 14 epochs  w/ 12 it predicted a sandle rather then the sneaker it was. Plotting 0 did work with 14
+  # plt.figure(figsize=(6,3))
+  # plt.subplot(1,2,1)
+  # plot_image(i, predicts[i], test_labels, test_images, data_names)
+  # plt.subplot(1,2,2)
+  # plot_value_array(i, predicts[i], test_labels)
+  # plt.show()
+
+  num_rows = 5
+  num_cols = 3
+  num_images = num_rows*num_cols
+  plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+  for i in range(num_images): # Sneaker is predicting sandle yet not a big deal for this code
+    plt.subplot(num_rows, 2*num_cols, 2*i+1)
+    plot_image(i, predicts[i], test_labels, test_images, data_names)
+    plt.subplot(num_rows, 2*num_cols, 2*i+2)
+    plot_value_array(i, predicts[i], test_labels)
+  plt.tight_layout()
   plt.show()
+  # Turn off interactive plotting w/ show so plt doesn't auto close
+  # plt.ioff()
+  # plt.show()
 
   # Turn off interactive plotting w/ show so plt doesn't auto close
   # plt.ioff()
@@ -156,7 +171,7 @@ def main():
 
 
 ''' Spaghetti Coding these functions  -_____-, lulZ python '''
-def plot_image(i, predictions_array, true_label, img, class_names):
+def plot_image(i, predictions_array, true_label, img, data_names):
   predictions_array, true_label, img = predictions_array, true_label[i], img[i]
   plt.grid(False)
   plt.xticks([])
@@ -171,9 +186,9 @@ def plot_image(i, predictions_array, true_label, img, class_names):
     color = 'red'
 
   plt.xlabel("{} {:2.0f}% ({})".format(
-    class_names[predicted_label],
+    data_names[predicted_label],
     100*np.max(predictions_array),
-    class_names[true_label]),
+    data_names[true_label]),
     color=color
   )
 
