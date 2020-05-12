@@ -65,14 +65,14 @@ def main():
   (not modular in my Tf2KerasRef/*'s)
   These are MVP's
 '''
-# Each item in the dataset is a batch, represented as a tuple
+# Each item in the dataset is a batch, represented as a tuple. {:20s} is python for 20 spaces :after
 def show_batch(dataset):
   print('\n')
   for batch, label in dataset.take(1):
     for key, value in batch.items():
       print("{:20s}: {}".format(key,value.numpy()))
 
-# For reading csv data and creating dataset
+# For reading csv data and creating dataset. col_label is my label I am testing
 def get_dataset(col_label, _path, **kwargs):
   new_dataset = tf.data.experimental.make_csv_dataset(
     _path,
