@@ -69,6 +69,29 @@ def main():
     'class', 'deck', 'alone']
   temp_dataset = get_dataset(COL_LABEL, train_file_path, select_columns=COLS_TO_USE)
   show_batch(temp_dataset)
+  # DATA FINISHED BEING LOADED IN
+
+  # Now to preprocess the data
+  '''
+    CSV files can contain many diff data types.
+    Usually you want to convert these from mixed types to a fixed length vector prior to being fed to the model.
+    tf.feature_column is a built in tf func for input conversions.
+    can prepoc data w/out tf and jsut pass it in, obviously.
+    Doing preproc in model allows for when you export model it includes preproc.
+     This allows for passing raw data directly to model.
+  '''
+  #If data alrdy in approp. numeric format, you can pack data into a vec b4 passing to model
+  SELECT_COLS = ['survived', 'age', 'n_siblings_spouses', 'parch', 'fare']
+  DEFAULTS = [0, 0.0, 0.0, 0.0, 0.0]
+  temp_dataset = get_dataset(
+    COL_LABEL,
+    train_file_path, 
+    select_columns=SELECT_COLS,
+    column_defaults = DEFAULTS)
+
+  show_batch(temp_dataset)
+
+  
 
 
 '''
