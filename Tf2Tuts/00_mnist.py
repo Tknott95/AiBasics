@@ -108,7 +108,7 @@ def main():
       4) Verify that predictions are correct, they match the labels, from the test_labels array in this scenario.
   '''
   ''' 5-01 Feed da model bby '''
-  model.fit(train_images, train_labels, epochs=14)
+  model.fit(train_images, train_labels, epochs=10) # was 14 & 8 epochs yet is overfitting
 
   ''' 5-02 Test the accuracy, observe if overfitting takes place '''
   test_loss, test_accuracy = model.evaluate(test_images,  test_labels, verbose=2)
@@ -140,10 +140,53 @@ def main():
     9 	Ankle boot
   '''
   print('\nOption Predicted: ', np.argmax(predicts[0]))
+  print('Actual label: ', test_labels[0])
+
+  i = 12 # w/ 8 and 14 epochs it predicted a sandle rather then the sneaker it was. Plotting 0 did work with 14
+  plt.figure(figsize=(6,3))
+  plt.subplot(1,2,1)
+  plot_image(i, predicts[i], test_labels, test_images, class_names)
+  plt.subplot(1,2,2)
+  plot_value_array(i, predicts[i], test_labels)
+  plt.show()
 
   # Turn off interactive plotting w/ show so plt doesn't auto close
   # plt.ioff()
   # plt.show()
+
+''' Spaghetti Coding these functions  -_____-, lulZ python '''
+def plot_image(i, predictions_array, true_label, img, class_names):
+  predictions_array, true_label, img = predictions_array, true_label[i], img[i]
+  plt.grid(False)
+  plt.xticks([])
+  plt.yticks([])
+
+  plt.imshow(img, cmap=plt.cm.binary)
+
+  predicted_label = np.argmax(predictions_array)
+  if predicted_label == true_label:
+    color = 'blue'
+  else:
+    color = 'red'
+
+  plt.xlabel("{} {:2.0f}% ({})".format(
+    class_names[predicted_label],
+    100*np.max(predictions_array),
+    class_names[true_label]),
+    color=color
+  )
+
+def plot_value_array(i, predictions_array, true_label):
+  predictions_array, true_label = predictions_array, true_label[i]
+  plt.grid(False)
+  plt.xticks(range(10))
+  plt.yticks([])
+  thisplot = plt.bar(range(10), predictions_array, color="#777777")
+  plt.ylim([0, 1])
+  predicted_label = np.argmax(predictions_array)
+
+  thisplot[predicted_label].set_color('red')
+  thisplot[true_label].set_color('blue')
 
 
 if __name__ == '__main__':
