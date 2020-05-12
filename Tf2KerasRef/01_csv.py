@@ -100,13 +100,16 @@ def main():
     print()
     print(labels.numpy())
   
+  example_batch, labels_batch = next(iter(temp_dataset)) # (2)calling again need to understand why better?
+  
   NUMERIC_FEATURES = ['age','n_siblings_spouses','parch', 'fare']
-
   packed_train_data = raw_train_data.map(PackNumericFeatures(NUMERIC_FEATURES))
   packed_test_data = raw_test_data.map(PackNumericFeatures(NUMERIC_FEATURES))
   show_batch(packed_train_data)
 
+  example_batch, labels_batch = next(iter(temp_dataset)) # (3)calling again need to understand why better?
 
+  # Now the continuous data needs to be normalized w/ pandas
 
 
 '''
@@ -138,7 +141,7 @@ def get_dataset(_col_label, _path, **kwargs):
 def pack(_features, _label):
   return tf.stack(list(_features.values()), axis=-1), _label
 
-# general preprocessor that selects a list of numeric features and packs them into a single col
+# general preprocessor that selects a list of numeric feats and packs them into a single col
 class PackNumericFeatures(object):
   def __init__(self, _names):
     self.names = _names
