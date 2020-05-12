@@ -167,14 +167,18 @@ def main():
   test_loss, test_accuracy = model.evaluate(test_data)
   print('\n\nTest Loss {}, Test Accuracy {}'.format(test_loss, test_accuracy))
 
+  # predict what will happen to mock_people
+  predictions = model.predict(test_data)
   
+  print('\n\n')
+  for prediction, survived in zip(predictions[:10], list(test_data)[0][1][:10]):
+    prediction = tf.sigmoid(prediction).numpy()
+    print(
+      "Predicted survival: {:.2%}".format(prediction[0]), 
+      " | Actual outcome: ",
+      ("SURVIVED" if bool(survived) else "DIED")
+    )
 
-
-
-
-
-
- 
 
 
 '''
