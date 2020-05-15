@@ -1,8 +1,7 @@
 import gym
 import numpy as np
 
-''' Following "Sentdex" example w/ own tweaks/additions, etc. '''
-
+''' Following "Sentdex" example/teaching w/ own tweaks/additions, etc. '''
 env = gym.make("MountainCar-v0")
 env.reset()
 
