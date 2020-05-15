@@ -47,6 +47,12 @@ def main():
     newDiscreteState = getDiscreteState(newState)
     # print(myReward, newState)
     env.render()
+    if not isDone:
+      maxFutureQ = np.max(qTable[newDiscreteState]) # grabbingQValue for recursion, will eventually multiply this by the "discount", like a "weight"
+      currQ = qTable[discreteState + (action, )]
+      # Now to use QLearningAlgorithm for the newQ value
+      newQ = (1-agentLearningRate) * currQ + agentLearningRate * (myReward + agentDiscount * maxFutureQ)
+      qTable[discreteState+(action, )] = newQ # Updating qTable with newQ value
 
   env.close()
   
