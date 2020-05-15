@@ -27,11 +27,7 @@ def main():
     This is the size(discreteObservationSize + [env.action_space.n]) 
     (discreteObservationSize & every action possible[3] so (20, 20, 3) -> EveryObservationCombo)
   '''
-  qTable = np.random.uniform(
-    low=-2,
-    high=0,
-    size=(discreteObservationSize + [env.action_space.n])
-  )
+  qTable = np.random.uniform(low=-2,high=0,size=(discreteObservationSize + [env.action_space.n]))
   print('\n qTable.shape: ', qTable.shape)
   # print('qTable\n', qTable, '\n')
 
