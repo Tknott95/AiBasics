@@ -7,7 +7,8 @@ def main():
 
   agentLearningRate = 0.1 # Can be between 0-1
   agentDiscount = 0.95    # Essentially like a "weight"
-  agentEpisodes = 25000   # Essentially like "epochs"
+  agentEpisodes = 4500   # Essentially like "epochs"
+  showEvery = 500
 
   print('\n env.action_space: ', env.action_space)
   print(' env.observation_space: ', env.observation_space)
@@ -35,31 +36,41 @@ def main():
     discreteState = (state - env.observation_space.low) / discreteObservationWinSize
     return tuple(discreteState.astype(np.int))
 
-  discreteState = getDiscreteState(env.reset())
-  print(' discreteState: ', discreteState)
-  print(' qTable[discreteState]: ', qTable[discreteState])
-  print(' np.argmax(qTable[discreteState]): ', np.argmax(qTable[discreteState])) # Starting Vals
+  # discreteState = getDiscreteState(env.reset())
+  # print(' discreteState: ', discreteState)
+  # print(' qTable[discreteState]: ', qTable[discreteState])
+  # print(' np.argmax(qTable[discreteState]): ', np.argmax(qTable[discreteState])) # Starting Vals
 
-  isDone = False
-  while not isDone:
-    action = np.argmax(qTable[discreteState])
-    newState, myReward, isDone, _ = env.step(action)
-    newDiscreteState = getDiscreteState(newState)
-    print(myReward, newState)
-    env.render()
-    if not isDone:
-      maxFutureQ = np.max(qTable[newDiscreteState]) # grabbingQValue for recursion, will eventually multiply this by the "discount", like a "weight"
-      currQ = qTable[discreteState + (action, )]
-      # Now to use QLearningAlgorithm for the newQ value
-      newQ = (1-agentLearningRate) * currQ + agentLearningRate * (myReward + agentDiscount * maxFutureQ)
-      qTable[discreteState+(action, )] = newQ # Updating qTable with newQ value
-    elif newState[0] >= env.goal_position:
-      qTable[discreteState + (action, )] = 0 # Reward for reaching goal - This is an openAI env so it already has goal_position and actions
-    
-    discreteState = newDiscreteState
-    # NEEDS TO NOW ITERATE OVER EPISODES
+  for episode in range(agentEpisodes):
+    if episode % showEvery == 0:
+      print('CurrEpisode: ', episode)
+      render = True
+    else:
+      render = False
 
-  env.close()
+    discreteState = getDiscreteState(env.reset())
+    isDone = False
+    while not isDone:
+      action = np.argmax(qTable[discreteState])
+      newState, myReward, isDone, _ = env.step(action)
+      newDiscreteState = getDiscreteState(newState)
+      # print(myReward, newState)
+      if render:
+        env.render()
+      if not isDone:
+        maxFutureQ = np.max(qTable[newDiscreteState]) # grabbingQValue for recursion, will eventually multiply this by the "discount", like a "weight"
+        currQ = qTable[discreteState + (action, )]
+        # Now to use QLearningAlgorithm for the newQ value
+        newQ = (1-agentLearningRate) * currQ + agentLearningRate * (myReward + agentDiscount * maxFutureQ)
+        qTable[discreteState+(action, )] = newQ # Updating qTable with newQ value
+      elif newState[0] >= env.goal_position:
+        print(f"Made it on episode {episode}")
+        qTable[discreteState + (action, )] = 0 # Reward for reaching goal - This is an openAI env so it already has goal_position and actions
+      
+      discreteState = newDiscreteState
+      # NEEDS TO NOW ITERATE OVER EPISODES
+
+    env.close()
   
 
 
