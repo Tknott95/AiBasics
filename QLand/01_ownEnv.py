@@ -21,7 +21,7 @@ def main():
 
   epsilon = 0 # 0.9 - if no qtable data
   epsilonDecay = 0.9998
-  showEveryEps = 1  # 2000 - if no qtable data
+  showEveryEps = 2000  #  1  # 2000 - if no qtable data
 
   startQTable = "qTable-1589559420.pickle" # None - if no qtable data
 
