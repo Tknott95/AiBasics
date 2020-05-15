@@ -108,6 +108,9 @@ def main():
       
       player.action(action)
 
+      food.move() # Add a lil complexity, luLZ
+      enemy.move() # Add a lil complexity, luLZ
+
       if player.x == enemy.x and player.y == enemy.y:
         reward = -enemyPenalty
       elif player.x == food.x and player.y == food.y:
