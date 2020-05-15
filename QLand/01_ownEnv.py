@@ -13,7 +13,7 @@ import time
 def main():
   style.use("ggplot")
 
-  SIZE = 10
+  gridSize = 10
   agentEpisodes = 24000
   movePenalty = 1
   enemyPenalty = 300
@@ -32,13 +32,13 @@ def main():
   foodN = 2
   enemyN = 3
 
-  d = {1: (255, 175, 0), 2: (0, 255, 0), 3: (0, 0, 255)} # BGR format
+  dictionary = {1: (255, 175, 0), 2: (0, 255, 0), 3: (0, 0, 255)} # BGR format
 
 
   class Blob:
     def __init__(self):
-      self.x = np.random.randint(0, SIZE)
-      self.y = np.random.randint(0, SIZE)
+      self.x = np.random.randint(0, gridSize)
+      self.y = np.random.randint(0, gridSize)
     def __str__(self):
       return f"{self.x}, {self.y}"
     def __sub__(self, other):
@@ -66,20 +66,20 @@ def main():
 
       if self.x < 0: # Boundaries, clearly
         self.x = 0
-      elif self.x > SIZE-1:
-        self.x = SIZE-1
+      elif self.x > gridSize-1:
+        self.x = gridSize-1
       if self.y < 0:
         self.y = 0
-      elif self.y > SIZE-1:
-        self.y = SIZE-1
+      elif self.y > gridSize-1:
+        self.y = gridSize-1
 
   if startQTable is None: # Creating qTable if ! have one
     qTable = {}
     # Every combo
-    for x1 in range(-SIZE+1, SIZE):
-      for y1 in range(-SIZE+1, SIZE):
-        for x2 in range(-SIZE+1, SIZE):
-          for y2 in range(-SIZE+1, SIZE):
+    for x1 in range(-gridSize+1, gridSize):
+      for y1 in range(-gridSize+1, gridSize):
+        for x2 in range(-gridSize+1, gridSize):
+          for y2 in range(-gridSize+1, gridSize):
             qTable[((x1, y1), (x2, y2))] = [np.random.uniform(-5,0) for i in range(4)]
   else:
     with open(startQTable, "rb") as f: # Loading pretrained file if have one.
@@ -127,7 +127,40 @@ def main():
       
       qTable[observation][action] = newQ
 
+      if show:
+        # Making env, for custom basic aF "blob" game
+        env = np.zeros((gridSize, gridSize, 3), dtype=uint8)
+        env[food.y][food.x] = dictionary[foodN] # Flipped x,y to y,x
+        env[player.y][player.x] = dictionary[playerN] # Flipped x,y to y,x
+        env[enemy.y][enemy.x] = dictionary[enemyN] # Flipped x,y to y,x
 
+        img = Image.fromarray(env, "RGB")
+        img = img.resize((350, 350))
+        cv2.imshow("Q BlobZ", np.array(img))
+
+        if reward == foodReward or reward == -enemyPenalty: # if messed up or hit the enemy
+          if cv2.waitKey(500) & 0xFF = ord("q"): # If q key it breaks
+            break
+        else:
+          if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+      
+      episodeReward += reward
+      if reward == foodReward or reward == -enemyPenalty:
+        break
+    
+    episodeRewards.append(episodeReward)
+    epsilon *= epsilonDecay
+  
+  movingAverage = np.convolve(episodeRewards, np.ones((showEveryEps,)) / showEveryEps, mode="valid")
+
+  plt.plot([i for i in range(len(movingAverage))], movingAverage)
+  plt.ylabel(f"award {showEveryEps}ma")
+  plt.xlabel("eps #")
+  plt.show()
+
+  with open(f"qTable-{int(time.time())}.pickle", "wb") as f:
+    pickle.dump(qTable, f)
 
 
 if __name__ == "__main__":
