@@ -44,7 +44,7 @@ def main():
     def __sub__(self, other):
       return (self.x - other.x, self.y - other.y)
     
-    def action(self):
+    def action(self, choice):
       if choice == 0:
         self.move(x=1, y=1)
       elif choice == 1:
@@ -104,7 +104,8 @@ def main():
       if np.random.random() > epsilon:
         action = np.argmax(qTable[observation])
       else:
-        action = np.random.randint(0, 4)      
+        action = np.random.randint(0, 4)
+      
       player.action(action)
 
       if player.x == enemy.x and player.y == enemy.y:
@@ -120,7 +121,7 @@ def main():
 
       if reward == foodReward:
         newQ = foodReward
-      elif reward == -enemyPenalty
+      elif reward == -enemyPenalty:
         newQ = -enemyPenalty
       else:
         newQ = (1-learningRate) * currentQ + learningRate * (reward + discount * maxFutureQ) # Actual qLearning Algo
@@ -129,7 +130,7 @@ def main():
 
       if show:
         # Making env, for custom basic aF "blob" game
-        env = np.zeros((gridSize, gridSize, 3), dtype=uint8)
+        env = np.zeros((gridSize, gridSize, 3), dtype=np.uint8)
         env[food.y][food.x] = dictionary[foodN] # Flipped x,y to y,x
         env[player.y][player.x] = dictionary[playerN] # Flipped x,y to y,x
         env[enemy.y][enemy.x] = dictionary[enemyN] # Flipped x,y to y,x
@@ -139,7 +140,7 @@ def main():
         cv2.imshow("Q BlobZ", np.array(img))
 
         if reward == foodReward or reward == -enemyPenalty: # if messed up or hit the enemy
-          if cv2.waitKey(500) & 0xFF = ord("q"): # If q key it breaks
+          if cv2.waitKey(500) & 0xFF == ord("q"): # If q key it breaks
             break
         else:
           if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -165,3 +166,5 @@ def main():
 
 if __name__ == "__main__":
   main()
+
+
