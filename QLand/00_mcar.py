@@ -45,7 +45,7 @@ def main():
     action = np.argmax(qTable[discreteState])
     newState, myReward, isDone, _ = env.step(action)
     newDiscreteState = getDiscreteState(newState)
-    # print(myReward, newState)
+    print(myReward, newState)
     env.render()
     if not isDone:
       maxFutureQ = np.max(qTable[newDiscreteState]) # grabbingQValue for recursion, will eventually multiply this by the "discount", like a "weight"
@@ -57,6 +57,7 @@ def main():
       qTable[discreteState + (action, )] = 0 # Reward for reaching goal - This is an openAI env so it already has goal_position and actions
     
     discreteState = newDiscreteState
+    # NEEDS TO NOW ITERATE OVER EPISODES
 
   env.close()
   
