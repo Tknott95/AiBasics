@@ -19,11 +19,11 @@ def main():
   enemyPenalty = 300
   foodReward = 25
 
-  epsilon = 0.9
+  epsilon = 0 # 0.9 - if no qtable data
   epsilonDecay = 0.9998
-  showEveryEps = 2000
+  showEveryEps = 1  # 2000 - if no qtable data
 
-  startQTable = None
+  startQTable = "qTable-1589559420.pickle" # None - if no qtable data
 
   learningRate = 0.1
   discount = 0.95
