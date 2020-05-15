@@ -32,6 +32,8 @@ def main():
   foodN = 2
   enemyN = 3
 
+  enemyAndFoodMovement = True # ChangeToFalse for less complexity
+
   dictionary = {1: (255, 175, 0), 2: (0, 255, 0), 3: (0, 0, 255)} # BGR format
 
 
@@ -45,7 +47,7 @@ def main():
       return (self.x - other.x, self.y - other.y)
     
     def action(self, choice):
-      if choice == 0:
+      if choice == 0: # Only moves diag as no x=1 y=0, etc.
         self.move(x=1, y=1)
       elif choice == 1:
         self.move(x=-1, y=-1)
@@ -108,8 +110,9 @@ def main():
       
       player.action(action)
 
-      food.move() # Add a lil complexity, luLZ
-      enemy.move() # Add a lil complexity, luLZ
+      if enemyAndFoodMovement == True:
+        food.move() # Add a lil complexity, luLZ
+        enemy.move() # Add a lil complexity, luLZ
 
       if player.x == enemy.x and player.y == enemy.y:
         reward = -enemyPenalty
