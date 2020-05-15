@@ -31,25 +31,29 @@ def main():
   print('\n qTable.shape: ', qTable.shape)
   # print('qTable\n', qTable, '\n')
 
-  discreteState = getDiscreteState(env.reset(), env.observation_space.low, discreteObservationWinSize)
+  def getDiscreteState(state):
+    discreteState = (state - env.observation_space.low) / discreteObservationWinSize
+    return tuple(discreteState.astype(np.int))
+
+  discreteState = getDiscreteState(env.reset())
   print(' discreteState: ', discreteState)
-  print(' qTable[discreteState]: ', qTable[discreteState]) # Starting Vals
+  print(' qTable[discreteState]: ', qTable[discreteState])
   print(' np.argmax(qTable[discreteState]): ', np.argmax(qTable[discreteState])) # Starting Vals
 
-  '''
+  
   isDone = False
   while not isDone:
-    action = 2
-    currState, myReward, isDone, _ = env.step(action)
-    print(myReward, currState)
+    action = np.argmax(qTable[discreteState])
+    newState, myReward, isDone, _ = env.step(action)
+
+    getDiscreteState(newState)
+
+    print(myReward, newState)
     env.render()
 
   env.close()
-  '''
+  
 
-def getDiscreteState(state, obsSpaceLow, discreteObsWinSize):
-  discreteState = (state - obsSpaceLow) / discreteObsWinSize
-  return tuple(discreteState.astype(np.int))
 
 if __name__ == "__main__":
   main()
