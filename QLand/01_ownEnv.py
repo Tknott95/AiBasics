@@ -73,3 +73,15 @@ class Blob:
     elif self.y > SIZE-1:
       self.y = SIZE-1
 
+if startQTable is None: # Creating qTable if ! have one
+  qTable = {}
+  # Every combo
+  for x1 in range(-SIZE+1, SIZE):
+    for y1 in range(-SIZE+1, SIZE):
+      for x2 in range(-SIZE+1, SIZE):
+        for y2 in range(-SIZE+1, SIZE):
+          qTable[((x1, y1), (x2, y2))] = [np.random.uniform(-5,0) for i in range(4)]
+else:
+  with open(startQTable, "rb") as f: # Loading pretrained file if have one.
+    qTable = pickle.load(f)
+
