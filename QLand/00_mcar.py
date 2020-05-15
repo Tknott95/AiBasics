@@ -4,7 +4,6 @@ import numpy as np
 def main():
   ''' Following "Sentdex" example/teaching w/ own tweaks/additions, etc. '''
   env = gym.make("MountainCar-v0")
-  env.reset()
 
   agentLearningRate = 0.1 # Can be between 0-1
   agentDiscount = 0.95    # Essentially like a "weight"
@@ -16,12 +15,12 @@ def main():
   print(' env.observation_space.low: ', env.observation_space.low, '\n')
 
   discreteObservationSize = [20] * len(env.observation_space.high) # Should not be hardcoded
-  discreteObservationWindowSize = (
+  discreteObservationWinSize = (
     env.observation_space.high - env.observation_space.low) / discreteObservationSize
 
   print('This is not dynamic as it should be, just MVP')
-  print(' discreteObservationSize = ([20]*len(env.observation_space.high))\n',  discreteObservationSize, '\n')
-  print(' discreteObservationWindowSize\n', discreteObservationWindowSize)
+  print(' discreteObservationSize: ',  discreteObservationSize)
+  print(' discreteObservationWinSize: ', discreteObservationWinSize)
 
   ''' 
     Init() the qTable as a [20]x[20]x[3]
@@ -33,8 +32,13 @@ def main():
     high=0,
     size=(discreteObservationSize + [env.action_space.n])
   )
-  print('\n qTable.shape\n', qTable.shape)
+  print('\n qTable.shape: ', qTable.shape)
   # print('qTable\n', qTable, '\n')
+
+  discreteState = getDiscreteState(env.reset(), env.observation_space.low, discreteObservationWinSize)
+  print(' discreteState: ', discreteState)
+  print(' qTable[discreteState]: ', qTable[discreteState]) # Starting Vals
+  print(' np.argmax(qTable[discreteState]): ', np.argmax(qTable[discreteState])) # Starting Vals
 
   '''
   isDone = False
@@ -46,6 +50,10 @@ def main():
 
   env.close()
   '''
+
+def getDiscreteState(state, obsSpaceLow, discreteObsWinSize):
+  discreteState = (state - obsSpaceLow) / discreteObsWinSize
+  return tuple(discreteState.astype(np.int))
 
 if __name__ == "__main__":
   main()
