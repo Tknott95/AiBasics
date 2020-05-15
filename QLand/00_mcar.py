@@ -40,15 +40,12 @@ def main():
   print(' qTable[discreteState]: ', qTable[discreteState])
   print(' np.argmax(qTable[discreteState]): ', np.argmax(qTable[discreteState])) # Starting Vals
 
-  
   isDone = False
   while not isDone:
     action = np.argmax(qTable[discreteState])
     newState, myReward, isDone, _ = env.step(action)
-
-    getDiscreteState(newState)
-
-    print(myReward, newState)
+    newDiscreteState = getDiscreteState(newState)
+    # print(myReward, newState)
     env.render()
 
   env.close()
