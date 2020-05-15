@@ -53,6 +53,10 @@ def main():
       # Now to use QLearningAlgorithm for the newQ value
       newQ = (1-agentLearningRate) * currQ + agentLearningRate * (myReward + agentDiscount * maxFutureQ)
       qTable[discreteState+(action, )] = newQ # Updating qTable with newQ value
+    elif newState[0] >= env.goal_position:
+      qTable[discreteState + (action, )] = 0 # Reward for reaching goal - This is an openAI env so it already has goal_position and actions
+    
+    discreteState = newDiscreteState
 
   env.close()
   
