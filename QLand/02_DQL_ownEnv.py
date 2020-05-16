@@ -179,7 +179,7 @@ class DQLAgent:
     self.targetModel.set_weights(self.model.get_weights())
 
     self.replayMemory = deque(maxlen=replayMemSize)
-    self.tensorboard = ModifiedTensorBoard(Log_dir=f"logs/{modelName}-{int(time.time())}")
+    self.tensorboard = ModifiedTensorBoard(log_dir=f"logs/{modelName}-{int(time.time())}")
     
     self.targetUpdateCounter = 0
 
