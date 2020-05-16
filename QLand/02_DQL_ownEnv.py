@@ -287,7 +287,7 @@ for episode in tqdm(range(1, agentEpochs+1), ascii=True, unit="episodes"):
     else:
       action = np.random.randint(0, env.actionSpaceSize) # get random action
   
-    newState, reward, done, env.step(action)
+    newState, reward, done = env.step(action)
     episodeReward += reward
 
     if showEnv and not episode % aggregateStatsEvery:
