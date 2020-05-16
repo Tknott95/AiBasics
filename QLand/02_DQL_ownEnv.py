@@ -4,15 +4,13 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import TensorBoard
 import tensorflow as tf
 import numpy as np
-
-from collections import deque # list w/ max size set .. etc
 from PIL import Image
 import cv2
+from tqdm import tqdm
+
 import time
 import random
-
-from datetime import datetime
-from packaging import version
+from collections import deque # list w/ max size set .. etc
 import os
 
 '''
@@ -42,8 +40,18 @@ replayMemSize = 50_000 # Underscore works
 minReplayMemSize = 1_000
 modelName = '256x2' # it is a 256x2 conv net
 miniBatchSize = 64
-agentagentDiscount = 0.99
+agentMinReward = 200
+memFraction = 0.20
+agentDiscount = 0.99
 updateTargetEvery = 5
+
+agentEpochs = 10_000 # same as episode, following tf2 styles beighhhhhbayyy
+epsilon = 1
+epsilonDecay = 0.9998
+minEpsilon = 0.001
+
+aggregateStatsEvery = 50 # epochs
+showEnv = False
 
 class Blob:
   def __init__(self, size):
@@ -112,7 +120,7 @@ class BlobEnv:
     self.food = Blob(self.gridSize)
     while self.food == self.player:
       self.food = Blob(self.gridSize)
-      self.enemy = Blob(self.gridSize)
+    self.enemy = Blob(self.gridSize)
     while self.enemy == self.player or self.enemy == self.food:
       self.enemy = Blob(self.gridSize)
       
@@ -129,9 +137,9 @@ class BlobEnv:
     self.player.action(action)
 
     if self.returnImages:
-      newObs = np.array(self.get_image())
+      newState = np.array(self.get_image())
     else:
-      newObs = (self.player-self.food) + (self.player-self.enemy)
+      newState = (self.player-self.food) + (self.player-self.enemy)
 
     if self.player == self.enemy:
       reward = -self.enemyPenalty
@@ -144,7 +152,7 @@ class BlobEnv:
     if reward == self.foodReward or reward == -self.enemyPenalty or self.episodeStep >= 200:
       done = True
 
-    return newObs, reward, done
+    return newState, reward, done
 
   def render(self):
     img = self.get_image()
@@ -154,9 +162,9 @@ class BlobEnv:
 
   def get_image(self):
     env = np.zeros((self.gridSize, self.gridSize, 3), dtype=np.uint8)  # rbg of gridSize
-    env[self.food.x][self.food.y] = self.dictionaryictionary[self.foodN]  # food loc tile to green color
-    env[self.enemy.x][self.enemy.y] = self.dictionaryictionary[self.enemyN]  # enemy loc tile to red
-    env[self.player.x][self.player.y] = self.dictionaryictionary[self.playerN]  # player loc tile to blue
+    env[self.food.x][self.food.y] = self.dictionary[self.foodN]  # food loc tile to green color
+    env[self.enemy.x][self.enemy.y] = self.dictionary[self.enemyN]  # enemy loc tile to red
+    env[self.player.x][self.player.y] = self.dictionary[self.playerN]  # player loc tile to blue
     img = Image.fromarray(env, 'RGB') 
     return img
 
@@ -244,7 +252,7 @@ class DQLAgent:
     for index, (currState, action, reward, newCurrState, done) in enumerate(minibatch):
       if not done:
         maxFutureQVal = np.max(futureQValsList[index])
-        newQVal = reward + agentagentDiscount * maxFutureQVal
+        newQVal = reward + agentDiscount * maxFutureQVal
       else:
         newQVal = reward
     
@@ -263,3 +271,44 @@ class DQLAgent:
       self.targetUpdateCounter = 0
 
 myAgent = DQLAgent()
+
+# tqdm is a loader bar for a UI treat
+for episode in tqdm(range(1, agentEpochs+1), ascii=True, unit="episodes"):
+  # agent.tensorboard.step = episode
+
+  episodeReward = 0
+  step = 1
+  currState = env.reset()
+
+  done = False
+  while not done:
+    if np.random.random() > epsilon:
+      action = np.argmax(myAgent.getQVals(currState)) # Get action from qTable
+    else:
+      action = np.random.randint(0, env.actionSpaceSize) # get random action
+  
+    newState, reward, done, env.step(action)
+    episodeReward += reward
+
+    if showEnv and not episode % aggregateStatsEvery:
+      env.render()
+    
+    agent.updateReplayMemory((currState, action, reward, newState, done))
+    agent.train(done, step)
+
+    currState = newState
+    ++step
+  
+  epRewards.append(episodeReward)
+  if not episode % aggregateStatsEvery or episode == 1:
+    averageReward = sum(epRewards[-aggregateStatsEvery:])/len(epRewards[-aggregateStatsEvery:])
+    minReward = min(epRewards[-aggregateStatsEvery:])
+    maxReward = max(epRewards[-aggregateStatsEvery:])
+    # myAgent.tensorboard.update_stats(reward_avg=averageReward, reward_min=minReward, reward_max=maxReward, epsilon=epsilon)
+
+    if minReward >= agentMinReward:
+      myAgent.model.save(f'models/{modelName}_{maxReward:_>7.2f}max_{averageReward:_>7.2f}avg_{minReward:_>7.2f}min__{int(time.time())}.model')
+    
+  if epsilon > minEpsilon:
+    epsilon *= epsilonDecay
+    epsilon = max(minEpsilon, epsilon)
