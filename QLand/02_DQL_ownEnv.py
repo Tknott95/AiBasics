@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Activation, Flatten
+from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Activation, Flatten
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import TensorBoard
 import tensorflow as tf
@@ -199,7 +199,7 @@ class DQLAgent:
     model.add(Flatten())
     model.add(Dense(64))
 
-    model.add(Dense(envActionSpaceSize, activation="linear"))
+    model.add(Dense(env.actionSpaceSize, activation="linear"))
     model.compile(Loss="mse", optimizer=Adam(Lr=0.001), metrics=['accuracy'])
     return model
 
