@@ -2,6 +2,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Activation, Flatten
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import TensorBoard
+import tensorflow as tf
 import numpy as np
 
 from collections import deque # Need to understand this pkg better - list w/ max size set .. etc
@@ -138,7 +139,15 @@ class BlobEnv:
     return img
 
 
+env = BlobEnv()
+epRewards = [-200]
 
+random.seed(1) # Seed for same results, seeding is basic bish
+np.random.seed(1)
+tf.set_random_seed(1)
+
+if not os.path.isdir('models'):
+  os.makedirs('models')
 
 # keras wants to update log file every .fit so this will allow keras not to create a new log every .fit
 # tf2.2 might not need this, looks like shit code
@@ -201,7 +210,7 @@ class DqlAgent:
       return
     
     minibatch = random.sample(self.replayMemory, miniBatchSize)
-    currStates = np.array(transition[0] for transition in minibatch])/255 # /255 "scale" the rgb data getting passed in, as env is setup as such
+    currStates = np.array([transition[0] for transition in minibatch])/255 # /255 "scale" the rgb data getting passed in, as env is setup as such
     currQValsList = self.model.predict(currStates)
 
     newCurrStates = np.array([transition[3] for transition in minibatch])/255 # /255 "scale" the rgb data getting passed in, as env is setup as such
