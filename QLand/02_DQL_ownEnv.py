@@ -71,6 +71,74 @@ class Blob:
     elif self.y > self.size-1:
       self.y = self.size-1
 
+class BlobEnv:
+  gridSize = 10
+  returnImages = True
+  movePenalty = 1
+  enemyPenalty = 300
+  foodReward = 25
+  obsSpaceVals = (gridSize, gridSize, 3)
+  actionSpaceSize = 9
+  playerN = 1
+  foodN = 2
+  enemyN = 3
+  dictionary = {1: (255, 175, 0), 2: (0, 255, 0), 3: (0, 0, 255)} # BGR format
+
+  def reset(self):
+    self.player = Blob(self.gridSize)
+    self.food = Blob(self.gridSize)
+    while self.food == self.player:
+      self.food = Blob(self.gridSize)
+      self.enemy = Blob(self.gridSize)
+    while self.enemy == self.player or self.enemy == self.food:
+      self.enemy = Blob(self.gridSize)
+      
+    self.episodeStep = 0
+
+    if self.returnImages:
+      observation = np.array(self.get_image())
+    else:
+      observation = (self.player-self.food) + (self.player-self.enemy)
+    return observation
+
+  def step(self, action):
+    self.episodeStep += 1
+    self.player.action(action)
+
+    if self.returnImages:
+      newObs = np.array(self.get_image())
+    else:
+      newObs = (self.player-self.food) + (self.player-self.enemy)
+
+    if self.player == self.enemy:
+      reward = -self.enemyPenalty
+    elif self.player == self.food:
+      reward = self.foodReward
+    else:
+      reward = -self.movePenalty
+
+    done = False
+    if reward == self.foodReward or reward == -self.enemyPenalty or self.episodeStep >= 200:
+      done = True
+
+    return newObs, reward, done
+
+  def render(self):
+    img = self.get_image()
+    img = img.resize((300, 300))  # resizing so we can see our agent in all its glory.
+    cv2.imshow("image", np.array(img))  # show it!
+    cv2.waitKey(1)
+
+  def get_image(self):
+    env = np.zeros((self.gridSize, self.gridSize, 3), dtype=np.uint8)  # rbg of gridSize
+    env[self.food.x][self.food.y] = self.dictionaryictionary[self.foodN]  # food loc tile to green color
+    env[self.enemy.x][self.enemy.y] = self.dictionaryictionary[self.enemyN]  # enemy loc tile to red
+    env[self.player.x][self.player.y] = self.dictionaryictionary[self.playerN]  # player loc tile to blue
+    img = Image.fromarray(env, 'RGB') 
+    return img
+
+
+
 
 # keras wants to update log file every .fit so this will allow keras not to create a new log every .fit
 # tf2.2 might not need this, looks like shit code
