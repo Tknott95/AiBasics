@@ -169,7 +169,7 @@ class ModifiedTensorBoard(TensorBoard):
   def on_train_end(self, _):
     pass
   def update_stats(self, **stats):
-    self._write_logs(stats, self.step)
+    tf.summary.scalar('loss',stats['loss'], step=self.step)
 
 class DQLAgent:
   def __init__(self):
