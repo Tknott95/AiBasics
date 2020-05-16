@@ -45,12 +45,12 @@ memFraction = 0.20
 agentDiscount = 0.99
 updateTargetEvery = 5
 
-agentEpochs = 10_000 # same as episode, following tf2 styles beighhhhhbayyy
+agentEpochs = 5_000 # same as episode, following tf2 styles beighhhhhbayyy
 epsilon = 1
 epsilonDecay = 0.9998
 minEpsilon = 0.001
 
-aggregateStatsEvery = 50 # epochs
+aggregateStatsEvery = 200 # epochs
 showEnv = False
 
 class Blob:
@@ -232,8 +232,8 @@ class DQLAgent:
   def updateReplayMemory(self, transition):
     self.replayMemory.append(transition) # Allows for newQ form. In short transition is:  ObsSpace, action, reward.. new ObsSpace, isDone?
 
-  def getQVals(self, terminalState, step):
-    return self.modelPredict(np.array(state).reshape(-1, *state.shape)/255)[0] # /255 "scale" the rgb data getting passed in, as env is setup as such
+  def getQVals(self, state):
+    return self.model.predict(np.array(state).reshape(-1, *state.shape)/255)[0] # /255 "scale" the rgb data getting passed in, as env is setup as such
 
   def train(self, terminalState, step):
     if len(self.replayMemory) < minReplayMemSize:
@@ -262,7 +262,7 @@ class DQLAgent:
       X.append(currState)
       Y.append(currQVals)
     
-    self.model.fit(np.array(X)/255, np.array(Y), batch_size=miniBatchSize, verbose=0, shuffle=False, callbacks=[self.tensorboard] if terminalState else None)
+    # self.model.fit(np.array(X)/255, np.array(Y), batch_size=miniBatchSize, verbose=0, shuffle=False, callbacks=[self.tensorboard] if terminalState else None)
     
     if terminalState:
       self.targetUpdateCounter += 1
@@ -297,7 +297,7 @@ for episode in tqdm(range(1, agentEpochs+1), ascii=True, unit="episodes"):
     myAgent.train(done, step)
 
     currState = newState
-    ++step
+    step += 1
   
   epRewards.append(episodeReward)
   if not episode % aggregateStatsEvery or episode == 1:
