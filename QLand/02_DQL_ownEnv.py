@@ -5,9 +5,13 @@ from tensorflow.keras.callbacks import TensorBoard
 import tensorflow as tf
 import numpy as np
 
-from collections import deque # Need to understand this pkg better - list w/ max size set .. etc
+from collections import deque # list w/ max size set .. etc
+from PIL import Image
+import cv2
 import time
 import random
+import os
+
 '''
   Not a fan of this abstraction pattern, tf2 docs have better ways, may be due to tf1? Will create my own in a diff way 
   Will do one w/ my own env + tf2.2 conventions
@@ -144,7 +148,7 @@ epRewards = [-200]
 
 random.seed(1) # Seed for same results, seeding is basic bish
 np.random.seed(1)
-tf.set_random_seed(1)
+tf.random.set_seed(1) # Chaned from set_random_seed -> random.set_seed in tf2.0
 
 if not os.path.isdir('models'):
   os.makedirs('models')
@@ -240,4 +244,4 @@ class DqlAgent:
       self.targetModel.set_weights(self.model.get_weights())
       self.targetUpdateCounter = 0
 
-
+myAgent = DqlAgent()
