@@ -10,6 +10,9 @@ from PIL import Image
 import cv2
 import time
 import random
+
+from datetime import datetime
+from packaging import version
 import os
 
 '''
@@ -19,6 +22,12 @@ import os
   Using tf-2.2 rather then ~tf-1.0 like tut
   Following Tutorial: https://pythonprogramming.net/deep-q-learning-dqn-reinforcement-learning-python-tutorial/
 '''
+
+# device_name = tf.test.gpu_device_name()
+# if not device_name:
+#   raise SystemError('GPU device not found')
+# print('Found GPU at: {}'.format(device_name))
+
 
 replayMemSize = 50_000 # Underscore works like a "comma"
 minReplayMemSize = 1_000
