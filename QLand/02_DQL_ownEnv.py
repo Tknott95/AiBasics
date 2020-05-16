@@ -15,12 +15,6 @@ REPLAY_MEM_SIZE = 50_000 # Normally hate caps yet will set like a c++ const as t
 MODEL_NAME = '256x2' # it is a 256x2 conv net
 
 
-
-  # Custom method for saving own metrics
-  # Creates writer, writes custom metrics and closes writer
-  def update_stats(self, **stats):
-    self._write_logs(stats, self.step)
-
 class DqlAgent:
   def __init__(self):
     self.model = self.createModel() # Gets trained every step
