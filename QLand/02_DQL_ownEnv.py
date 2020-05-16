@@ -23,24 +23,22 @@ import os
   Following Tutorial: https://pythonprogramming.net/deep-q-learning-dqn-reinforcement-learning-python-tutorial/
 '''
 
-# Tensorboard issue on arch ->  CUPTI_ERROR_INSUFFICIENT_PRIVILEGES
-# Launch the target application with 'sudo' or as a user with the CAP_SYS_ADMIN capability set
-# From(https://developer.nvidia.com/nvidia-development-tools-solutions-err-nvgpuctrperm-cupti)
-# WILL HACK AROUND THIS FOR LINUX w/OUT killing SECURITY AS NVIDIA WANTS
-# LINKING DOES NOT WORK AND PIP DOES NOT INSTALL SUDO, ONLY --user
-# NO TENSORBOARD FOR NOW UNLESS I DO CHROMIUM WORKAROUND
-''' 
-  IN ARCH CONFIGS MIGHT TRY 
-  INSIDE: sudo vim /etc/X11/xorg.conf.d/20-nvidia.conf 
-    options nvidia "NVreg_RestrictProfilingToAdminUsers=0"
-  # MIGHT BREAK x11 
-device_name = tf.test.gpu_device_name() # THIS WORKS, ONLY TENSORBOARD SLAPS CUPTI AUTH ERROR
-if not device_name:
-  raise SystemError('GPU device not found')
-print('Found GPU at: {}'.format(device_name))
+'''
+  Tensorboard issue on arch ->  CUPTI_ERROR_INSUFFICIENT_PRIVILEGES
+  Launch the target application with 'sudo' or as a user with the CAP_SYS_ADMIN capability set
+  From(https://developer.nvidia.com/nvidia-development-tools-solutions-err-nvgpuctrperm-cupti)
+  WILL HACK AROUND THIS FOR LINUX w/OUT killing SECURITY AS NVIDIA WANTS
+  LINKING DOES NOT WORK AND PIP DOES NOT INSTALL SUDO, ONLY --user
+  NO TENSORBOARD FOR NOW UNLESS I DO CHROMIUM WORKAROUND
+
+  @TO_TRY: 'will try once I reboot, to lazy to now. Will work w/out tensorboard:  
+    IN ARCH CONFIGS MIGHT TRY 
+    INSIDE: sudo vim /etc/X11/xorg.conf.d/20-nvidia.conf 
+      options nvidia "NVreg_RestrictProfilingToAdminUsers=0"
+    # MIGHT BREAK x11 
 '''
 
-replayMemSize = 50_000 # Underscore works like a "comma"
+replayMemSize = 50_000 # Underscore works
 minReplayMemSize = 1_000
 modelName = '256x2' # it is a 256x2 conv net
 miniBatchSize = 64
