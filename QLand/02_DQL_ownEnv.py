@@ -15,12 +15,12 @@ import random
   Following Tutorial: https://pythonprogramming.net/deep-q-learning-dqn-reinforcement-learning-python-tutorial/
 '''
 
-REPLAY_MEM_SIZE = 50_000 # Normally hate caps yet will set like a c++ const as the tut does. Underscore works like a "comma"
-MIN_REPLAY_MEM_SIZE = 1_000
-MODEL_NAME = '256x2' # it is a 256x2 conv net
-MINIBATCH_SIZE = 64
-DISCOUNT = 0.99
-UPDATE_TARGET_EVERY = 5
+replayMemSize = 50_000 # Underscore works like a "comma"
+minReplayMemSize = 1_000
+modelName = '256x2' # it is a 256x2 conv net
+miniBatchSize = 64
+agentagentDiscount = 0.99
+updateTargetEvery = 5
 
 class Blob:
   def __init__(self, size):
@@ -71,100 +71,6 @@ class Blob:
     elif self.y > self.size-1:
       self.y = self.size-1
 
-class BlobEnv:
-    SIZE = 10
-    RETURN_IMAGES = True
-    MOVE_PENALTY = 1
-    ENEMY_PENALTY = 300
-    FOOD_REWARD = 25
-    OBSERVATION_SPACE_VALUES = (SIZE, SIZE, 3)  # 4
-    ACTION_SPACE_SIZE = 9
-    PLAYER_N = 1  # player key in dict
-    FOOD_N = 2  # food key in dict
-    ENEMY_N = 3  # enemy key in dict
-    # the dict! (colors)
-    d = {1: (255, 175, 0),
-         2: (0, 255, 0),
-         3: (0, 0, 255)}
-
-    def reset(self):
-        self.player = Blob(self.SIZE)
-        self.food = Blob(self.SIZE)
-        while self.food == self.player:
-            self.food = Blob(self.SIZE)
-        self.enemy = Blob(self.SIZE)
-        while self.enemy == self.player or self.enemy == self.food:
-            self.enemy = Blob(self.SIZE)
-
-        self.episode_step = 0
-
-        if self.RETURN_IMAGES:
-            observation = np.array(self.get_image())
-        else:
-            observation = (self.player-self.food) + (self.player-self.enemy)
-        return observation
-
-    def step(self, action):
-        self.episode_step += 1
-        self.player.action(action)
-
-        #### MAYBE ###
-        #enemy.move()
-        #food.move()
-        ##############
-
-        if self.RETURN_IMAGES:
-            new_observation = np.array(self.get_image())
-        else:
-            new_observation = (self.player-self.food) + (self.player-self.enemy)
-
-        if self.player == self.enemy:
-            reward = -self.ENEMY_PENALTY
-        elif self.player == self.food:
-            reward = self.FOOD_REWARD
-        else:
-            reward = -self.MOVE_PENALTY
-
-        done = False
-        if reward == self.FOOD_REWARD or reward == -self.ENEMY_PENALTY or self.episode_step >= 200:
-            done = True
-
-        return new_observation, reward, done
-
-    def render(self):
-        img = self.get_image()
-        img = img.resize((300, 300))  # resizing so we can see our agent in all its glory.
-        cv2.imshow("image", np.array(img))  # show it!
-        cv2.waitKey(1)
-
-    # FOR CNN #
-    def get_image(self):
-        env = np.zeros((self.SIZE, self.SIZE, 3), dtype=np.uint8)  # starts an rbg of our size
-        env[self.food.x][self.food.y] = self.d[self.FOOD_N]  # sets the food location tile to green color
-        env[self.enemy.x][self.enemy.y] = self.d[self.ENEMY_N]  # sets the enemy location to red
-        env[self.player.x][self.player.y] = self.d[self.PLAYER_N]  # sets the player tile to blue
-        img = Image.fromarray(env, 'RGB')  # reading to rgb. Apparently. Even tho color definitions are bgr. ???
-        return img
-
-
-env = BlobEnv()
-
-# For stats
-ep_rewards = [-200]
-
-# For more repetitive results
-random.seed(1)
-np.random.seed(1)
-tf.set_random_seed(1)
-
-# Memory fraction, used mostly when trai8ning multiple agents
-#gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=MEMORY_FRACTION)
-#backend.set_session(tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)))
-
-# Create models folder
-if not os.path.isdir('models'):
-    os.makedirs('models')
-
 
 # keras wants to update log file every .fit so this will allow keras not to create a new log every .fit
 # tf2.2 might not need this, looks like shit code
@@ -191,8 +97,8 @@ class DqlAgent:
     self.targetModel = self.createModel() # Gets predicted against every step
     self.targetModel.set_weights(self.model.get_weights())
 
-    self.replayMemory = deque(maxlen=REPLAY_MEM_SIZE)
-    self.tensorboard = ModifiedTensorBoard(Log_dir=f"logs/{MODEL_NAME}-{int(time.time())}")
+    self.replayMemory = deque(maxlen=replayMemSize)
+    self.tensorboard = ModifiedTensorBoard(Log_dir=f"logs/{modelName}-{int(time.time())}")
     
     self.targetUpdateCounter = 0
 
@@ -223,10 +129,10 @@ class DqlAgent:
     return self.modelPredict(np.array(state).reshape(-1, *state.shape)/255)[0] # /255 "scale" the rgb data getting passed in, as env is setup as such
 
   def train(self, terminalState, step):
-    if len(self.replayMemory) < MIN_REPLAY_MEM_SIZE:
+    if len(self.replayMemory) < minReplayMemSize:
       return
     
-    minibatch = random.sample(self.replayMemory, MINIBATCH_SIZE)
+    minibatch = random.sample(self.replayMemory, miniBatchSize)
     currStates = np.array(transition[0] for transition in minibatch])/255 # /255 "scale" the rgb data getting passed in, as env is setup as such
     currQValsList = self.model.predict(currStates)
 
@@ -239,7 +145,7 @@ class DqlAgent:
     for index, (currState, action, reward, newCurrState, done) in enumerate(minibatch):
       if not done:
         maxFutureQVal = np.max(futureQValsList[index])
-        newQVal = reward + DISCOUNT * maxFutureQVal
+        newQVal = reward + agentagentDiscount * maxFutureQVal
       else:
         newQVal = reward
     
@@ -249,11 +155,11 @@ class DqlAgent:
       X.append(currState)
       Y.append(currQVals)
     
-    self.model.fit(np.array(X)/255, np.array(Y), batch_size=MINIBATCH_SIZE, verbose=0, shuffle=False, callbacks=[self.tensorboard] if terminalState else None)
+    self.model.fit(np.array(X)/255, np.array(Y), batch_size=miniBatchSize, verbose=0, shuffle=False, callbacks=[self.tensorboard] if terminalState else None)
     
     if terminalState:
       self.targetUpdateCounter += 1
-    if self.targetUpdateCounter > UPDATE_TARGET_EVERY:
+    if self.targetUpdateCounter > updateTargetEvery:
       self.targetModel.set_weights(self.model.get_weights())
       self.targetUpdateCounter = 0
 
