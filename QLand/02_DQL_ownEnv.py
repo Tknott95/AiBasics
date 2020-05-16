@@ -200,7 +200,7 @@ class DQLAgent:
     model.add(Dense(64))
 
     model.add(Dense(env.actionSpaceSize, activation="linear"))
-    model.compile(Loss="mse", optimizer=Adam(Lr=0.001), metrics=['accuracy'])
+    model.compile(loss="mse", optimizer=Adam(lr=0.001), metrics=['accuracy'])
     return model
 
   def updateReplayMemory(self, transition):
