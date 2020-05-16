@@ -1,13 +1,22 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Conv2D, MaxPool2D, Activation, Flatten
 from tensorflow.keras.optimizers import Adam
-from keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard
+
+from collections import deque # Need to understand this pkg better
 '''
   Using tf-2.2 rather then ~tf-1.0 like tut
   Following Tutorial: https://pythonprogramming.net/deep-q-learning-dqn-reinforcement-learning-python-tutorial/
 '''
 
 class DqlAgent:
+  def __init__(self):
+    self.model = self.create_model() # Gets trained every step
+    
+    self.targetModel = self.create_model() # Gets predicted against every step
+    self.targetModel.set_weights(self.model.get_weights())
+
+
   def create_model(self):
     model = Sequential()
     model.add(Conv2D(256, (3,3), input_shape=envObservationSpaceVals))
