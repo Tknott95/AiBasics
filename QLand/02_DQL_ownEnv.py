@@ -171,7 +171,7 @@ class ModifiedTensorBoard(TensorBoard):
   def update_stats(self, **stats):
     self._write_logs(stats, self.step)
 
-class DqlAgent:
+class DQLAgent:
   def __init__(self):
     self.model = self.createModel() # Gets trained every step
     
@@ -244,4 +244,4 @@ class DqlAgent:
       self.targetModel.set_weights(self.model.get_weights())
       self.targetUpdateCounter = 0
 
-myAgent = DqlAgent()
+myAgent = DQLAgent()
