@@ -293,8 +293,8 @@ for episode in tqdm(range(1, agentEpochs+1), ascii=True, unit="episodes"):
     if showEnv and not episode % aggregateStatsEvery:
       env.render()
     
-    agent.updateReplayMemory((currState, action, reward, newState, done))
-    agent.train(done, step)
+    myAgent.updateReplayMemory((currState, action, reward, newState, done))
+    myAgent.train(done, step)
 
     currState = newState
     ++step
