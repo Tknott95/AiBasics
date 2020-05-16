@@ -29,11 +29,16 @@ import os
 # WILL HACK AROUND THIS FOR LINUX w/OUT killing SECURITY AS NVIDIA WANTS
 # LINKING DOES NOT WORK AND PIP DOES NOT INSTALL SUDO, ONLY --user
 # NO TENSORBOARD FOR NOW UNLESS I DO CHROMIUM WORKAROUND
-device_name = tf.test.gpu_device_name()
+''' 
+  IN ARCH CONFIGS MIGHT TRY 
+  INSIDE: sudo vim /etc/X11/xorg.conf.d/20-nvidia.conf 
+    options nvidia "NVreg_RestrictProfilingToAdminUsers=0"
+  # MIGHT BREAK x11 
+device_name = tf.test.gpu_device_name() # THIS WORKS, ONLY TENSORBOARD SLAPS CUPTI AUTH ERROR
 if not device_name:
   raise SystemError('GPU device not found')
 print('Found GPU at: {}'.format(device_name))
-
+'''
 
 replayMemSize = 50_000 # Underscore works like a "comma"
 minReplayMemSize = 1_000
