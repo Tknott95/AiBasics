@@ -24,8 +24,9 @@ UPDATE_TARGET_EVERY = 5
 
 class Blob:
   def __init__(self, size):
-    self.x = np.random.randint(0, gridSize)
-    self.y = np.random.randint(0, gridSize)
+    self.size = size
+    self.x = np.random.randint(0, size)
+    self.y = np.random.randint(0, size)
   def __str__(self):
     return f"Blob ({self.x}, {self.y})"
   def __sub__(self, other):
