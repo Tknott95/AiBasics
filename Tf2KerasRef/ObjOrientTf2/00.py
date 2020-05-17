@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
-# tf.keras.backend.set_floatx('float64')
+tf.keras.backend.set_floatx('float64')
 
 # Using mnist, the "HelloWorld dataset of AI"
 mnist = tf.keras.datasets.mnist
@@ -16,15 +16,15 @@ x_train, x_test = x_train / 255.0, x_test / 255.0
 x_train = x_train[..., tf.newaxis]
 x_test = x_test[..., tf.newaxis]
 
-train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000).batch(32) # was 32 yet had shape error via data
-test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32) # was 32 yet had shape error via data
+train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000).batch(32)
+test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
 
 # Making a model class for ObjOrient
 # Built w/ keras subclassing API
 class ModelClass(Model):
   def __init__(self):
     super(ModelClass, self).__init__()
-    self.conv1 = Conv2D(32, 3, activation='relu') # @RTODO 32 or 16 
+    self.conv1 = Conv2D(32, 3, activation='relu')
     self.flatten = Flatten()
     self.d1 = Dense(128, activation='relu')
     self.d2 = Dense(10)
@@ -69,7 +69,7 @@ def test_step(images, labels):
   test_loss(t_loss)
   test_accuracy(labels, predictions)
 
-EPOCHS = 50
+EPOCHS = 10
 for epoch in range(EPOCHS):
   # Reset the metrics at the start of the next epoch
   train_loss.reset_states()
