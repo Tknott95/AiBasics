@@ -4,9 +4,7 @@ from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
 # tf.keras.backend.set_floatx('float64')
-
-# Using mnist, the "HelloWorld dataset of AI"
-mnist = tf.keras.datasets.mnist
+mnist = tf.keras.datasets.fashion_mnist
 
 # Declaring my vars to hold data
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
