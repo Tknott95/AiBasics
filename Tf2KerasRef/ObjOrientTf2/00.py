@@ -16,15 +16,15 @@ x_train, x_test = x_train / 255.0, x_test / 255.0
 x_train = x_train[..., tf.newaxis]
 x_test = x_test[..., tf.newaxis]
 
-train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000).batch(16)
-test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(16)
+train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000).batch(32) # was 32 yet had shape error via data
+test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32) # was 32 yet had shape error via data
 
 # Making a model class for ObjOrient
 # Built w/ keras subclassing API
 class ModelClass(Model):
   def __init__(self):
     super(ModelClass, self).__init__()
-    self.conv1 = Conv2D(32, 3, activation='relu')
+    self.conv1 = Conv2D(32, 3, activation='relu') # @RTODO 32 or 16 
     self.flatten = Flatten()
     self.d1 = Dense(128, activation='relu')
     self.d2 = Dense(10)
@@ -61,7 +61,7 @@ def train_step(images, labels):
   train_accuracy(labels, predictions)
 
 @tf.function
-def test_step(images, objects):
+def test_step(images, labels):
   # training=False is only needed if there are layers with different behavior during training versus inference (e.g. Dropout)
   predictions = model(images, training=False)
   t_loss = loss_object(labels, predictions)
