@@ -3,6 +3,8 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
+# tf.keras.backend.set_floatx('float64')
+
 # Using mnist, the "HelloWorld dataset of AI"
 mnist = tf.keras.datasets.mnist
 
@@ -14,23 +16,23 @@ x_train, x_test = x_train / 255.0, x_test / 255.0
 x_train = x_train[..., tf.newaxis]
 x_test = x_test[..., tf.newaxis]
 
-train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000).batch(32)
-test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
+train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000).batch(16)
+test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(16)
 
 # Making a model class for ObjOrient
 # Built w/ keras subclassing API
 class ModelClass(Model):
   def __init__(self):
     super(ModelClass, self).__init__()
-    self.conv01 = Conv2D(32, 3, activation='relu')
+    self.conv1 = Conv2D(32, 3, activation='relu')
     self.flatten = Flatten()
-    self.d01 = Dense(128, activation='relu')
-    self.d02 = Dense(10)
+    self.d1 = Dense(128, activation='relu')
+    self.d2 = Dense(10)
   def call(self, x):
-    x = self.conv01(x)
+    x = self.conv1(x)
     x = self.flatten(x)
-    x = self.d01(x)
-    return self.d02(x)
+    x = self.d1(x)
+    return self.d2(x)
 
 model = ModelClass()
 
@@ -77,6 +79,7 @@ for epoch in range(EPOCHS):
 
   for images, labels in train_dataset:
     train_step(images, labels)
+
   for test_images, test_labels in test_dataset:
     test_step(test_images, test_labels)
   
