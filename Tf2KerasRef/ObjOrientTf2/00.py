@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
-# tf.keras.backend.set_floatx('float64')
+tf.keras.backend.set_floatx('float64')
 
 # Using mnist, the "HelloWorld dataset of AI"
 mnist = tf.keras.datasets.mnist
@@ -69,7 +69,7 @@ def test_step(images, objects):
   test_loss(t_loss)
   test_accuracy(labels, predictions)
 
-EPOCHS = 5
+EPOCHS = 50
 for epoch in range(EPOCHS):
   # Reset the metrics at the start of the next epoch
   train_loss.reset_states()
