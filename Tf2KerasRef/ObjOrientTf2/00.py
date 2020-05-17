@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
-tf.keras.backend.set_floatx('float64')
+# tf.keras.backend.set_floatx('float64')
 
 # Using mnist, the "HelloWorld dataset of AI"
 mnist = tf.keras.datasets.mnist
