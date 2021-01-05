@@ -60,11 +60,11 @@ def main():
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
-    def next(self, _inputs):
+    def next(self, _inputs): # Usually called "forward"
       self.output = np.dot(_inputs, self.weights) + self.biases
 
   class Activation_ReLU:
-    def next(self, _inputs):
+    def next(self, _inputs): # Usually called "forward"
       self.output = np.maximum(0, _inputs)
 
   layer1 = Layer_Dense(4, 8)
