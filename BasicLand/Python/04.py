@@ -64,21 +64,24 @@ def main():
       self.output = np.dot(_inputs, self.weights) + self.biases
 
   class Activation_ReLU:
-    def forward(self, _inputs):
+    def next(self, _inputs):
       self.output = np.maximum(0, _inputs)
 
   layer1 = Layer_Dense(4, 8)
-  # ADDED BS a1 = Activation_ReLU()
+  myRelu = Activation_ReLU()
  
   layer2 = Layer_Dense(8, 6)
   layer3 = Layer_Dense(6, 4)
 
   layer1.next(i)
+  myRelu.next(layer1.output)
+
   print('\n\n layer1: \n',layer1.output)
-  # ADDED BS a1.forward(layer1.output) 
   layer2.next(layer1.output)
   print('\n\n layer2: \n',layer2.output)
   layer3.next(layer2.output)
   print('\n\n layer3: \n', layer3.output)
+
+  print('\n\n layer1 after ReLU: \n', myRelu.output)
 
 main()
