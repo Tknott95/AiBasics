@@ -35,6 +35,7 @@ def main():
   layer1 = Layer_Dense(4, 8)
   mySoftmax = Activation_Softmax()
   # !!! Softmax brought in by hand yet not passed into layer 2 after applied like you normally would for visuals
+ # Putting in multiple layers in actual implementation of a real project
  
   layer2 = Layer_Dense(8, 6)
   layer3 = Layer_Dense(6, 4)
