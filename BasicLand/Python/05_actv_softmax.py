@@ -1,11 +1,13 @@
 import numpy as np
 
 """
+
   ACTIVATION FUNCTION 01 - Softmax
 
   - only applying to the first layer for an ouptu comparison for visuals.
   - will not be passing the output after an activation function pass into layer 2. 
   - complexity right meow is not needed rather visuals for learning each "module"
+
 """
  
 np.random.seed(4)
