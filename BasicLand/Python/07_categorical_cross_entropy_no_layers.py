@@ -1,14 +1,13 @@
 import numpy as np
 
 # As said in the read me this code is very heavily nnfs book w/ twkz to learn n.n.f.s
-netOutputs = np.array([
-  [0.88, 0.12, 0.2],
-  [0.1, 0.76, 0.41],
-  [0.02, 0.84, 0.08]])
-targetOutputs = np.array([
-  [1, 0, 0],
-  [0, 1, 0],
-  [0, 1, 0]])
+# netOutputs = np.array([
+#   [0.88, 0.24, 0.14], [0.1, 0.76, 0.41], [0.02, 0.84, 0.08]])
+# targetOutputs = np.array([
+#   [1, 0, 0], [0, 1, 0], [0, 1, 0]])
+
+netOutputs = np.array([[0.88, 0.24, 0.14]])
+targetOutputs = np.array([[1, 0, 0]])
 
 class Loss:
   def calculate(self, output, y):
