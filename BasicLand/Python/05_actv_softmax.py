@@ -23,11 +23,11 @@ def main():
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
-    def next(self, _inputs): # Usually called "forward"
+    def forward(self, _inputs):
       self.output = np.dot(_inputs, self.weights) + self.biases
 
   class Activation_Softmax:
-    def next(self, _inputs):
+    def forward(self, _inputs):
       exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
       normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
       self.output = normalized_values
@@ -40,13 +40,13 @@ def main():
   layer2 = Layer_Dense(8, 6)
   layer3 = Layer_Dense(6, 4)
 
-  layer1.next(i)
-  mySoftmax.next(layer1.output)
+  layer1.forward(i)
+  mySoftmax.forward(layer1.output)
 
   print('\n\n layer1: \n',layer1.output)
-  layer2.next(layer1.output)
+  layer2.forward(layer1.output)
   print('\n\n layer2: \n',layer2.output)
-  layer3.next(layer2.output)
+  layer3.forward(layer2.output)
   print('\n\n layer3: \n', layer3.output)
 
   print('\n\n layer1 after Softmax: \n', mySoftmax.output)

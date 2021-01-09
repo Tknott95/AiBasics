@@ -21,11 +21,11 @@ def main():
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
-    def next(self, _inputs): # Usually called "forward"
+    def forward(self, _inputs):
       self.output = np.dot(_inputs, self.weights) + self.biases
 
   class Activation_ReLU:
-    def next(self, _inputs): # Usually called "forward"
+    def forward(self, _inputs):
       self.output = np.maximum(0, _inputs)
 
   layer1 = Layer_Dense(4, 8)
@@ -35,13 +35,13 @@ def main():
   layer2 = Layer_Dense(8, 6)
   layer3 = Layer_Dense(6, 4)
 
-  layer1.next(i)
-  myRelu.next(layer1.output)
+  layer1.forward(i)
+  myRelu.forward(layer1.output)
 
   print('\n\n layer1: \n',layer1.output)
-  layer2.next(layer1.output)
+  layer2.forward(layer1.output)
   print('\n\n layer2: \n',layer2.output)
-  layer3.next(layer2.output)
+  layer3.forward(layer2.output)
   print('\n\n layer3: \n', layer3.output)
 
   print('\n\n layer1 after ReLU: \n', myRelu.output)
