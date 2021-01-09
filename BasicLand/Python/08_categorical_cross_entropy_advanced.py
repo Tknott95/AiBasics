@@ -14,8 +14,12 @@ class Layer_Dense:
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
-    def forward(self, _inputs): # Usually called "forward"
+    def forward(self, _inputs):
       self.output = np.dot(_inputs, self.weights) + self.biases
+
+class Activation_ReLU:
+  def forward(self, _inputs):
+    self.output = np.maximum(0, _inputs)
 
 class Activation_Softmax:
   def forward(self, _inputs):
@@ -55,7 +59,7 @@ class CategoricalCrossEntropyLoss(Loss):
 
 
 layer1 = Layer_Dense(3,3)
-activation1 = Activation_Softmax() # make ReLU once brought in for testing
+activation1 = Activation_ReLU()
 
 layer2 = Layer_Dense(3,3)
 activation2 = Activation_Softmax()
