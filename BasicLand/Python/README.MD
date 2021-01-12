@@ -1,1 +1,3 @@
-Much of this code in this file for right now follows code I tweak from the book "nnfs" by Harrison Kinsley AKA Sentdex.
+* optimizers
+* chain funcs by hand for fun on paper
+* pull in nnfs data so I do not have to make my own #lazyAF
