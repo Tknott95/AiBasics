@@ -101,3 +101,15 @@ class Main:
 if __name__ == "__main":
   main()
 
+
+
+""" OUTPUT EXAMPLE(from my run)
+  New set of weights found, epoch: 0 loss: 1.0988113 acc: 0.3333333333333333
+  New set of weights found, epoch: 1 loss: 1.098686 acc: 0.3333333333333333
+  New set of weights found, epoch: 9 loss: 1.0986263 acc: 0.3333333333333333
+  New set of weights found, epoch: 42 loss: 1.0986255 acc: 0.3333333333333333
+  New set of weights found, epoch: 108 loss: 1.0986218 acc: 0.3333333333333333
+  New set of weights found, epoch: 185 loss: 1.0986147 acc: 0.3333333333333333
+  New set of weights found, epoch: 281 loss: 1.0986133 acc: 0.3333333333333333
+  New set of weights found, epoch: 759 loss: 1.0986124 acc: 0.09
+"""
