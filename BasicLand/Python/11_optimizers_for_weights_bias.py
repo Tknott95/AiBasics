@@ -1,14 +1,6 @@
 import numpy as np
 
-# As said in the read me this code is very heavily nnfs book w/ twkz to learn n.n.f.s
-netInputs = np.array([
-  [0.88, 0.24, 0.14], [0.1, 0.76, 0.41], [0.02, 0.84, 0.08]])
-targetOutputs = np.array([
-  [1, 0, 0], [0, 1, 0], [0, 1, 0]])
-classTargets  = np.array([[1, 0, 1]]) # Mock labels for accuracy
-
-# netInputs = np.array([[0.88, 0.24, 0.14]])
-# targetOutputs = np.array([[1, 0, 0]])
+# Pulling in nnfs data
 
 
 class Layer_Dense:
@@ -59,30 +51,27 @@ class CategoricalCrossEntropyLoss(Loss):
     return negativeLogLikelihoods
 
 
-layer1 = Layer_Dense(3,3)
-activation1 = Activation_ReLU()
+# layer1 = Layer_Dense(3,3)
+# activation1 = Activation_ReLU()
 
-layer2 = Layer_Dense(3,3)
-activation2 = Activation_Softmax()
+# layer2 = Layer_Dense(3,3)
+# activation2 = Activation_Softmax()
 
-lossFunction = CategoricalCrossEntropyLoss()
-layer1.forward(netInputs)
-activation1.forward(layer1.output)
+# lossFunction = CategoricalCrossEntropyLoss()
+# layer1.forward(netInputs)
+# activation1.forward(layer1.output)
 
-layer2.forward(activation1.output)
-activation2.forward(layer2.output)
-print(activation2.output[:5])
-
-
-predictions = np.argmax(activation2.output, axis=1)
-if len(classTargets.shape) == 2:
-  classTargets = np.argmax(classTargets, axis=1)
-
-accuracy = np.mean(predictions == classTargets)
-print("\nAccuracy: ", accuracy)
+# layer2.forward(activation1.output)
+# activation2.forward(layer2.output)
+# print(activation2.output[:5])
 
 
-# print("netInputs.shape: ", netInputs.shape)
+# predictions = np.argmax(activation2.output, axis=1)
+# if len(classTargets.shape) == 2:
+#   classTargets = np.argmax(classTargets, axis=1)
 
-lossVal = lossFunction.calculate(activation2.output, targetOutputs)
-print("Loss:  ", lossVal)
+# accuracy = np.mean(predictions == classTargets)
+# print("\nAccuracy: ", accuracy)
+
+# lossVal = lossFunction.calculate(activation2.output, targetOutputs)
+# print("Loss:  ", lossVal)
