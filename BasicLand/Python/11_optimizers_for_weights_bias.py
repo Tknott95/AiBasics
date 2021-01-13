@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import vertical_data
