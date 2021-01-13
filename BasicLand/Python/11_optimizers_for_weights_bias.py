@@ -1,7 +1,8 @@
 import numpy as np
-
+import matplotlib.pyplot as plt
 # Pulling in nnfs data
-
+import nnfs
+from nnfs.datasets import vertical_data
 
 class Layer_Dense:
     def __init__(self, _numOfInputs, _numOfNeurons):
@@ -51,13 +52,23 @@ class CategoricalCrossEntropyLoss(Loss):
     return negativeLogLikelihoods
 
 
-# layer1 = Layer_Dense(3,3)
-# activation1 = Activation_ReLU()
+nnfs.init()
 
-# layer2 = Layer_Dense(3,3)
-# activation2 = Activation_Softmax()
+# nnfs book naming conventions for now
+X, y = vertical_data(samples=100, classes=3)
 
-# lossFunction = CategoricalCrossEntropyLoss()
+layer1 = Layer_Dense(2,3)
+activation1 = Activation_ReLU()
+layer2 = Layer_Dense(3,3)
+activation2 = Activation_Softmax()
+
+lossFunction = CategoricalCrossEntropyLoss()
+
+lowestLoss = 999999 # following nnfs on this val for now
+topLayer1Weights = layer1.weights.copy()
+topLayer1Biases = layer1.biases.copy()
+topLayer2Weights = layer2.weights.copy()
+topLayer2Biases = layer2.biases.copy()
 # layer1.forward(netInputs)
 # activation1.forward(layer1.output)
 
