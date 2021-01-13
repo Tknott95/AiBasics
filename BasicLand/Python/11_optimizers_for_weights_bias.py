@@ -52,37 +52,43 @@ class CategoricalCrossEntropyLoss(Loss):
     return negativeLogLikelihoods
 
 
-nnfs.init()
+class Main:
+  nnfs.init()
 
-# nnfs book naming conventions for now
-X, y = vertical_data(samples=100, classes=3)
+  # nnfs book naming conventions for now
+  X, y = vertical_data(samples=100, classes=3)
 
-layer1 = Layer_Dense(2,3)
-activation1 = Activation_ReLU()
-layer2 = Layer_Dense(3,3)
-activation2 = Activation_Softmax()
+  layer1 = Layer_Dense(2,3)
+  activation1 = Activation_ReLU()
+  layer2 = Layer_Dense(3,3)
+  activation2 = Activation_Softmax()
 
-lossFunction = CategoricalCrossEntropyLoss()
+  lossFunction = CategoricalCrossEntropyLoss()
 
-lowestLoss = 999999 # following nnfs on this val for now
-topLayer1Weights = layer1.weights.copy()
-topLayer1Biases = layer1.biases.copy()
-topLayer2Weights = layer2.weights.copy()
-topLayer2Biases = layer2.biases.copy()
-# layer1.forward(netInputs)
-# activation1.forward(layer1.output)
+  lowestLoss = 999999 # following nnfs on this val for now
+  topLayer1Weights = layer1.weights.copy()
+  topLayer1Biases = layer1.biases.copy()
+  topLayer2Weights = layer2.weights.copy()
+  topLayer2Biases = layer2.biases.copy()
+  # layer1.forward(netInputs)
+  # activation1.forward(layer1.output)
 
-# layer2.forward(activation1.output)
-# activation2.forward(layer2.output)
-# print(activation2.output[:5])
+  # layer2.forward(activation1.output)
+  # activation2.forward(layer2.output)
+  # print(activation2.output[:5])
 
 
-# predictions = np.argmax(activation2.output, axis=1)
-# if len(classTargets.shape) == 2:
-#   classTargets = np.argmax(classTargets, axis=1)
+  # predictions = np.argmax(activation2.output, axis=1)
+  # if len(classTargets.shape) == 2:
+  #   classTargets = np.argmax(classTargets, axis=1)
 
-# accuracy = np.mean(predictions == classTargets)
-# print("\nAccuracy: ", accuracy)
+  # accuracy = np.mean(predictions == classTargets)
+  # print("\nAccuracy: ", accuracy)
 
-# lossVal = lossFunction.calculate(activation2.output, targetOutputs)
-# print("Loss:  ", lossVal)
+  # lossVal = lossFunction.calculate(activation2.output, targetOutputs)
+  # print("Loss:  ", lossVal)
+
+if __name__ == "__main":
+  main()
+
+
