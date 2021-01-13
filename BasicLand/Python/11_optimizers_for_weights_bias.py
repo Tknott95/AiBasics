@@ -63,7 +63,7 @@ class Main:
 
   lossFunction = CategoricalCrossEntropyLoss()
 
-  lowestLoss = 999999 # following nnfs on this val for now
+  lowestLoss = 333
   topLayer1Weights = layer1.weights.copy()
   topLayer1Biases = layer1.biases.copy()
   topLayer2Weights = layer2.weights.copy()
@@ -77,15 +77,11 @@ class Main:
 
     layer1.forward(X)
     activation1.forward(layer1.output)
-
     layer2.forward(activation1.output)
     activation2.forward(layer2.output)
     # print(activation2.output[:5])
 
     lossVal = lossFunction.calculate(activation2.output, y)
-
-
-
     predictions = np.argmax(activation2.output, axis=1)
     accuracy = np.mean(predictions == y)
 
