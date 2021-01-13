@@ -91,7 +91,7 @@ class Main:
     accuracy = np.mean(predictions == y)
 
     if lossVal < lowestLoss:
-      print('New set of weights found, epoch:', epoch, 'loss:', loss, 'acc:', accuracy)
+      print('New set of weights found, epoch:', epoch, 'loss:', lossVal, 'acc:', accuracy)
       topLayer1Weights = layer1.weights.copy()
       topLayer1Biases = layer1.biases.copy()
       topLayer2Weights = layer2.weights.copy()
