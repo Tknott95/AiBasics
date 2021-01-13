@@ -51,7 +51,6 @@ class CategoricalCrossEntropyLoss(Loss):
     negativeLogLikelihoods = -np.log(correctConfidences)
     return negativeLogLikelihoods
 
-
 class Main:
   nnfs.init()
 
@@ -70,25 +69,35 @@ class Main:
   topLayer1Biases = layer1.biases.copy()
   topLayer2Weights = layer2.weights.copy()
   topLayer2Biases = layer2.biases.copy()
-  # layer1.forward(netInputs)
-  # activation1.forward(layer1.output)
 
-  # layer2.forward(activation1.output)
-  # activation2.forward(layer2.output)
-  # print(activation2.output[:5])
+  for epoch in range(1000):
+    layer1.weights = 0.05 * np.random.randn(2, 3)
+    layer1.biases = 0.05 * np.random.randn(1, 3)
+    layer2.weights = 0.05 * np.random.randn(3, 3)
+    layer2.biases = 0.05 * np.random.randn(1, 3)
+
+    layer1.forward(X)
+    activation1.forward(layer1.output)
+
+    layer2.forward(activation1.output)
+    activation2.forward(layer2.output)
+    # print(activation2.output[:5])
+
+    lossVal = lossFunction.calculate(activation2.output, y)
 
 
-  # predictions = np.argmax(activation2.output, axis=1)
-  # if len(classTargets.shape) == 2:
-  #   classTargets = np.argmax(classTargets, axis=1)
 
-  # accuracy = np.mean(predictions == classTargets)
-  # print("\nAccuracy: ", accuracy)
+    predictions = np.argmax(activation2.output, axis=1)
+    accuracy = np.mean(predictions == y)
 
-  # lossVal = lossFunction.calculate(activation2.output, targetOutputs)
-  # print("Loss:  ", lossVal)
+    if lossVal < lowestLoss:
+      print('New set of weights found, epoch:', epoch, 'loss:', loss, 'acc:', accuracy)
+      topLayer1Weights = layer1.weights.copy()
+      topLayer1Biases = layer1.biases.copy()
+      topLayer2Weights = layer2.weights.copy()
+      topLayer2Biases = layer2.biases.copy()
+      lowestLoss = lossVal
 
 if __name__ == "__main":
   main()
-
 
