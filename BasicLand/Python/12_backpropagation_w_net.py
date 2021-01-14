@@ -2,6 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import spiral_data
+# import matplotlib.pyplot as plt
 
 class Layer_Dense:
     def __init__(self, _numOfInputs, _numOfNeurons):
@@ -99,6 +100,9 @@ class Main:
 
   # nnfs book naming conventions for now
   X, y = spiral_data(samples=100, classes=3)
+
+  # plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap='brg')
+  # plt.show()
 
   layer1 = Layer_Dense(2,3)
   activation1 = Activation_ReLU()
