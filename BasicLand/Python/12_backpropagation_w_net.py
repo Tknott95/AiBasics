@@ -30,6 +30,7 @@ class Activation_ReLU:
 
 class Activation_Softmax:
   def forward(self, _inputs):
+    self._inputs = _inputs
     exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
     normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
     self.output = normalized_values
