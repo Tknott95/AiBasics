@@ -21,6 +21,7 @@ class Layer_Dense:
 
 class Activation_ReLU:
   def forward(self, _inputs):
+    self._inputs = _inputs
     self.output = np.maximum(0, _inputs)
   def backward(self, dValues):
     self.dInputs = dValues.copy() 
