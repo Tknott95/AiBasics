@@ -125,6 +125,16 @@ class Main:
 
   print('acc: ', accuracy)
 
+  lossActivation.backward(lossActivation.output, y)
+  layer2.backward(lossActivation.dInputs)
+  activation1.backward(layer2.dInputs)
+  layer1.backward(activation1.dInputs)
+
+  print("layer1 dWeights: ", layer1.dWeights)
+  print("layer1 dBiases: ", layer1.dBiases)
+  print("layer2 dWeights: ", layer2.dWeights)
+  print("layer2 dBiases: ", layer2.dBiases)
+
 
 if __name__ == "__main":
   main()
