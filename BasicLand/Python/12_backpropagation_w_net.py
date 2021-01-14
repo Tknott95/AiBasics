@@ -78,6 +78,15 @@ class CategoricalCrossEntropyLoss(Loss):
     self.dInputs = -yTrue / dValues # calculating gradient
     self.dInputs = self.dInputs / samples # normalizing gradient
 
+class ActivationSoftmaxLossCategoricalCrossEntropy():
+  def __init__(self):
+    self.activation = Activation_Softmax()
+    self.loss = CategoricalCrossEntropyLoss()
+  def forward(self, _inputs, yTrue):
+    self.activation.forward(_inputs)
+    self.output = self.activation.output
+    return self.loss.calculate(self.output, yTrue)
+
 class Main:
   nnfs.init()
 
