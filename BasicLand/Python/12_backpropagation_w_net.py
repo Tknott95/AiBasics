@@ -12,7 +12,7 @@ class Layer_Dense:
       self.output = np.dot(_inputs, self.weights) + self.biases
     def backward(self, dValues): # dValues is derivativeValues
       # My gradients on params
-      self.dWeights = np.dot(self.inputs.T, dValues)
+      self.dWeights = np.dot(self._inputs.T, dValues)
       self.dBiases = np.sum(dValues, axis=0, keepdims=True)
       # My gradient on values
       self.dInputs = np.dot(dValues, self.weights.T)
@@ -23,7 +23,7 @@ class Activation_ReLU:
     self.output = np.maximum(0, _inputs)
   def backward(self, dValues):
     self.dInputs = dValues.copy() 
-    self.dInputs[self.inputs <= 0] = 0     # Zero gradient where input values were negative
+    self.dInputs[self._inputs <= 0] = 0     # Zero gradient where input values were negative
 
 
 class Activation_Softmax:
