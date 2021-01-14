@@ -1,7 +1,7 @@
 import numpy as np
 # Pulling in nnfs data
 import nnfs
-from nnfs.datasets import vertical_data
+from nnfs.datasets import spiral_data
 
 class Layer_Dense:
     def __init__(self, _numOfInputs, _numOfNeurons):
