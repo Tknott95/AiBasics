@@ -86,6 +86,13 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.activation.forward(_inputs)
     self.output = self.activation.output
     return self.loss.calculate(self.output, yTrue)
+  def backward(self, dValues, yTrue):
+    samples = len(dValues)
+    if len(yTrue.shape) == 2:
+      yTrue = np.argmax(yTrue, axis=1)
+    self.dInputs = dValues.copy()
+    self.dInputs[range(samples), yTrue] -= 1 # calculate gradient
+    self.dInputs = self.dInputs / samples # Normalize Gradient
 
 class Main:
   nnfs.init()
