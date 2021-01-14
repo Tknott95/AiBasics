@@ -98,44 +98,45 @@ class Main:
   nnfs.init()
 
   # nnfs book naming conventions for now
-  X, y = vertical_data(samples=100, classes=3)
+  X, y = spiral_data(samples=100, classes=3)
 
   layer1 = Layer_Dense(2,3)
   activation1 = Activation_ReLU()
   layer2 = Layer_Dense(3,3)
-  activation2 = Activation_Softmax()
+  lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  lossFunction = CategoricalCrossEntropyLoss()
+  layer1.forward(X)
+  activation1.forward(layer1.output)
+  layer2.forward(activation1.output)
 
-  lowestLoss = 333
-  topLayer1Weights = layer1.weights.copy()
-  topLayer1Biases = layer1.biases.copy()
-  topLayer2Weights = layer2.weights.copy()
-  topLayer2Biases = layer2.biases.copy()
+  loss = lossActivation.forward(layer2.output, y)
 
-  for epoch in range(1000):
-    layer1.weights = 0.05 * np.random.randn(2, 3)
-    layer1.biases = 0.05 * np.random.randn(1, 3)
-    layer2.weights = 0.05 * np.random.randn(3, 3)
-    layer2.biases = 0.05 * np.random.randn(1, 3)
+  print(lossActivation.output[:5])
+  print('loss: ', loss)
 
-    layer1.forward(X)
-    activation1.forward(layer1.output)
-    layer2.forward(activation1.output)
-    activation2.forward(layer2.output)
-    # print(activation2.output[:5])
+  # for epoch in range(1000):
+  #   layer1.weights = 0.05 * np.random.randn(2, 3)
+  #   layer1.biases = 0.05 * np.random.randn(1, 3)
+  #   layer2.weights = 0.05 * np.random.randn(3, 3)
+  #   layer2.biases = 0.05 * np.random.randn(1, 3)
 
-    lossVal = lossFunction.calculate(activation2.output, y)
-    predictions = np.argmax(activation2.output, axis=1)
-    accuracy = np.mean(predictions == y)
+  #   layer1.forward(X)
+  #   activation1.forward(layer1.output)
+  #   layer2.forward(activation1.output)
+  #   activation2.forward(layer2.output)
+  #   # print(activation2.output[:5])
 
-    if lossVal < lowestLoss:
-      print('New set of weights found, epoch:', epoch, 'loss:', lossVal, 'acc:', accuracy)
-      topLayer1Weights = layer1.weights.copy()
-      topLayer1Biases = layer1.biases.copy()
-      topLayer2Weights = layer2.weights.copy()
-      topLayer2Biases = layer2.biases.copy()
-      lowestLoss = lossVal
+  #   lossVal = lossFunction.calculate(activation2.output, y)
+  #   predictions = np.argmax(activation2.output, axis=1)
+  #   accuracy = np.mean(predictions == y)
+
+  #   if lossVal < lowestLoss:
+  #     print('New set of weights found, epoch:', epoch, 'loss:', lossVal, 'acc:', accuracy)
+  #     topLayer1Weights = layer1.weights.copy()
+  #     topLayer1Biases = layer1.biases.copy()
+  #     topLayer2Weights = layer2.weights.copy()
+  #     topLayer2Biases = layer2.biases.copy()
+  #     lowestLoss = lossVal
 
 if __name__ == "__main":
   main()
