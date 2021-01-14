@@ -68,12 +68,11 @@ class CategoricalCrossEntropyLoss(Loss):
     
     negativeLogLikelihoods = -np.log(correctConfidences)
     return negativeLogLikelihoods
-  
   def backward(self, dValues, yTrue):
     samples = len(dValues)
     labels = len(dValues[0])
 
-    if len(yTrue.shape) == 1: # one hot vector if labels are "sparse", nnfs wording
+    if len(yTrue.shape) == 1: # one hot vector conversion if labels are "sparse", nnfs wording
       yTrue = np.eye(labels)[yTrue]
     
     self.dInputs = -yTrue / dValues # calculating gradient
