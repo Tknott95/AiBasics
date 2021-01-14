@@ -2,7 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import spiral_data
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 class Layer_Dense:
     def __init__(self, _numOfInputs, _numOfNeurons):
@@ -137,6 +137,9 @@ class Main:
   print("layer1 dBiases: ", layer1.dBiases)
   print("layer2 dWeights: ", layer2.dWeights)
   print("layer2 dBiases: ", layer2.dBiases)
+
+  plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap='brg')
+  plt.show()
 
 
 if __name__ == "__main":
