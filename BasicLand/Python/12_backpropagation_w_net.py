@@ -118,29 +118,13 @@ class Main:
   print(lossActivation.output[:5])
   print('loss: ', loss)
 
-  # for epoch in range(1000):
-  #   layer1.weights = 0.05 * np.random.randn(2, 3)
-  #   layer1.biases = 0.05 * np.random.randn(1, 3)
-  #   layer2.weights = 0.05 * np.random.randn(3, 3)
-  #   layer2.biases = 0.05 * np.random.randn(1, 3)
+  predictions = np.argmax(lossActivation.output, axis=1)
+  if len(y.shape) == 2:
+    y = np.argmax(y, axis=1)
+  accuracy = np.mean(predictions == y)
 
-  #   layer1.forward(X)
-  #   activation1.forward(layer1.output)
-  #   layer2.forward(activation1.output)
-  #   activation2.forward(layer2.output)
-  #   # print(activation2.output[:5])
+  print('acc: ', accuracy)
 
-  #   lossVal = lossFunction.calculate(activation2.output, y)
-  #   predictions = np.argmax(activation2.output, axis=1)
-  #   accuracy = np.mean(predictions == y)
-
-  #   if lossVal < lowestLoss:
-  #     print('New set of weights found, epoch:', epoch, 'loss:', lossVal, 'acc:', accuracy)
-  #     topLayer1Weights = layer1.weights.copy()
-  #     topLayer1Biases = layer1.biases.copy()
-  #     topLayer2Weights = layer2.weights.copy()
-  #     topLayer2Biases = layer2.biases.copy()
-  #     lowestLoss = lossVal
 
 if __name__ == "__main":
   main()
@@ -157,3 +141,4 @@ if __name__ == "__main":
   New set of weights found, epoch: 281 loss: 1.0986133 acc: 0.3333333333333333
   New set of weights found, epoch: 759 loss: 1.0986124 acc: 0.09
 """
+ 
