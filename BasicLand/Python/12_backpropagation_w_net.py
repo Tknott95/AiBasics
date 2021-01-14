@@ -9,6 +9,13 @@ class Layer_Dense:
       self.biases = np.zeros((1, _numOfNeurons))
     def forward(self, _inputs):
       self.output = np.dot(_inputs, self.weights) + self.biases
+    def backward(self, dValues): # dValues is derivativeValues
+      # My gradients on params
+      self.dWeights = np.dot(self.inputs.T, dValues)
+      self.dBiases = np.sum(dValues, axis=0, keepdims=True)
+      # My gradient on values
+      self.dInputs = np.dot(dValues, self.weights.T)
+
 
 class Activation_ReLU:
   def forward(self, _inputs):
