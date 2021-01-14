@@ -9,6 +9,7 @@ class Layer_Dense:
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
     def forward(self, _inputs):
+      self._inputs = _inputs
       self.output = np.dot(_inputs, self.weights) + self.biases
     def backward(self, dValues): # dValues is derivativeValues
       # My gradients on params
