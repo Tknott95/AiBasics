@@ -20,15 +20,16 @@ class Layer_Dense:
 class Activation_ReLU:
   def forward(self, _inputs):
     self.output = np.maximum(0, _inputs)
+  def backward(self, dValues):
+    self.dInputs = dValues.copy() 
+    self.dInputs[self.inputs <= 0] = 0     # Zero gradient where input values were negative
+
 
 class Activation_Softmax:
   def forward(self, _inputs):
     exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
     normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
     self.output = normalized_values
-  def backward(self, dValues):
-    self.dInputs = dValues.copy() 
-    self.dInputs[self.inputs <= 0] = 0     # Zero gradient where input values were negative
 
 class Loss:
   def calculate(self, output, y):
