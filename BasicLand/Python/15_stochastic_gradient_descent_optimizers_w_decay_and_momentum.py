@@ -40,8 +40,7 @@ class ActivationSoftmax:
     for index, (singleOutput, singleDValues) in \
                 enumerate(zip(self.output, dValues)):
                 singleOutput = singleOutput.reshape(-1, 1)
-                jacobianMatrix = np.diagflat(singleOutput) - \
-                np.dot(singleOutput, singleOutput.T)
+                jacobianMatrix = np.diagflat(singleOutput) - np.dot(singleOutput, singleOutput.T)
                 self.dInputs[index] = np.dot(jacobianMatrix, singleDValues) 
 
 class Loss:
@@ -107,8 +106,7 @@ class OptimizerSGD:
     self.momentum = momentum
   def preUpdateParams(self):
     if self.decay:
-      self.currLearningRate = self.learningRate * \
-          (1. / (1. + self.decay * self.iterations))
+      self.currLearningRate = self.learningRate * (1. / (1. + self.decay * self.iterations))
   def updateParams(self, layer):
     if self.momentum:
       # create mock 0 val momentum arrays if layer does not contain one
@@ -116,20 +114,14 @@ class OptimizerSGD:
         layer.weightMomentums = np.zeros_like(layer.weights)
         layer.biasMomentums = np.zeros_like(layer.biases)
       
-      weightUpdates = \
-          self.momentum * layer.weightMomentums - \
-          self.currLearningRate * layer.dWeights
+      weightUpdates = self.momentum * layer.weightMomentums - self.currLearningRate * layer.dWeights
       layer.weightMomentums = weightUpdates
 
-      biasUpdates = \
-          self.momentum * layer.biasMomentums - \
-          self.currLearningRate * layer.dBiases
+      biasUpdates = self.momentum * layer.biasMomentums - self.currLearningRate * layer.dBiases
       layer.biasMomentums = biasUpdates
     else:
-      weightUpdates = -self.currLearningRate * \
-          layer.dWeights
-      biasUpdates = -self.currLearningRate * \
-          layer.dBiases
+      weightUpdates = -self.currLearningRate * layer.dWeights
+      biasUpdates = -self.currLearningRate * layer.dBiases
     
     layer.weights += weightUpdates
     layer.biases += biasUpdates
