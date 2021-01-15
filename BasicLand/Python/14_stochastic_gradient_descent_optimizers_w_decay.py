@@ -40,8 +40,7 @@ class ActivationSoftmax:
     for index, (singleOutput, singleDValues) in \
                 enumerate(zip(self.output, dValues)):
                 singleOutput = singleOutput.reshape(-1, 1)
-                jacobianMatrix = np.diagflat(singleOutput) - \
-                np.dot(singleOutput, singleOutput.T)
+                jacobianMatrix = np.diagflat(singleOutput) - np.dot(singleOutput, singleOutput.T)
                 self.dInputs[index] = np.dot(jacobianMatrix, singleDValues) 
 
 class Loss:
@@ -53,7 +52,7 @@ class Loss:
 
 class CategoricalCrossEntropyLoss(Loss):
   def forward(self, yPrediction, yTrue):
-    numOfSamples = len(yPrediction)
+    samples = len(yPrediction)
     """ NNFS note on line/code below
       Clip data to prevent division by 0. 
       Clip both sides to not drag mean towards any value """
@@ -61,8 +60,8 @@ class CategoricalCrossEntropyLoss(Loss):
 
     if len(yTrue.shape) == 1:
       correctConfidences = yPredictionClipped[
-        range(numOfSamples),
-        True
+        range(samples),
+        yTrue
       ]
     elif len(yTrue.shape) == 2:
       correctConfidences = np.sum(
