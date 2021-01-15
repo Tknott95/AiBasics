@@ -4,7 +4,7 @@ import nnfs
 from nnfs.datasets import spiral_data
 # import matplotlib.pyplot as plt
 
-class Layer_Dense:
+class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
@@ -19,7 +19,7 @@ class Layer_Dense:
       self.dInputs = np.dot(dValues, self.weights.T)
 
 
-class Activation_ReLU:
+class ActivationReLU:
   def forward(self, _inputs):
     self._inputs = _inputs
     self.output = np.maximum(0, _inputs)
@@ -28,7 +28,7 @@ class Activation_ReLU:
     self.dInputs[self._inputs <= 0] = 0     # Zero gradient where input values were negative
 
 
-class Activation_Softmax:
+class ActivationSoftmax:
   def forward(self, _inputs):
     self._inputs = _inputs
     exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
@@ -112,54 +112,41 @@ class Main:
   X, y = spiral_data(samples=100, classes=3)
 
 
-  layer1 = Layer_Dense(2,3)
-  activation1 = Activation_ReLU()
-  layer2 = Layer_Dense(3,3)
+  layer1 = Layer_Dense(2,64)
+  activation1 = ActivationReLU()
+  layer2 = LayerDense(64,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  layer1.forward(X)
-  activation1.forward(layer1.output)
-  layer2.forward(activation1.output)
+  optimizer = OptimizerSGD()
+ 
+  for epoch in range (10100):
+    layer1.forward(X)
+    activation1.forward(layer1.output)
+    layer2.forward(activation1.output)
 
-  loss = lossActivation.forward(layer2.output, y)
+    loss = lossActivation.forward(layer2.output, y)
 
-  print(lossActivation.output[:5])
-  print('loss: ', loss)
+    predictions = np.argmax(lossActivation.output, axis=1)
+    if len(y.shape) == 2:
+      y = np.argmax(y, axis=1)
+    accuracy = np.mean(predictions == y)
 
-  predictions = np.argmax(lossActivation.output, axis=1)
-  if len(y.shape) == 2:
-    y = np.argmax(y, axis=1)
-  accuracy = np.mean(predictions == y)
+    if not epoch % 100:
+      print(f'epoch: {epoch}, ' +
+            f'acc: {accuracy:.3f}, ' +
+            f'loss: {loss:.3f}')
 
-  print('acc: ', accuracy)
+    lossActivation.backward(lossActivation.output, y)
+    layer2.backward(lossActivation.dInputs)
+    activation1.backward(layer2.dInputs)
+    layer1.backward(activation1.dInputs)
 
-  lossActivation.backward(lossActivation.output, y)
-  layer2.backward(lossActivation.dInputs)
-  activation1.backward(layer2.dInputs)
-  layer1.backward(activation1.dInputs)
+    optimizer.updateParams(layer1)
+    optimizer.updateParams(layer2)
 
-  print("layer1 dWeights: ", layer1.dWeights)
-  print("layer1 dBiases: ", layer1.dBiases)
-  print("layer2 dWeights: ", layer2.dWeights)
-  print("layer2 dBiases: ", layer2.dBiases)
-
-  #  plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap='brg')
-  #  plt.show()
+    #  plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap='brg')
+    #  plt.show()
 
 
 if __name__ == "__main":
   main()
-
-
-
-""" OUTPUT EXAMPLE(from my run)
-  New set of weights found, epoch: 0 loss: 1.0988113 acc: 0.3333333333333333
-  New set of weights found, epoch: 1 loss: 1.098686 acc: 0.3333333333333333
-  New set of weights found, epoch: 9 loss: 1.0986263 acc: 0.3333333333333333
-  New set of weights found, epoch: 42 loss: 1.0986255 acc: 0.3333333333333333
-  New set of weights found, epoch: 108 loss: 1.0986218 acc: 0.3333333333333333
-  New set of weights found, epoch: 185 loss: 1.0986147 acc: 0.3333333333333333
-  New set of weights found, epoch: 281 loss: 1.0986133 acc: 0.3333333333333333
-  New set of weights found, epoch: 759 loss: 1.0986124 acc: 0.09
-"""
- 
