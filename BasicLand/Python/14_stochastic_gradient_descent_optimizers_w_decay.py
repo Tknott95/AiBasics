@@ -105,8 +105,7 @@ class OptimizerSGD:
     self.iterations = 0
   def preUpdateParams(self):
     if self.decay:
-      self.currLearningRate = self.learningRate * \
-          (1. / (1. + self.decay * self.iterations))
+      self.currLearningRate = self.learningRate * (1. / (1. + self.decay * self.iterations))
   def updateParams(self, layer):
     layer.weights += -self.currLearningRate * layer.dWeights
     layer.biases += -self.currLearningRate * layer.dBiases
