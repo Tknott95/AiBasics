@@ -96,7 +96,7 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
 class OptimizerRMSProp: # AdaGrad -> AdaptiveGradient
-  def __init__(self, learningRate=1., decay=0., epsilon=1e-7, rho=0.9):
+  def __init__(self, learningRate=0.001, decay=0., epsilon=1e-7, rho=0.9):
     self.learningRate = learningRate
     self.currLearningRate = learningRate
     self.decay = decay
