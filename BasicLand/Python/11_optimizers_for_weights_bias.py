@@ -3,18 +3,18 @@ import numpy as np
 import nnfs
 from nnfs.datasets import vertical_data
 
-class Layer_Dense:
+class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
     def forward(self, _inputs):
       self.output = np.dot(_inputs, self.weights) + self.biases
 
-class Activation_ReLU:
+class ActivationReLU:
   def forward(self, _inputs):
     self.output = np.maximum(0, _inputs)
 
-class Activation_Softmax:
+class ActivationSoftmax:
   def forward(self, _inputs):
     exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
     normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
@@ -30,7 +30,7 @@ class Loss:
 
 class CategoricalCrossEntropyLoss(Loss):
   def forward(self, yPrediction, yTrue):
-    numOfSamples = len(yPrediction)
+    samples = len(yPrediction)
     """ NNFS note on line/code below
       Clip data to prevent division by 0. 
       Clip both sides to not drag mean towards any value """
@@ -38,7 +38,7 @@ class CategoricalCrossEntropyLoss(Loss):
 
     if len(yTrue.shape) == 1:
       correctConfidences = yPredictionClipped[
-        range(numOfSamples),
+        range(samples),
         yTrue
       ]
     elif len(yTrue.shape) == 2:
@@ -56,10 +56,10 @@ class Main:
   # nnfs book naming conventions for now
   X, y = vertical_data(samples=100, classes=3)
 
-  layer1 = Layer_Dense(2,3)
-  activation1 = Activation_ReLU()
-  layer2 = Layer_Dense(3,3)
-  activation2 = Activation_Softmax()
+  layer1 = LayerDense(2,3)
+  activation1 = ActivationReLU()
+  layer2 = LayerDense(3,3)
+  activation2 = ActivationSoftmax()
 
   lossFunction = CategoricalCrossEntropyLoss()
 
