@@ -52,7 +52,7 @@ class Loss:
 
 class CategoricalCrossEntropyLoss(Loss):
   def forward(self, yPrediction, yTrue):
-    numOfSamples = len(yPrediction)
+    samples = len(yPrediction)
     """ NNFS note on line/code below
       Clip data to prevent division by 0. 
       Clip both sides to not drag mean towards any value """
@@ -60,7 +60,7 @@ class CategoricalCrossEntropyLoss(Loss):
 
     if len(yTrue.shape) == 1:
       correctConfidences = yPredictionClipped[
-        range(numOfSamples),
+        range(samples),
         True
       ]
     elif len(yTrue.shape) == 2:
