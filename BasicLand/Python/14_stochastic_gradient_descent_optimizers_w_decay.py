@@ -143,7 +143,8 @@ class Main:
     if not epoch % 100:
       print(f'epoch: {epoch}, ' +
             f'acc: {accuracy:.3f}, ' +
-            f'loss: {loss:.3f}')
+            f'loss: {loss:.3f}, ' +
+            f'lr: {optimizer.currLearningRate}')
 
     lossActivation.backward(lossActivation.output, y)
     layer2.backward(lossActivation.dInputs)
