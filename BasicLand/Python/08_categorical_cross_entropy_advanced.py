@@ -10,18 +10,18 @@ targetOutputs = np.array([
 # targetOutputs = np.array([[1, 0, 0]])
 
 
-class Layer_Dense:
+class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
     def forward(self, _inputs):
       self.output = np.dot(_inputs, self.weights) + self.biases
 
-class Activation_ReLU:
+class ActivationReLU:
   def forward(self, _inputs):
     self.output = np.maximum(0, _inputs)
 
-class Activation_Softmax:
+class ActivationSoftmax:
   def forward(self, _inputs):
     exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
     normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
@@ -46,7 +46,7 @@ class CategoricalCrossEntropyLoss(Loss):
     if len(yTrue.shape) == 1:
       correctConfidences = yPredictionClipped[
         range(numOfSamples),
-        True
+        yTrue
       ]
     elif len(yTrue.shape) == 2:
       correctConfidences = np.sum(
@@ -58,11 +58,11 @@ class CategoricalCrossEntropyLoss(Loss):
     return negativeLogLikelihoods
 
 
-layer1 = Layer_Dense(3,3)
-activation1 = Activation_ReLU()
+layer1 = LayerDense(3,3)
+activation1 = ActivationReLU()
 
-layer2 = Layer_Dense(3,3)
-activation2 = Activation_Softmax()
+layer2 = LayerDense(3,3)
+activation2 = ActivationSoftmax()
 
 lossFunction = CategoricalCrossEntropyLoss()
 layer1.forward(netInputs)

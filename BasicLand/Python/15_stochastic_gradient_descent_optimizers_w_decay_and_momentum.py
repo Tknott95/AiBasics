@@ -18,7 +18,6 @@ class LayerDense:
       # My gradient on values
       self.dInputs = np.dot(dValues, self.weights.T)
 
-
 class ActivationReLU:
   def forward(self, _inputs):
     self._inputs = _inputs
@@ -26,7 +25,6 @@ class ActivationReLU:
   def backward(self, dValues):
     self.dInputs = dValues.copy() 
     self.dInputs[self._inputs <= 0] = 0     # Zero gradient where input values were negative
-
 
 class ActivationSoftmax:
   def forward(self, _inputs):

@@ -19,26 +19,26 @@ def main():
     [-1.33, 2.22, 1.44, -1.88]
   ]
 
-  class Layer_Dense:
+  class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
     def forward(self, _inputs):
       self.output = np.dot(_inputs, self.weights) + self.biases
 
-  class Activation_Softmax:
+  class ActivationSoftmax:
     def forward(self, _inputs):
       exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
       normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
       self.output = normalized_values
 
-  layer1 = Layer_Dense(4, 8)
-  mySoftmax = Activation_Softmax()
+  layer1 = LayerDense(4, 8)
+  mySoftmax = ActivationSoftmax()
   # !!! Softmax brought in by hand yet not passed into layer 2 after applied like you normally would for visuals
  # Putting in multiple layers in actual implementation of a real project
  
-  layer2 = Layer_Dense(8, 6)
-  layer3 = Layer_Dense(6, 4)
+  layer2 = LayerDense(8, 6)
+  layer3 = LayerDense(6, 4)
 
   layer1.forward(i)
   mySoftmax.forward(layer1.output)

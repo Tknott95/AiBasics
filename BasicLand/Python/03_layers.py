@@ -52,7 +52,7 @@ def main():
     [-1.33, 2.22, 1.44, -1.88]
   ]
 
-  class Layer_Dense:
+  class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
@@ -60,9 +60,9 @@ def main():
       self.output = np.dot(_inputs, self.weights) + self.biases
 
 
-  layer1 = Layer_Dense(4, 8)
-  layer2 = Layer_Dense(8, 6)
-  layer3 = Layer_Dense(6, 4)
+  layer1 = LayerDense(4, 8)
+  layer2 = LayerDense(8, 6)
+  layer3 = LayerDense(6, 4)
 
   layer1.next(i)
   print('\n\n layer1: \n',layer1.output)
