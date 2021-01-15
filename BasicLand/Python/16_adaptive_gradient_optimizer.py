@@ -95,13 +95,12 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs[range(samples), yTrue] -= 1 # calculate gradient
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
-class OptimizerSGD:
-  def __init__(self, learningRate=1., decay=0., momentum=0.):
+class OptimizerAdaptiveGradient: # AdaGrad -> AdaptiveGradient
+  def __init__(self, learningRate=1., decay=0., momentum=0., epsilon=1e-7):
     self.learningRate = learningRate
     self.currLearningRate = learningRate
     self.decay = decay
     self.iterations = 0
-    self.momentum = momentum
   def preUpdateParams(self):
     if self.decay:
       self.currLearningRate = self.learningRate * (1. / (1. + self.decay * self.iterations))
