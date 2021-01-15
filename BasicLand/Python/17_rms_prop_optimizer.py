@@ -114,7 +114,7 @@ class OptimizerRMSProp: # AdaGrad -> AdaptiveGradient
       layer.biasCache = np.zeros_like(layer.biases)
     
     layer.weightCache = self.rho * layer.weightCache + (1 - self.rho) * layer.dWeights**2 
-    layer.biasCache = = self.rho * layer.biasCache + (1 - self.rho) * layer.dBiases**2
+    layer.biasCache  = self.rho * layer.biasCache + (1 - self.rho) * layer.dBiases**2
     layer.weights += -self.currLearningRate * layer.dWeights / (np.sqrt(layer.weightCache) + self.epsilon)
     layer.biases += -self.currLearningRate * layer.dBiases / (np.sqrt(layer.biasCache) + self.epsilon)
   
