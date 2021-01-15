@@ -4,7 +4,7 @@ import nnfs
 from nnfs.datasets import spiral_data
 import matplotlib.pyplot as plt
 
-class Layer_Dense:
+class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
@@ -19,7 +19,7 @@ class Layer_Dense:
       self.dInputs = np.dot(dValues, self.weights.T)
 
 
-class Activation_ReLU:
+class ActivationReLU:
   def forward(self, _inputs):
     self._inputs = _inputs
     self.output = np.maximum(0, _inputs)
@@ -28,7 +28,7 @@ class Activation_ReLU:
     self.dInputs[self._inputs <= 0] = 0     # Zero gradient where input values were negative
 
 
-class Activation_Softmax:
+class ActivationSoftmax:
   def forward(self, _inputs):
     self._inputs = _inputs
     exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
@@ -53,7 +53,7 @@ class Loss:
 
 class CategoricalCrossEntropyLoss(Loss):
   def forward(self, yPrediction, yTrue):
-    numOfSamples = len(yPrediction)
+    samples = len(yPrediction)
     """ NNFS note on line/code below
       Clip data to prevent division by 0. 
       Clip both sides to not drag mean towards any value """
@@ -61,8 +61,8 @@ class CategoricalCrossEntropyLoss(Loss):
 
     if len(yTrue.shape) == 1:
       correctConfidences = yPredictionClipped[
-        range(numOfSamples),
-        True
+        range(samples),
+        yTrue
       ]
     elif len(yTrue.shape) == 2:
       correctConfidences = np.sum(
@@ -84,7 +84,7 @@ class CategoricalCrossEntropyLoss(Loss):
 
 class ActivationSoftmaxLossCategoricalCrossEntropy():
   def __init__(self):
-    self.activation = Activation_Softmax()
+    self.activation = ActivationSoftmax()
     self.loss = CategoricalCrossEntropyLoss()
   def forward(self, _inputs, yTrue):
     self.activation.forward(_inputs)
@@ -107,9 +107,9 @@ class Main:
   # plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap='brg')
   # plt.show()
 
-  layer1 = Layer_Dense(2,3)
-  activation1 = Activation_ReLU()
-  layer2 = Layer_Dense(3,3)
+  layer1 = LayerDense(2,3)
+  activation1 = ActivationReLU()
+  layer2 = LayerDense(3,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
   layer1.forward(X)
@@ -144,17 +144,3 @@ class Main:
 
 if __name__ == "__main":
   main()
-
-
-
-""" OUTPUT EXAMPLE(from my run)
-  New set of weights found, epoch: 0 loss: 1.0988113 acc: 0.3333333333333333
-  New set of weights found, epoch: 1 loss: 1.098686 acc: 0.3333333333333333
-  New set of weights found, epoch: 9 loss: 1.0986263 acc: 0.3333333333333333
-  New set of weights found, epoch: 42 loss: 1.0986255 acc: 0.3333333333333333
-  New set of weights found, epoch: 108 loss: 1.0986218 acc: 0.3333333333333333
-  New set of weights found, epoch: 185 loss: 1.0986147 acc: 0.3333333333333333
-  New set of weights found, epoch: 281 loss: 1.0986133 acc: 0.3333333333333333
-  New set of weights found, epoch: 759 loss: 1.0986124 acc: 0.09
-"""
- 

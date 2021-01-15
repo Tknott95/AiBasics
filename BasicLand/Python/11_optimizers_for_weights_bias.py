@@ -39,7 +39,7 @@ class CategoricalCrossEntropyLoss(Loss):
     if len(yTrue.shape) == 1:
       correctConfidences = yPredictionClipped[
         range(numOfSamples),
-        True
+        yTrue
       ]
     elif len(yTrue.shape) == 2:
       correctConfidences = np.sum(
