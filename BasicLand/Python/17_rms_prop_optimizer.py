@@ -95,13 +95,14 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs[range(samples), yTrue] -= 1 # calculate gradient
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
-class OptimizerAdaptiveGradient: # AdaGrad -> AdaptiveGradient
-  def __init__(self, learningRate=1., decay=0., momentum=0., epsilon=1e-7):
+class OptimizerRMSProp: # AdaGrad -> AdaptiveGradient
+  def __init__(self, learningRate=1., decay=0., epsilon=1e-7, rho-0.9):
     self.learningRate = learningRate
     self.currLearningRate = learningRate
     self.decay = decay
     self.iterations = 0
     self.epsilon = epsilon
+    self.rho = rho
   def preUpdateParams(self):
     if self.decay:
       self.currLearningRate = self.learningRate * (1. / (1. + self.decay * self.iterations))
@@ -112,8 +113,8 @@ class OptimizerAdaptiveGradient: # AdaGrad -> AdaptiveGradient
       layer.weightCache = np.zeros_like(layer.weights)
       layer.biasCache = np.zeros_like(layer.biases)
     
-    layer.weightCache += layer.dWeights**2
-    layer.biasCache += layer.dBiases**2
+    layer.weightCache = self.rho * layer.weightCache + (1 - self.rho) * layer.dWeights**2 
+    layer.biasCache = = self.rho * layer.biasCache + (1 - self.rho) * layer.dBiases**2
     layer.weights += -self.currLearningRate * layer.dWeights / (np.sqrt(layer.weightCache) + self.epsilon)
     layer.biases += -self.currLearningRate * layer.dBiases / (np.sqrt(layer.biasCache) + self.epsilon)
   
@@ -132,9 +133,9 @@ class Main:
   layer2 = LayerDense(64,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerAdaptiveGradient(decay=1e-4)
+  optimizer = OptimizerRMSProp(decay=1e-4)
  
-  for epoch in range(90044):
+  for epoch in range(10044): # CPU only hardware so 10k here from archtop
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
