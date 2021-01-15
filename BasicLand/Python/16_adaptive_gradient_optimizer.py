@@ -134,7 +134,7 @@ class Main:
 
   optimizer = OptimizerAdaptiveGradient(decay=1e-4)
  
-  for epoch in range(10044):
+  for epoch in range(90044):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
