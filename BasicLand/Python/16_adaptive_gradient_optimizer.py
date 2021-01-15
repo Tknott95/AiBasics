@@ -150,7 +150,7 @@ class Main:
       print(f'epoch: {epoch}, ' +
             f'acc: {accuracy:.3f}, ' +
             f'loss: {loss:.3f}, ' +
-            f'lr: {optimizer.currLearningRate}')
+            f'lr: {optimizer.currLearningRate:.5}')
 
     lossActivation.backward(lossActivation.output, y)
     layer2.backward(lossActivation.dInputs)
