@@ -2,7 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import spiral_data
-# import matplotlib.pyplot as plt
+# Loss val is shit until next update/file/14_...
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
@@ -99,11 +99,20 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
 class OptimizerSGD:
-  def __init__(self, learningRate=1.0):
+  def __init__(self, learningRate=1., decay=0.):
     self.learningRate = learningRate
+    self.currLearningRate = learningRate
+    self.decay = decay
+    self.iterations = 0
+  def preUpdateParams(self):
+    if self.decay:
+      self.currLearningRate = self.learningRate * \
+          (1. / (1. + self.decay * self.iterations))
   def updateParams(self, layer):
-    layer.weights += -self.learningRate * layer.dWeights
-    layer.biases += -self.learningRate * layer.dBiases
+    layer.weights += -self.currLearningRate * layer.dWeights
+    layer.biases += -self.currLearningRate * layer.dBiases
+  def postUpdateParams(self):
+    self.iterations += 1
 
 class Main:
   nnfs.init()
@@ -117,9 +126,9 @@ class Main:
   layer2 = LayerDense(64,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerSGD()
+  optimizer = OptimizerSGD(decay=1e-2)
  
-  for epoch in range(10600):
+  for epoch in range (990544):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
@@ -141,8 +150,10 @@ class Main:
     activation1.backward(layer2.dInputs)
     layer1.backward(activation1.dInputs)
 
+    optimizer.preUpdateParams()
     optimizer.updateParams(layer1)
     optimizer.updateParams(layer2)
+    optimizer.postUpdateParams()
 
     #  plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap='brg')
     #  plt.show()
