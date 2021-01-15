@@ -3,7 +3,6 @@ import numpy as np
 import nnfs
 from nnfs.datasets import spiral_data
 # Loss is still acting funky will keep marching forward in book and then work backwards once solved
-import matplotlib.pyplot as plt
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
@@ -162,9 +161,6 @@ class Main:
     optimizer.updateParams(layer1)
     optimizer.updateParams(layer2)
     optimizer.postUpdateParams()
-
-    plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap='brg')
-    plt.show()
 
 
 if __name__ == "__main":
