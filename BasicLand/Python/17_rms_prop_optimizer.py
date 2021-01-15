@@ -133,7 +133,7 @@ class Main:
   layer2 = LayerDense(64,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerRMSProp(decay=1e-4)
+  optimizer = OptimizerRMSProp(learningRate=0.034, decay=1e-5, rho=0.988)
  
   for epoch in range(10044): # CPU only hardware so 10k here from archtop
     layer1.forward(X)
