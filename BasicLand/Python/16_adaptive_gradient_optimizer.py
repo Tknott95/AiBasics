@@ -101,27 +101,22 @@ class OptimizerAdaptiveGradient: # AdaGrad -> AdaptiveGradient
     self.currLearningRate = learningRate
     self.decay = decay
     self.iterations = 0
+    self.epsilon = epsilon
   def preUpdateParams(self):
     if self.decay:
       self.currLearningRate = self.learningRate * (1. / (1. + self.decay * self.iterations))
   def updateParams(self, layer):
-    if self.momentum:
-      # create mock 0 val momentum arrays if layer does not contain one
-      if not hasattr(layer, 'weightMomentums'):
-        layer.weightMomentums = np.zeros_like(layer.weights)
-        layer.biasMomentums = np.zeros_like(layer.biases)
-      
-      weightUpdates = self.momentum * layer.weightMomentums - self.currLearningRate * layer.dWeights
-      layer.weightMomentums = weightUpdates
 
-      biasUpdates = self.momentum * layer.biasMomentums - self.currLearningRate * layer.dBiases
-      layer.biasMomentums = biasUpdates
-    else:
-      weightUpdates = -self.currLearningRate * layer.dWeights
-      biasUpdates = -self.currLearningRate * layer.dBiases
+    # create mock 0 val momentum arrays if layer does not contain one
+    if not hasattr(layer, 'weightCache'):
+      layer.weightCache = np.zeros_like(layer.weights)
+      layer.biasCache = np.zeros_like(layer.biases)
     
-    layer.weights += weightUpdates
-    layer.biases += biasUpdates
+    layer.weightCache += layer.dWeights**2
+    layer.biasCache += layer.dBiases**2
+    layer.weights += -self.currLearningRate * layer.dWeights / (np.sqrt(layer.weightCache) + self.epsilon)
+    layer.biases += -self.currLearningRate * layer.dBiases / (np.sqrt(layer.biasCache) + self.epsilon)
+  
   def postUpdateParams(self):
     self.iterations += 1
 
