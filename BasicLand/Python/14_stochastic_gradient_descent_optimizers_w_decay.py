@@ -2,7 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import spiral_data
-# Loss val is shit until next update/file/14_...
+# Loss is still acting funky will keep marching forward in book and then work backwards once solved
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
@@ -128,7 +128,7 @@ class Main:
 
   optimizer = OptimizerSGD(decay=1e-2)
  
-  for epoch in range (990544):
+  for epoch in range(10044):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
@@ -138,7 +138,7 @@ class Main:
     predictions = np.argmax(lossActivation.output, axis=1)
     if len(y.shape) == 2:
       y = np.argmax(y, axis=1)
-    accuracy = np.mean(predictions == y)
+    accuracy = np.mean(predictions==y)
 
     if not epoch % 100:
       print(f'epoch: {epoch}, ' +
