@@ -126,7 +126,7 @@ class Main:
   layer2 = LayerDense(64,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerSGD(decay=1e-2)
+  optimizer = OptimizerSGD(decay=1e-3)
  
   for epoch in range(10044):
     layer1.forward(X)
