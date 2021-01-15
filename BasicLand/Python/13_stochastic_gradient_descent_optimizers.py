@@ -2,7 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import spiral_data
-# import matplotlib.pyplot as plt
+# Loss val is shit until next update/file/14_...
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons):
@@ -84,7 +84,7 @@ class CategoricalCrossEntropyLoss(Loss):
 
 class ActivationSoftmaxLossCategoricalCrossEntropy():
   def __init__(self):
-    self.activation = Activation_Softmax()
+    self.activation = ActivationSoftmax()
     self.loss = CategoricalCrossEntropyLoss()
   def forward(self, _inputs, yTrue):
     self.activation.forward(_inputs)
@@ -112,14 +112,14 @@ class Main:
   X, y = spiral_data(samples=100, classes=3)
 
 
-  layer1 = Layer_Dense(2,64)
+  layer1 = LayerDense(2,64)
   activation1 = ActivationReLU()
   layer2 = LayerDense(64,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerSGD()
+  optimizer = OptimizerSGD(learningRate=.85)
  
-  for epoch in range (10100):
+  for epoch in range (544):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
