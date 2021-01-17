@@ -174,14 +174,14 @@ class Main:
   # nnfs book naming conventions for now
   X, y = spiral_data(samples=100, classes=3)
 
-  layer1 = LayerDense(2,128, weightRegularizerL2=4e-4, biasRegularizerL2=4e-4)
+  layer1 = LayerDense(2, 512, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
   activation1 = ActivationReLU()
-  layer2 = LayerDense(128,3)
+  layer2 = LayerDense(512, 3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
   optimizer = OptimizerAdam(learningRate=0.024, decay=1e-5)
  
-  for epoch in range(20044):
+  for epoch in range(18044):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
