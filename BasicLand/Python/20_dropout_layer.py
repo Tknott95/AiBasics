@@ -192,11 +192,11 @@ class Main:
  
   for epoch in range(9844):
     denseLayer1.forward(X)
-    activation1.forward(layer1.output)
+    activation1.forward(denseLayer1.output)
     dropoutLayer1.forward(activation1.output)
     denseLayer2.forward(dropoutLayer1.output)
 
-    dataLoss = lossActivation.forward(layer2.output, y)
+    dataLoss = lossActivation.forward(denseLayer2.output, y)
     regularizationLoss = lossActivation.loss.regularizationLoss(layer1) + lossActivation.loss.regularizationLoss(layer2)
     loss = dataLoss + regularizationLoss
 
