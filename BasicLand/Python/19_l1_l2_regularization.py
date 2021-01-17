@@ -5,9 +5,15 @@ from nnfs.datasets import spiral_data
 # Loss is still acting funky will keep marching forward in book and then work backwards once solved
 
 class LayerDense:
-    def __init__(self, _numOfInputs, _numOfNeurons):
+    def __init__(self, _numOfInputs, _numOfNeurons, 
+    weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
       self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
+
+      self.weightRegularizerL1 = weightRegularizerL1
+      self.weightRegularizerL2 = weightRegularizerL2
+      self.biasRegularizerL1 = biasRegularizerL1
+      self.biasRegularizerL2 = biasRegularizerL2
     def forward(self, _inputs):
       self._inputs = _inputs
       self.output = np.dot(_inputs, self.weights) + self.biases
@@ -42,6 +48,19 @@ class ActivationSoftmax:
                 self.dInputs[index] = np.dot(jacobianMatrix, singleDValues) 
 
 class Loss:
+  def regularizationLoss(self, layer):
+    regularizationLoss = 0
+    
+    if layer.weightRegularizerL1 > 0:
+      regularizationLoss += layer.weightRegularizerL1 * np.sum(np.abs(layer.weights))
+    if layer.weightRegularizerL2 > 0:
+      regularizationLoss += layer.weightRegularizerL2 * np.sum(layer.weights * layer.weights) # Does np need two vals for hidden trickery or can I just **2? @NOTE
+    if layer.biasRegularizerL1 > 0:
+      regularizationLoss += layer.biasRegularizerL1 * np.sum(np.abs(layer.biases))
+    if layer.biasRegularizerL2 > 0:
+      regularizationLoss += layer.biasRegularizerL2 * np.sum(layer.biases * layer.biases)
+    
+    return regularizationLoss
   def calculate(self, output, y):
     sampleLosses = self.forward(output, y)
     dataLoss = np.mean(sampleLosses)
