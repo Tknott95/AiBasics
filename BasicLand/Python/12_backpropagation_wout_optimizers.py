@@ -37,12 +37,10 @@ class ActivationSoftmax:
   def backward(self, dValues):
     self.dInputs = np.empty_like(dValues) # unitialized array
     
-    for index, (singleOutput, singleDValues) in \
-                enumerate(zip(self.output, dValues)):
-                singleOutput = singleOutput.reshape(-1, 1)
-                jacobianMatrix = np.diagflat(singleOutput) - \
-                np.dot(singleOutput, singleOutput.T)
-                self.dInputs[index] = np.dot(jacobianMatrix, singleDValues) 
+    for index, (singleOutput, singleDValues) in enumerate(zip(self.output, dValues)):
+      singleOutput = singleOutput.reshape(-1, 1)
+      jacobianMatrix = np.diagflat(singleOutput) - np.dot(singleOutput, singleOutput.T)
+      self.dInputs[index] = np.dot(jacobianMatrix, singleDValues)
 
 class Loss:
   def calculate(self, output, y):
