@@ -21,6 +21,21 @@ class LayerDense:
       # My gradients on params
       self.dWeights = np.dot(self._inputs.T, dValues)
       self.dBiases = np.sum(dValues, axis=0, keepdims=True)
+
+      if self.weightRegularizerL1 > 0:
+        dRegL1 = np.ones_like(self.weights)
+        dRegL1[self.weights < 0] = -1
+        self.dWeights += self.weightRegularizerL1 * dRegL1
+      if self.weightRegularizerL2 > 0:
+        self.dWeights += 2 * self.weightRegularizerL2 * self.weights
+      
+      if self.biasRegularizerL1 > 0:
+        dRegL1 = np.ones_like(self.biases)
+        dRegL1[self.biases < 0] = -1
+        self.dBiases += self.biasRegularizerL1 * dRegL1
+      if self.biasRegularizerL2 > 0:
+        self.dBiases += 2 * self.biasRegularizerL2 * self.biases
+
       # My gradient on values
       self.dInputs = np.dot(dValues, self.weights.T)
 
