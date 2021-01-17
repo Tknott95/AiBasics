@@ -125,7 +125,9 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
     layer.weightCache = self.beta2 * layer.weightCache + (1 - self.beta2) * layer.dWeights**2
     layer.biasCache = self.beta2 * layer.biasCache + (1 - self.beta2) * layer.dBiases**2
 
-  
+    weightCacheCorrected = layer.weightCache / (1 - self.beta2 ** (self.iterations + 1))
+    biasCacheCorrected = layer.biasCache / (1 - self.beta2 ** (self.iterations + 1))
+
   def postUpdateParams(self):
     self.iterations += 1
 
