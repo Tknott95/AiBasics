@@ -188,7 +188,7 @@ class Main:
   denseLayer2 = LayerDense(128, 3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerAdam(learningRate=0.024, decay=1e-5)
+  optimizer = OptimizerAdam(learningRate=0.024, decay=5e-5)
  
   for epoch in range(9844):
     denseLayer1.forward(X)
@@ -213,7 +213,8 @@ class Main:
 
     lossActivation.backward(lossActivation.output, y)
     denseLayer2.backward(lossActivation.dInputs)
-    activation1.backward(layer2.dInputs)
+    dropoutLayer1.backward(denseLayer2.dInputs)
+    activation1.backward(dropoutLayer1.dInputs)
     denseLayer1.backward(activation1.dInputs)
 
     optimizer.preUpdateParams()
