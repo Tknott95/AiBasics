@@ -54,7 +54,7 @@ class ActivationSoftmax:
     normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
     self.output = normalized_values
   def backward(self, dValues):
-    self.dInputs = np.empty_like(dValues) # unitialized array
+    self.dInputs = np.empty_like(dValues)
     
     for index, (singleOutput, singleDValues) in enumerate(zip(self.output, dValues)):
       singleOutput = singleOutput.reshape(-1, 1)
