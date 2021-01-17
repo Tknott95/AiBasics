@@ -46,6 +46,8 @@ class LayerDropout:
     self.inputs = inputs
     self.binaryMask = np.random.binomial(1, self.rate, size=inputs.shape) / self.rate
     self.output = inputs * self.binaryMask
+  def backward(self, dValues):
+    self.dInputs = dValues * self.binaryMask
 
 class ActivationReLU:
   def forward(self, _inputs):
