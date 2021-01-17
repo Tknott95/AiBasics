@@ -180,7 +180,7 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
 class Main:
   nnfs.init()
 
-  X, y = spiral_data(samples=100, classes=3)
+  X, y = spiral_data(samples=444, classes=3)
 
   denseLayer1 = LayerDense(2, 128, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
   activation1 = ActivationReLU()
@@ -188,7 +188,7 @@ class Main:
   denseLayer2 = LayerDense(128, 3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerAdam(learningRate=0.024, decay=5e-5)
+  optimizer = OptimizerAdam(learningRate=0.014, decay=5e-5)
  
   for epoch in range(9844):
     denseLayer1.forward(X)
