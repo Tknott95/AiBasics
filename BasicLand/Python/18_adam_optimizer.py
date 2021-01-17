@@ -96,7 +96,7 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
 class OptimizerAdam: # Adam -> Adaptive Momentum
-  def __init__(self, learningRate=0.001, decay=0., epsilon=1e-7, beta1=0.9, beta2=0.99):
+  def __init__(self, learningRate=0.001, decay=0., epsilon=1e-7, beta1=0.9, beta2=0.999):
     self.learningRate = learningRate
     self.currLearningRate = learningRate
     self.decay = decay
@@ -141,14 +141,14 @@ class Main:
   X, y = spiral_data(samples=100, classes=3)
 
 
-  layer1 = LayerDense(2,64)
+  layer1 = LayerDense(2,128)
   activation1 = ActivationReLU()
-  layer2 = LayerDense(64,3)
+  layer2 = LayerDense(128,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerAdam(learningRate=0.034, decay=1e-5)
+  optimizer = OptimizerAdam(learningRate=0.024, decay=1e-5)
  
-  for epoch in range(10044):
+  for epoch in range(20044):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
