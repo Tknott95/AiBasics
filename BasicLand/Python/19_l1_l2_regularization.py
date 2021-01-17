@@ -159,7 +159,6 @@ class Main:
   # nnfs book naming conventions for now
   X, y = spiral_data(samples=100, classes=3)
 
-
   layer1 = LayerDense(2,128)
   activation1 = ActivationReLU()
   layer2 = LayerDense(128,3)
@@ -172,7 +171,9 @@ class Main:
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
 
-    loss = lossActivation.forward(layer2.output, y)
+    dataLoss = lossActivation.forward(layer2.output, y)
+    regularizationLoss = lossActivation.regularizationLoss(layer1) + lossActivation.regularizationLoss(layer2)
+    loss = dataLoss + regularizationLoss
 
     predictions = np.argmax(lossActivation.output, axis=1)
     if len(y.shape) == 2:
