@@ -182,10 +182,10 @@ class Main:
 
   X, y = spiral_data(samples=100, classes=3)
 
-  denseLayer1 = LayerDense(2, 512, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
+  denseLayer1 = LayerDense(2, 128, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
   activation1 = ActivationReLU()
-  dropoutLayer1 = 
-  denseLayer2 = LayerDense(512, 3)
+  dropoutLayer1 = LayerDropout(0.1)
+  denseLayer2 = LayerDense(128, 3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
   optimizer = OptimizerAdam(learningRate=0.024, decay=1e-5)
@@ -193,7 +193,8 @@ class Main:
   for epoch in range(9844):
     denseLayer1.forward(X)
     activation1.forward(layer1.output)
-    denseLayer2.forward(activation1.output)
+    dropoutLayer1.forward(activation1.output)
+    denseLayer2.forward(dropoutLayer1.output)
 
     dataLoss = lossActivation.forward(layer2.output, y)
     regularizationLoss = lossActivation.loss.regularizationLoss(layer1) + lossActivation.loss.regularizationLoss(layer2)
