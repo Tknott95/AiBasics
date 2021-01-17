@@ -95,14 +95,15 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs[range(samples), yTrue] -= 1 # calculate gradient
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
-class OptimizerRMSProp: # AdaGrad -> AdaptiveGradient
-  def __init__(self, learningRate=0.001, decay=0., epsilon=1e-7, rho=0.9):
+class OptimizerAdam: # Adam -> Adaptive Momentum
+  def __init__(self, learningRate=0.001, decay=0., epsilon=1e-7, beta1=0.9, beta2=0.99):
     self.learningRate = learningRate
     self.currLearningRate = learningRate
     self.decay = decay
     self.iterations = 0
     self.epsilon = epsilon
-    self.rho = rho
+    self.beta1 = beta1
+    self.beta2 = beta2
   def preUpdateParams(self):
     if self.decay:
       self.currLearningRate = self.learningRate * (1. / (1. + self.decay * self.iterations))
@@ -113,10 +114,7 @@ class OptimizerRMSProp: # AdaGrad -> AdaptiveGradient
       layer.weightCache = np.zeros_like(layer.weights)
       layer.biasCache = np.zeros_like(layer.biases)
     
-    layer.weightCache = self.rho * layer.weightCache + (1 - self.rho) * layer.dWeights**2 
-    layer.biasCache  = self.rho * layer.biasCache + (1 - self.rho) * layer.dBiases**2
-    layer.weights += -self.currLearningRate * layer.dWeights / (np.sqrt(layer.weightCache) + self.epsilon)
-    layer.biases += -self.currLearningRate * layer.dBiases / (np.sqrt(layer.biasCache) + self.epsilon)
+  
   
   def postUpdateParams(self):
     self.iterations += 1
