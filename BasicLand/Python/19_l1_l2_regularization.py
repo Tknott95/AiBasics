@@ -159,7 +159,7 @@ class Main:
   # nnfs book naming conventions for now
   X, y = spiral_data(samples=100, classes=3)
 
-  layer1 = LayerDense(2,128)
+  layer1 = LayerDense(2,128, weightRegularizerL2=4e-4, biasRegularizerL2=4e-4)
   activation1 = ActivationReLU()
   layer2 = LayerDense(128,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
