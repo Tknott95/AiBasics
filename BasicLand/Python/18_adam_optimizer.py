@@ -128,6 +128,9 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
     weightCacheCorrected = layer.weightCache / (1 - self.beta2 ** (self.iterations + 1))
     biasCacheCorrected = layer.biasCache / (1 - self.beta2 ** (self.iterations + 1))
 
+    layer.weights += -self.currLearningRate * weightMomentumsCorrected / (np.sqrt(weightCacheCorrected) + self.epsilon)
+    layer.biases += -self.currLearningRate * biasMomentumsCorrected / (np.sqrt(biasCacheCorrected) + self.epsilon)
+
   def postUpdateParams(self):
     self.iterations += 1
 
@@ -143,9 +146,9 @@ class Main:
   layer2 = LayerDense(64,3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerRMSProp(learningRate=0.034, decay=1e-5, rho=0.988)
+  optimizer = OptimizerAdam(learningRate=0.034, decay=1e-5)
  
-  for epoch in range(10044): # CPU only hardware so 10k here from archtop
+  for epoch in range(10044):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
