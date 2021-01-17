@@ -171,7 +171,6 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
 class Main:
   nnfs.init()
 
-  # nnfs book naming conventions for now
   X, y = spiral_data(samples=100, classes=3)
 
   layer1 = LayerDense(2, 512, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
