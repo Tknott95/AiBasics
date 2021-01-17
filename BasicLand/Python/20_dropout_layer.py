@@ -197,7 +197,7 @@ class Main:
     denseLayer2.forward(dropoutLayer1.output)
 
     dataLoss = lossActivation.forward(denseLayer2.output, y)
-    regularizationLoss = lossActivation.loss.regularizationLoss(layer1) + lossActivation.loss.regularizationLoss(layer2)
+    regularizationLoss = lossActivation.loss.regularizationLoss(denseLayer1) + lossActivation.loss.regularizationLoss(denseLayer2)
     loss = dataLoss + regularizationLoss
 
     predictions = np.argmax(lossActivation.output, axis=1)
@@ -218,8 +218,8 @@ class Main:
     denseLayer1.backward(activation1.dInputs)
 
     optimizer.preUpdateParams()
-    optimizer.updateParams(layer1)
-    optimizer.updateParams(layer2)
+    optimizer.updateParams(denseLayer1)
+    optimizer.updateParams(denseLayer2)
     optimizer.postUpdateParams()
 
 
