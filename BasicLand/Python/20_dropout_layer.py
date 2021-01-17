@@ -182,8 +182,9 @@ class Main:
 
   X, y = spiral_data(samples=100, classes=3)
 
-  densedenseLayer1 = LayerDense(2, 512, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
+  denseLayer1 = LayerDense(2, 512, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
   activation1 = ActivationReLU()
+  dropoutLayer1 = 
   denseLayer2 = LayerDense(512, 3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
