@@ -45,7 +45,7 @@ class ActivationReLU:
     self.output = np.maximum(0, _inputs)
   def backward(self, dValues):
     self.dInputs = dValues.copy() 
-    self.dInputs[self._inputs <= 0] = 0     # Zero gradient where input values were negative
+    self.dInputs[self._inputs <= 0] = 0 # Zero gradient where input values were negative
 
 class ActivationSoftmax:
   def forward(self, _inputs):
