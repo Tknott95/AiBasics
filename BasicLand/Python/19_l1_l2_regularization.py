@@ -172,7 +172,7 @@ class Main:
     layer2.forward(activation1.output)
 
     dataLoss = lossActivation.forward(layer2.output, y)
-    regularizationLoss = lossActivation.regularizationLoss(layer1) + lossActivation.regularizationLoss(layer2)
+    regularizationLoss = lossActivation.loss.regularizationLoss(layer1) + lossActivation.loss.regularizationLoss(layer2)
     loss = dataLoss + regularizationLoss
 
     predictions = np.argmax(lossActivation.output, axis=1)
