@@ -69,11 +69,11 @@ class Loss:
     if layer.weightRegularizerL1 > 0:
       regularizationLoss += layer.weightRegularizerL1 * np.sum(np.abs(layer.weights))
     if layer.weightRegularizerL2 > 0:
-      regularizationLoss += layer.weightRegularizerL2 * np.sum(layer.weights * layer.weights) # Does np need two vals for hidden trickery or can I just **2? @NOTE
+      regularizationLoss += layer.weightRegularizerL2 * np.sum(layer.weights**2)
     if layer.biasRegularizerL1 > 0:
       regularizationLoss += layer.biasRegularizerL1 * np.sum(np.abs(layer.biases))
     if layer.biasRegularizerL2 > 0:
-      regularizationLoss += layer.biasRegularizerL2 * np.sum(layer.biases * layer.biases)
+      regularizationLoss += layer.biasRegularizerL2 * np.sum(layer.biases**2)
     
     return regularizationLoss
   def calculate(self, output, y):
