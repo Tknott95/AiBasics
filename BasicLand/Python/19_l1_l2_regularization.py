@@ -74,7 +74,7 @@ class Loss:
       regularizationLoss += layer.biasRegularizerL1 * np.sum(np.abs(layer.biases))
     if layer.biasRegularizerL2 > 0:
       regularizationLoss += layer.biasRegularizerL2 * np.sum(layer.biases**2)
-    
+
     return regularizationLoss
   def calculate(self, output, y):
     sampleLosses = self.forward(output, y)
