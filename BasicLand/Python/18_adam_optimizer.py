@@ -111,8 +111,13 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
 
     # create mock 0 val momentum arrays if layer does not contain one
     if not hasattr(layer, 'weightCache'):
+      layer.weightMomentums = np.zeros_like(layer.weights)
       layer.weightCache = np.zeros_like(layer.weights)
+      layer.biasMomentums = np.zeros_like(layer.biases)
       layer.biasCache = np.zeros_like(layer.biases)
+    
+    layer.weightMomentums = self.beta1 * layer.weightMomentums + (1 - self.beta1) * layer.dWeights
+    layer.biasMomentums   = self.beta1 * layer.biasMomentums + (1 + self.beta1) * layer.dBiases
     
   
   
