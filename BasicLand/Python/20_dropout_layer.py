@@ -188,7 +188,7 @@ class Main:
   denseLayer2 = LayerDense(128, 3)
   lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
 
-  optimizer = OptimizerAdam(learningRate=0.014, decay=5e-5)
+  optimizer = OptimizerAdam(learningRate=0.014, decay=5e-4)
  
   for epoch in range(9844):
     denseLayer1.forward(X)
