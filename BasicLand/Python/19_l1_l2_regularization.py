@@ -181,7 +181,7 @@ class Main:
 
   optimizer = OptimizerAdam(learningRate=0.024, decay=1e-5)
  
-  for epoch in range(18044):
+  for epoch in range(9844):
     layer1.forward(X)
     activation1.forward(layer1.output)
     layer2.forward(activation1.output)
