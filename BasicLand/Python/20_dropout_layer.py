@@ -38,6 +38,14 @@ class LayerDense:
 
       # My gradient on values
       self.dInputs = np.dot(dValues, self.weights.T)
+  
+class LayerDropout:
+  def __init__(self, rate):
+    self.rate = 1 - rate
+  def forward(self, inputs):
+    self.inputs = inputs
+    self.binaryMask = np.random.binomial(1, self.rate, size=inputs.shape) / self.rate
+    self.output = inputs * self.binaryMask
 
 class ActivationReLU:
   def forward(self, _inputs):
