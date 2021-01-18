@@ -127,6 +127,15 @@ class CategoricalCrossEntropyLoss(Loss):
     
     self.dInputs = -yTrue / dValues # calculating gradient
     self.dInputs = self.dInputs / samples # normalizing gradient
+class BinaryCrossEntropyLoss(Loss):
+  def forward(self, yPrediction, yTrue):
+    yPredictionClipped = np.clip(yPrediction, 1e-7, 1 - 1e-7)
+    sampleLosses = -(yTrue * np.log(yPredictionClipped) + (1 - yTrue) * np.log(1 - yPredictionClipped))
+    sampleLosses = np.mean(sampleLosses, axis=1)
+    
+    return sampleLosses
+  def backward(self, dValues, yTrue):
+
 
 class ActivationSoftmaxLossCategoricalCrossEntropy():
   def __init__(self):
