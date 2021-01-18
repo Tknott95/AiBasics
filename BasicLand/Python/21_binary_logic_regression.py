@@ -135,6 +135,12 @@ class BinaryCrossEntropyLoss(Loss):
     
     return sampleLosses
   def backward(self, dValues, yTrue):
+    samples = len(dValues)
+    outputs = len(dValues[0])
+
+    clippedDValues = np.clip(dValues, 1e-7, 1 - 1e-7)
+    self.dInputs = -(yTrue / clippedDValues - (1 - yTrue) / (1 - clippedDValues)) / outputs
+    self.dInputs = self.dInputs / samples
 
 
 class ActivationSoftmaxLossCategoricalCrossEntropy():
