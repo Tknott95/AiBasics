@@ -70,6 +70,12 @@ class ActivationSoftmax:
       singleOutput = singleOutput.reshape(-1, 1)
       jacobianMatrix = np.diagflat(singleOutput) - np.dot(singleOutput, singleOutput.T)
       self.dInputs[index] = np.dot(jacobianMatrix, singleDValues) 
+class ActivationSigmoid:
+  def forward(self, _inputs):
+    self._inputs = _inputs
+    self.output = 1 / (1 + np.exp(-_inputs))
+  def backward(self, dValues):
+    self.dInputs = dValues * (1 - self.output) * self.output
 
 class Loss:
   def regularizationLoss(self, layer):
