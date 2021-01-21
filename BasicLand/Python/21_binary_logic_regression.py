@@ -2,8 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import spiral_data
-# Not using a dropout layer
-# Will add back in after imp 1
+# Not using a dropout layer as it killed accuracy
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, 
@@ -209,7 +208,7 @@ class Main:
 
   denseLayer1 = LayerDense(2, 128, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
   activation1 = ActivationReLU()
-  # No dropout layer here
+  # dropoutLayer1 = LayerDropout(0.1)
   activation2 = ActivationSigmoid()
   denseLayer2 = LayerDense(128, 3)
   lossFunction = BinaryCrossEntropyLoss()
