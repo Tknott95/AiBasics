@@ -2,7 +2,8 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import spiral_data
-# Loss is still acting funky will keep marching forward in book and then work backwards once solved
+# Not using a dropout layer
+# Will add back in after imp 1
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, 
@@ -203,39 +204,45 @@ class Main:
 
   X, y = spiral_data(samples=444, classes=3)
 
+  # Reshaping labels to be a "list of lists - nnfs"
+  y = y.reshape(-1, 1)
+
   denseLayer1 = LayerDense(2, 128, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
   activation1 = ActivationReLU()
-  dropoutLayer1 = LayerDropout(0.1)
+  # No dropout layer here
+  activation2 = ActivationSigmoid()
   denseLayer2 = LayerDense(128, 3)
-  lossActivation = ActivationSoftmaxLossCategoricalCrossEntropy()
+  lossFunction = BinaryCrossEntropyLoss()
 
-  optimizer = OptimizerAdam(learningRate=0.014, decay=5e-4)
+  optimizer = OptimizerAdam(learningRate=0.014, decay=5e-7)
  
   for epoch in range(9844):
     denseLayer1.forward(X)
     activation1.forward(denseLayer1.output)
-    dropoutLayer1.forward(activation1.output)
-    denseLayer2.forward(dropoutLayer1.output)
+    # dropoutLayer1.forward(activation1.output)
+    denseLayer2.forward(activation1.output)
+    activation2.forward(denseLayer2.output)
 
-    dataLoss = lossActivation.forward(denseLayer2.output, y)
-    regularizationLoss = lossActivation.loss.regularizationLoss(denseLayer1) + lossActivation.loss.regularizationLoss(denseLayer2)
+    dataLoss = lossFunction.calculate(activation2.output, y)
+    regularizationLoss = lossFunction.regularizationLoss(denseLayer1) + lossFunction.regularizationLoss(denseLayer2)
     loss = dataLoss + regularizationLoss
 
-    predictions = np.argmax(lossActivation.output, axis=1)
-    if len(y.shape) == 2:
-      y = np.argmax(y, axis=1)
+    predictions = (activation2.output > 0.5) * 1
     accuracy = np.mean(predictions == y)
 
     if not epoch % 100:
       print(f'epoch: {epoch}, ' +
             f'acc: {accuracy:.3f}, ' +
             f'loss: {loss:.3f}, ' +
+            f'dataLoss: {dataLoss:.3f}, ' +
+            f'regLoss: {regularizationLoss:.3f}, ' +
             f'lr: {optimizer.currLearningRate:.5}')
 
-    lossActivation.backward(lossActivation.output, y)
-    denseLayer2.backward(lossActivation.dInputs)
-    dropoutLayer1.backward(denseLayer2.dInputs)
-    activation1.backward(dropoutLayer1.dInputs)
+    lossFunction.backward(activation2.output, y)
+    activation2.backward(lossFunction.dInputs)
+    denseLayer2.backward(activation2.dInputs)
+    # dropoutLayer1.backward(denseLayer2.dInputs)
+    activation1.backward(denseLayer2.dInputs)
     denseLayer1.backward(activation1.dInputs)
 
     optimizer.preUpdateParams()
