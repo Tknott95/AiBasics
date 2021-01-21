@@ -202,7 +202,7 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
 class Main:
   nnfs.init()
 
-  X, y = spiral_data(samples=444, classes=2)
+  X, y = spiral_data(samples=144, classes=2)
 
   # Reshaping labels to be a "list of lists - so classes now=2 instead of =3"
   y = y.reshape(-1, 1)
