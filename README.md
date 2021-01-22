@@ -11,7 +11,8 @@
   git push
 ```
 
-ActiFuncs In
+
+ActiFuncs, Etc  In
 * ReLU
 * Sigmoid
 * ...
