@@ -291,7 +291,7 @@ class Main:
   activation3.forward(denseLayer3.output)
 
   plt.plot(xTest, ytest)
-  plt.plot(xTest, activation2.output)
+  plt.plot(xTest, activation3.output)
   plt.show()
 
 
