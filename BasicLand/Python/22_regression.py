@@ -183,6 +183,8 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs[range(samples), yTrue] -= 1 # calculate gradient
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
+# BRING IN OTHER OPTIMIZERS LATER @TODO
+
 class OptimizerAdam: # Adam -> Adaptive Momentum
   def __init__(self, learningRate=0.001, decay=0., epsilon=1e-7, beta1=0.9, beta2=0.999):
     self.learningRate = learningRate
