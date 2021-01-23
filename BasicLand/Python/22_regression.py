@@ -1,7 +1,7 @@
 import numpy as np
 # Pulling in nnfs data
 import nnfs
-from nnfs.datasets import spiral_data
+from nnfs.datasets import sine_data
 # Not using a dropout layer as it killed accuracy
 
 class LayerDense:
@@ -164,7 +164,7 @@ class MeanAbsoluteErrorLoss(Loss):
   def backward(self, dValues, yTrue):
     samples = len(dValues)
     outputs = len(dValues[0])
-    self.dInputs = np.sign(yTrue - dValues) / outputs
+    self.dInputs = np.sign(yTrue - dValues) / outputs # np.sign -> -1 if x < 0, 0 if x==0, 1 if x > 0.
     self.dInputs = self.dInputs / samples
 
 class ActivationSoftmaxLossCategoricalCrossEntropy():
@@ -225,19 +225,19 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
 class Main:
   nnfs.init()
 
-  X, y = spiral_data(samples=144, classes=2)
+  X, y = sine_data()
 
-  # Reshaping labels to be a "list of lists - so classes now=2 instead of =3"
-  y = y.reshape(-1, 1)
-
-  denseLayer1 = LayerDense(2, 128, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4)
+  denseLayer1 = LayerDense(1, 64) # weightRegularizerL2=5e-4, biasRegularizerL2=5e-4
   activation1 = ActivationReLU()
   # dropoutLayer1 = LayerDropout(0.1)
-  activation2 = ActivationSigmoid()
-  denseLayer2 = LayerDense(128, 3)
-  lossFunction = BinaryCrossEntropyLoss()
+  activation2 = ActivationReLU()
+  denseLayer2 = LayerDense(128, 128)
+  activation3 = ActivationLinear()
+  denseLayer3 = LayerDense(128, 1)
+  lossFunction = MeanSquaredErrorLoss()
 
-  optimizer = OptimizerAdam(learningRate=0.014, decay=5e-7)
+  optimizer = OptimizerAdam(learningRate=0.0044, decay=3e-3)
+  accuracyPrecision = np.std(y) / 250
  
   for epoch in range(9844):
     denseLayer1.forward(X)
@@ -246,12 +246,15 @@ class Main:
     denseLayer2.forward(activation1.output)
     activation2.forward(denseLayer2.output)
 
-    dataLoss = lossFunction.calculate(activation2.output, y)
-    regularizationLoss = lossFunction.regularizationLoss(denseLayer1) + lossFunction.regularizationLoss(denseLayer2)
+    denseLayer3.forward(activation2.output)
+    activation3.forward(denseLayer3.output)
+
+    dataLoss = lossFunction.calculate(activation3.output, y)
+    regularizationLoss = lossFunction.regularizationLoss(denseLayer1) + lossFunction.regularizationLoss(denseLayer2) + lossFunction.regularizationLoss(denseLayer3)
     loss = dataLoss + regularizationLoss
 
-    predictions = (activation2.output > 0.5) * 1
-    accuracy = np.mean(predictions == y)
+    predictions = activation3.output
+    accuracy = np.mean(np.absolute(predictions - y) < accuracyPrecision)
 
     if not epoch % 100:
       print(f'epoch: {epoch}, ' +
@@ -261,8 +264,10 @@ class Main:
             f'regLoss: {regularizationLoss:.3f}, ' +
             f'lr: {optimizer.currLearningRate:.5}')
 
-    lossFunction.backward(activation2.output, y)
-    activation2.backward(lossFunction.dInputs)
+    lossFunction.backward(activation3.output, y)
+    activation3.backward(lossFunction.dInputs)
+    denseLayer3.backward(activation3.dInputs)
+    activation2.backward(denseLayer3.dInputs)
     denseLayer2.backward(activation2.dInputs)
     # dropoutLayer1.backward(denseLayer2.dInputs)
     activation1.backward(denseLayer2.dInputs)
