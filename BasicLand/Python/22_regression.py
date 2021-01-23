@@ -276,6 +276,7 @@ class Main:
     optimizer.preUpdateParams()
     optimizer.updateParams(denseLayer1)
     optimizer.updateParams(denseLayer2)
+    optimizer.updateParams(denseLayer3)
     optimizer.postUpdateParams()
 
 
