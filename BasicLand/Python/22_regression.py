@@ -198,7 +198,6 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
     if self.decay:
       self.currLearningRate = self.learningRate * (1. / (1. + self.decay * self.iterations))
   def updateParams(self, layer):
-
     # create mock 0 val momentum arrays if layer does not contain one
     if not hasattr(layer, 'weightCache'):
       layer.weightMomentums = np.zeros_like(layer.weights)
