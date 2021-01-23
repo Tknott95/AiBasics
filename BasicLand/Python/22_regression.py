@@ -231,9 +231,9 @@ class Main:
   activation1 = ActivationReLU()
   # dropoutLayer1 = LayerDropout(0.1)
   activation2 = ActivationReLU()
-  denseLayer2 = LayerDense(128, 128)
+  denseLayer2 = LayerDense(64, 64)
   activation3 = ActivationLinear()
-  denseLayer3 = LayerDense(128, 1)
+  denseLayer3 = LayerDense(64, 1)
   lossFunction = MeanSquaredErrorLoss()
 
   optimizer = OptimizerAdam(learningRate=0.0044, decay=3e-3)
