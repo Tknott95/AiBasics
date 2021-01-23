@@ -7,7 +7,7 @@ from nnfs.datasets import sine_data
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, 
     weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
-      self.weights = 0.10 * np.random.randn(_numOfInputs, _numOfNeurons)
+      self.weights = 0.1 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
 
       self.weightRegularizerL1 = weightRegularizerL1
@@ -150,7 +150,7 @@ class BinaryCrossEntropyLoss(Loss):
     self.dInputs = self.dInputs / samples
 class MeanSquaredErrorLoss(Loss):
   def forward(self, yPred, yTrue):
-    sampleLosses = np.mean((yTrue - yPred)**2, axis=1)
+    sampleLosses = np.mean((yTrue - yPred)**2, axis=-1) # HAD axis=1 instead of -1
     return sampleLosses
   def backward(self, dValues, yTrue):
     samples = len(dValues)
@@ -159,7 +159,7 @@ class MeanSquaredErrorLoss(Loss):
     self.dInputs = self.dInputs / samples
 class MeanAbsoluteErrorLoss(Loss):
   def forward(self, yPred, yTrue):
-    sampleLosses = np.mean((yTrue - yPred), axis=1)
+    sampleLosses = np.mean((yTrue - yPred), axis=-1) # HAD axis=1 instead of -1
     return sampleLosses
   def backward(self, dValues, yTrue):
     samples = len(dValues)
