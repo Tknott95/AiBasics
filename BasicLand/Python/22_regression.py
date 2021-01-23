@@ -255,7 +255,8 @@ class Main:
     loss = dataLoss + regularizationLoss
 
     predictions = activation3.output
-    accuracy = np.mean(np.absolute(predictions - y) < accuracyPrecision)
+    accuracy = np.mean(np.absolute(predictions - y) < 
+      accuracyPrecision)
 
     if not epoch % 100:
       print(f'epoch: {epoch}, ' +
@@ -280,6 +281,7 @@ class Main:
     optimizer.updateParams(denseLayer3)
     optimizer.postUpdateParams()
   
+  # TESTING AND PLOTTING, NO VALIDATION 
   import matplotlib.pyplot as plt
   xTest, ytest = sine_data()
 
