@@ -255,8 +255,7 @@ class Main:
     loss = dataLoss + regularizationLoss
 
     predictions = activation3.output
-    accuracy = np.mean(np.absolute(predictions - y) < 
-      accuracyPrecision)
+    accuracy = np.mean(np.absolute(predictions - y) < accuracyPrecision)
 
     if not epoch % 100:
       print(f'epoch: {epoch}, ' +
