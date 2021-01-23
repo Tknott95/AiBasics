@@ -49,6 +49,13 @@ class LayerDropout:
   def backward(self, dValues):
     self.dInputs = dValues * self.binaryMask
 
+class ActivationLinear:
+  def forward(self, _inputs):
+    self._inputs = _inputs
+    self.output = _inputs
+  def backward(self, dValues):
+    self.dInputs = dValues.copy()
+
 class ActivationReLU:
   def forward(self, _inputs):
     self._inputs = _inputs
