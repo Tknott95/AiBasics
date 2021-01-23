@@ -237,7 +237,7 @@ class Main:
   denseLayer3 = LayerDense(64, 1)
   lossFunction = MeanSquaredErrorLoss()
 
-  optimizer = OptimizerAdam(learningRate=0.003, decay=1e-3)
+  optimizer = OptimizerAdam(learningRate=3e-3, decay=1e-4)
   accuracyPrecision = np.std(y) / 250
  
   for epoch in range(9844):
