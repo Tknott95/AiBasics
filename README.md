@@ -2,6 +2,7 @@
 
 * 00->03 - no activation functions yet, just fundamentals
 * 03->10 - w/ 99% w/ layers, complexity increasing as we go
+* more advanced as you ascend
 ##### .git.sh
 ```
  #!/bin/bash
