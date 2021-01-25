@@ -228,72 +228,7 @@ class Main:
 
   X, y = sine_data()
 
-  denseLayer1 = LayerDense(1, 64) # weightRegularizerL2=5e-4, biasRegularizerL2=5e-4
-  activation1 = ActivationReLU()
-  # dropoutLayer1 = LayerDropout(0.1)
-  activation2 = ActivationReLU()
-  denseLayer2 = LayerDense(64, 64)
-  activation3 = ActivationLinear()
-  denseLayer3 = LayerDense(64, 1)
-  lossFunction = MeanSquaredErrorLoss()
-
-  optimizer = OptimizerAdam(learningRate=3e-3, decay=1e-4)
-  accuracyPrecision = np.std(y) / 250
- 
-  for epoch in range(9844):
-    denseLayer1.forward(X)
-    activation1.forward(denseLayer1.output)
-    # dropoutLayer1.forward(activation1.output)
-    denseLayer2.forward(activation1.output)
-    activation2.forward(denseLayer2.output)
-
-    denseLayer3.forward(activation2.output)
-    activation3.forward(denseLayer3.output)
-
-    dataLoss = lossFunction.calculate(activation3.output, y)
-    regularizationLoss = lossFunction.regularizationLoss(denseLayer1) + lossFunction.regularizationLoss(denseLayer2) + lossFunction.regularizationLoss(denseLayer3)
-    loss = dataLoss + regularizationLoss
-
-    predictions = activation3.output
-    accuracy = np.mean(np.absolute(predictions - y) < accuracyPrecision)
-
-    if not epoch % 100:
-      print(f'epoch: {epoch}, ' +
-            f'acc: {accuracy:.3f}, ' +
-            f'loss: {loss:.3f}, ' +
-            f'dataLoss: {dataLoss:.3f}, ' +
-            f'regLoss: {regularizationLoss:.3f}, ' +
-            f'lr: {optimizer.currLearningRate:.5}')
-
-    lossFunction.backward(activation3.output, y)
-    activation3.backward(lossFunction.dInputs)
-    denseLayer3.backward(activation3.dInputs)
-    activation2.backward(denseLayer3.dInputs)
-    denseLayer2.backward(activation2.dInputs)
-    # dropoutLayer1.backward(denseLayer2.dInputs)
-    activation1.backward(denseLayer2.dInputs)
-    denseLayer1.backward(activation1.dInputs)
-
-    optimizer.preUpdateParams()
-    optimizer.updateParams(denseLayer1)
-    optimizer.updateParams(denseLayer2)
-    optimizer.updateParams(denseLayer3)
-    optimizer.postUpdateParams()
   
-  # TESTING AND PLOTTING, NO VALIDATION 
-  import matplotlib.pyplot as plt
-  xTest, ytest = sine_data()
-
-  denseLayer1.forward(xTest)
-  activation1.forward(denseLayer1.output)
-  denseLayer2.forward(activation1.output)
-  activation2.forward(denseLayer2.output)
-  denseLayer3.forward(activation2.output)
-  activation3.forward(denseLayer3.output)
-
-  plt.plot(xTest, ytest)
-  plt.plot(xTest, activation3.output)
-  plt.show()
 
 
 if __name__ == "__main":
