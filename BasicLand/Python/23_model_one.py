@@ -2,7 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import sine_data
-# Not using a dropout layer as it killed accuracy
+
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, 
