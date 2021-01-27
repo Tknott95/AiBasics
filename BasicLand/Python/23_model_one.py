@@ -42,12 +42,16 @@ class LayerDense:
 class LayerDropout:
   def __init__(self, rate):
     self.rate = 1 - rate
-  def forward(self, inputs):
-    self.inputs = inputs
-    self.binaryMask = np.random.binomial(1, self.rate, size=inputs.shape) / self.rate
-    self.output = inputs * self.binaryMask
+  def forward(self, _inputs):
+    self._inputs = _inputs
+    self.binaryMask = np.random.binomial(1, self.rate, size=_inputs.shape) / self.rate
+    self.output = _inputs * self.binaryMask
   def backward(self, dValues):
     self.dInputs = dValues * self.binaryMask
+
+class LayerInput(): # Made for my Model()
+  def forward(self, _inputs, training):
+    self.output = _inputs
 
 class ActivationLinear:
   def forward(self, _inputs):
