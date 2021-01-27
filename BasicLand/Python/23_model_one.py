@@ -232,6 +232,8 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
       self.loss = loss
       self.optimizer= optimizer
       self.accuracy = accuracy
+    def finalize(self):
+      self.inputLayer = LayerInput() # Make Layer @TODO
   
 
   
