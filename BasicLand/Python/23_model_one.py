@@ -228,6 +228,10 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
       self.layers = []
     def add(self, layer):
       self.layers.append(layer)
+    def set(self, *, loss, optimizer, accuracy):
+      self.loss = loss
+      self.optimizer= optimizer
+      self.accuracy = accuracy
   
 
   
