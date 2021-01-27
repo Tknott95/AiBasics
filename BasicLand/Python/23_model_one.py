@@ -222,6 +222,13 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
 
   def postUpdateParams(self):
     self.iterations += 1
+  
+  class Model:
+    def __init__(self):
+      self.layers = []
+  
+
+  
 
 class Main:
   nnfs.init()
