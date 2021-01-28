@@ -49,7 +49,7 @@ class LayerDropout:
   def backward(self, dValues):
     self.dInputs = dValues * self.binaryMask
 
-class LayerInput(): # Made for my Model()
+class LayerInput(): # Made for inputing layers in my Model()
   def forward(self, _inputs, training):
     self.output = _inputs
 
