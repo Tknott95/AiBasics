@@ -246,7 +246,8 @@ class Main:
   nnfs.init()
 
   X, y = sine_data()
-
+ 
+  model = Model()
   
 
 
