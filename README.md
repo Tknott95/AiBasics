@@ -3,6 +3,7 @@
 * 00->03 - no activation functions yet, just fundamentals
 * 03->10 - w/ 99% w/ layers, complexity increasing as we go
 * ++advanced as you ascend, around 16 is where partial dirs start
+* model class next 
 
 ##### .git.sh
 ```
