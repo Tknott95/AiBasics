@@ -5,7 +5,6 @@
 * ++advanced as you ascend, around 16 is where partial dirs start
 * model class next 
 
-
 ##### .git.sh
 ```
  #!/bin/bash
