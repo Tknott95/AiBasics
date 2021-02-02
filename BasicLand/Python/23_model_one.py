@@ -258,7 +258,8 @@ class Model:
   def forward(self, x):
     self.inputLayer.forward(x)
     for layer in self.layers:
-      layer.forward(layer.prev.output)
+      # layer.forward(layer.prev.output)
+      pass
     
     return layer.output
 
