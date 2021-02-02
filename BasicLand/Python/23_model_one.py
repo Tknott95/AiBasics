@@ -5,8 +5,7 @@ from nnfs.datasets import sine_data
 # Linting conveentions are fucked. @TODO fix
 
 class LayerDense:
-    def __init__(self, _numOfInputs, _numOfNeurons, 
-    weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
+    def __init__(self, _numOfInputs, _numOfNeurons, weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
       self.weights = 0.1 * np.random.randn(_numOfInputs, _numOfNeurons)
       self.biases = np.zeros((1, _numOfNeurons))
 
@@ -14,6 +13,7 @@ class LayerDense:
       self.weightRegularizerL2 = weightRegularizerL2
       self.biasRegularizerL1 = biasRegularizerL1
       self.biasRegularizerL2 = biasRegularizerL2
+
     def forward(self, _inputs):
       self._inputs = _inputs
       self.output = np.dot(_inputs, self.weights) + self.biases
@@ -251,16 +251,16 @@ class Model:
       else:
         self.layers[j].prev = self.layers[j-1]
         self.layers[j].next = self.loss
-  def forward(self, x):
-    self.inputLayer.forward(x)
-    # for layer in self.layers:
-    #   layer.forward(layer.prev.output)
-    
-    # return layer.output
   def train(self, x, y, *, epochs=1000, logEvery=100):
     for epoch in range(1, epochs+1):
       output = self.forward(x)
       print(epoch)
+  def forward(self, x):
+    self.inputLayer.forward(x)
+    for layer in self.layers:
+      layer.forward(layer.prev.output)
+    
+    return layer.output
 
 
 class Main:
