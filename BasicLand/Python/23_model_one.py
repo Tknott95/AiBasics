@@ -50,7 +50,7 @@ class LayerDropout:
     self.dInputs = dValues * self.binaryMask
 
 class LayerInput(): # Made for inputing layers in my Model()
-  def forward(self, _inputs, training):
+  def forward(self, _inputs):
     self.output = _inputs
 
 class ActivationLinear:
@@ -237,10 +237,11 @@ class Model:
     self.loss = loss
     self.optimizer = optimizer
     #self.accuracy = accuracy
-  def train(self, x, y, *, epochs=1000, logEvery=100):
-    for epoch in range(epochs+1):
-      print(epoch)
-      pass
+  def forward(self, x, training):
+    self.inputLayer.forward(x, training)
+    for layer in self.layers:
+      layer.forward(layer.prev.output, training)
+    return layer.output
   def finalize(self):
     self.inputLayer = LayerInput() # Make Layer @TODO
     layerCount = len(self.layers)
@@ -255,6 +256,11 @@ class Model:
       else:
         self.layers[j].prev = self.layers[j-1]
         self.layers[j].next = self.loss
+  def train(self, x, y, *, epochs=1000, logEvery=100):
+    for epoch in range(1, epochs+1):
+      output = self.forward(x, training=True)
+      print(epoch)
+      pass
 
 class Main:
   nnfs.init()
@@ -268,6 +274,7 @@ class Main:
     model.add(ActivationReLU)
   
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
+  model.finalize()
   model.train(x, y, epochs=1000, logEvery=100)
 
   layerCount = len(model.layers) # move into model and call self @TODO
