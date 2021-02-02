@@ -237,6 +237,10 @@ class Model:
     self.loss = loss
     self.optimizer = optimizer
     #self.accuracy = accuracy
+  def train(self, x, y, *, epochs=1000, logEvery=100):
+    for epoch in range(epochs+1):
+      print(epoch)
+      pass
   def finalize(self):
     self.inputLayer = LayerInput() # Make Layer @TODO
   
@@ -253,6 +257,7 @@ class Main:
     model.add(ActivationReLU)
   
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
+  model.train(X, y, epochs=1000, logEvery=100)
 
   layerCount = len(model.layers) # move into model and call self @TODO
   print("\nlayerCount: ", layerCount)
