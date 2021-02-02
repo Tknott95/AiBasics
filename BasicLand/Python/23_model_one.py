@@ -233,10 +233,10 @@ class Model:
     self.layers = []
   def add(self, layer):
     self.layers.append(layer)
-  def set(self, *, loss, optimizer, accuracy):
+  def set(self, *, loss, optimizer): #, accuracy
     self.loss = loss
     self.optimizer = optimizer
-    self.accuracy = accuracy
+    #self.accuracy = accuracy
   def finalize(self):
     self.inputLayer = LayerInput() # Make Layer @TODO
   
@@ -251,10 +251,12 @@ class Main:
   for i in range(4): # Adding mock layers for visualizing via the addres for meow
     model.add(LayerDense(1, 64))
     model.add(ActivationReLU)
+  
+  model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
 
   layerCount = len(model.layers) # move into model and call self @TODO
-  print("layerCount: ", layerCount)
-  print("layers: \n", model.layers)
+  print("\nlayerCount: ", layerCount)
+  print("layers: \n  ", model.layers)
 
 if __name__ == "__main":
   main()
