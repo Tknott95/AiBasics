@@ -243,7 +243,18 @@ class Model:
       pass
   def finalize(self):
     self.inputLayer = LayerInput() # Make Layer @TODO
+    layerCount = len(self.layers)
   
+    for j in range(layerCount):
+      if j == 0:
+        self.layers[j].prev = self.inputLayer
+        self.layers[j].next = self.layers[j+1]
+      elif j < layerCount - 1:
+        self.layers[j].prev = self.layers[j-1]
+        self.layers[j].next = self.layers[j+1]
+      else:
+        self.layers[j].prev = self.layers[j-1]
+        self.layers[j].next = self.loss
 
 class Main:
   nnfs.init()
