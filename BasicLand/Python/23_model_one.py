@@ -2,7 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import sine_data
-
+# Linting conveentions are fucked. @TODO fix
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, 
@@ -80,7 +80,8 @@ class ActivationSoftmax:
     for index, (singleOutput, singleDValues) in enumerate(zip(self.output, dValues)):
       singleOutput = singleOutput.reshape(-1, 1)
       jacobianMatrix = np.diagflat(singleOutput) - np.dot(singleOutput, singleOutput.T)
-      self.dInputs[index] = np.dot(jacobianMatrix, singleDValues) 
+      self.dInputs[index] = np.dot(jacobianMatrix, singleDValues)
+
 class ActivationSigmoid:
   def forward(self, _inputs):
     self._inputs = _inputs
@@ -105,7 +106,6 @@ class Loss:
   def calculate(self, output, y):
     sampleLosses = self.forward(output, y)
     dataLoss = np.mean(sampleLosses)
-
     return dataLoss
 
 class CategoricalCrossEntropyLoss(Loss):
@@ -227,6 +227,7 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
   def postUpdateParams(self):
     self.iterations += 1
   
+
 class Model:
   def __init__(self):
     self.layers = []
@@ -238,8 +239,6 @@ class Model:
     self.accuracy = accuracy
   def finalize(self):
     self.inputLayer = LayerInput() # Make Layer @TODO
-  
-
   
 
 class Main:
