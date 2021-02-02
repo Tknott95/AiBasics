@@ -237,11 +237,6 @@ class Model:
     self.loss = loss
     self.optimizer = optimizer
     #self.accuracy = accuracy
-  def forward(self, x, training):
-    self.inputLayer.forward(x, training)
-    for layer in self.layers:
-      layer.forward(layer.prev.output, training)
-    return layer.output
   def finalize(self):
     self.inputLayer = LayerInput() # Make Layer @TODO
     layerCount = len(self.layers)
@@ -256,11 +251,16 @@ class Model:
       else:
         self.layers[j].prev = self.layers[j-1]
         self.layers[j].next = self.loss
+  def forward(self, x):
+    self.inputLayer.forward(x)
+    for layer in self.layers:
+      layer.forward(layer.prev.output)
+    return layer.output
   def train(self, x, y, *, epochs=1000, logEvery=100):
     for epoch in range(1, epochs+1):
-      output = self.forward(x, training=True)
+      output = self.forward(x)
       print(epoch)
-      pass
+      exit()
 
 class Main:
   nnfs.init()
