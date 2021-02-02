@@ -227,17 +227,17 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
   def postUpdateParams(self):
     self.iterations += 1
   
-  class Model:
-    def __init__(self):
-      self.layers = []
-    def add(self, layer):
-      self.layers.append(layer)
-    def set(self, *, loss, optimizer, accuracy):
-      self.loss = loss
-      self.optimizer= optimizer
-      self.accuracy = accuracy
-    def finalize(self):
-      self.inputLayer = LayerInput() # Make Layer @TODO
+class Model:
+  def __init__(self):
+    self.layers = []
+  def add(self, layer):
+    self.layers.append(layer)
+  def set(self, *, loss, optimizer, accuracy):
+    self.loss = loss
+    self.optimizer= optimizer
+    self.accuracy = accuracy
+  def finalize(self):
+    self.inputLayer = LayerInput() # Make Layer @TODO
   
 
   
