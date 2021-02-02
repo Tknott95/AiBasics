@@ -261,7 +261,7 @@ class Model:
     for epoch in range(1, epochs+1):
       output = self.forward(x)
       print(epoch)
-      exit()
+      pass
 
 class Main:
   nnfs.init()
