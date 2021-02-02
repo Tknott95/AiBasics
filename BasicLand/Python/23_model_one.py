@@ -261,7 +261,7 @@ class Model:
       # layer.forward(layer.prev.output)
       pass
     
-    return layer.output
+    # return layer.output
 
 
 class Main:
