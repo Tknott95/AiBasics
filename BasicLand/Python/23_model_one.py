@@ -248,7 +248,7 @@ class Model:
 class Main:
   nnfs.init()
 
-  X, y = sine_data()
+  x, y = sine_data()
  
   model = Model()
 
@@ -257,7 +257,7 @@ class Main:
     model.add(ActivationReLU)
   
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
-  model.train(X, y, epochs=1000, logEvery=100)
+  model.train(x, y, epochs=1000, logEvery=100)
 
   layerCount = len(model.layers) # move into model and call self @TODO
   print("\nlayerCount: ", layerCount)
