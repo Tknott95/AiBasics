@@ -253,10 +253,10 @@ class Model:
         self.layers[j].next = self.loss
   def forward(self, x):
     self.inputLayer.forward(x)
-    for layer in self.layers:
-      layer.forward(layer.prev.output)
+    # for layer in self.layers:
+    #   layer.forward(layer.prev.output)
     
-    return layer.output
+    # return layer.output
   def train(self, x, y, *, epochs=1000, logEvery=100):
     for epoch in range(1, epochs+1):
       output = self.forward(x)
