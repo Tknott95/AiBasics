@@ -235,7 +235,7 @@ class Model:
     self.layers.append(layer)
   def set(self, *, loss, optimizer, accuracy):
     self.loss = loss
-    self.optimizer= optimizer
+    self.optimizer = optimizer
     self.accuracy = accuracy
   def finalize(self):
     self.inputLayer = LayerInput() # Make Layer @TODO
@@ -247,8 +247,14 @@ class Main:
   X, y = sine_data()
  
   model = Model()
-  
 
+  for i in range(4): # Adding mock layers for visualizing via the addres for meow
+    model.add(LayerDense(1, 64))
+    model.add(ActivationReLU)
+
+  layerCount = len(model.layers) # move into model and call self @TODO
+  print("layerCount: ", layerCount)
+  print("layers: \n", model.layers)
 
 if __name__ == "__main":
   main()
