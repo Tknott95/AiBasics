@@ -270,10 +270,14 @@ class Main:
  
   model = Model()
 
-  for i in range(4): # Adding mock layers for visualizing via the addres for meow
-    model.add(LayerDense(1, 64))
-    model.add(ActivationReLU)
-  
+  # for i in range(4): # Adding mock layers for visualizing via the addres for meow
+  #   model.add(LayerDense(1, 64))
+  #   model.add(ActivationReLU)
+  model.add(LayerDense(1, 64))
+  model.add(ActivationReLU)
+  model.add(LayerDense(1, 64))
+  model.add(ActivationReLU)
+
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
   model.finalize()
   model.train(x, y, epochs=1000, logEvery=100)
