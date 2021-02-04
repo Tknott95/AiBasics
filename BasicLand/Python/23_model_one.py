@@ -1,7 +1,7 @@
 import numpy as np
 # Pulling in nnfs data
 import nnfs
-from nnfs.datasets import spiral_data
+from nnfs.datasets import sine_data
 # Linting conveentions are fucked. @TODO fix
 
 class LayerDense:
@@ -258,22 +258,22 @@ class Model:
       print(epoch)
   def forward(self, x):
     self.inputLayer.forward(x)
-    for layer in self.layers:
-      layer.forward(layer.prev.output)
-      pass
+    # for layer in self.layers:
+    #   layer.forward(layer.prev.output)
+    #   pass
     
-    return layer.output
+    # return layer.output
 
 
 class Main:
   nnfs.init()
 
-  x, y = spiral_data(samples=1000, classes=3)
+  x, y = sine_data()
  
   model = Model()
 
   for i in range(4): # Adding mock layers for visualizing via the addres for meow
-    model.add(LayerDense(2, 64))
+    model.add(LayerDense(1, 64))
     model.add(ActivationReLU)
 
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
