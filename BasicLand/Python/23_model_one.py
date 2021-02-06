@@ -256,7 +256,7 @@ class Model:
       else:
         self.layers[j].prev = self.layers[j-1]
         self.layers[j].next = self.loss
-  def train(self, x, y, *, epochs=1000, logEvery=100):
+  def train(self, x, y, *, epochs=1000, logEvery=100, validationData=None):
     for epoch in range(1, epochs+1):
       output = self.forward(x, isTraining=True)
       print(epoch)
