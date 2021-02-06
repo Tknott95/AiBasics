@@ -14,7 +14,7 @@ class LayerDense:
       self.biasRegularizerL1 = biasRegularizerL1
       self.biasRegularizerL2 = biasRegularizerL2
 
-    def forward(self, _inputs):
+    def forward(self, _inputs, isTraining):
       self._inputs = _inputs
       self.output = np.dot(_inputs, self.weights) + self.biases
     def backward(self, dValues): # dValues is derivativeValues
@@ -42,27 +42,31 @@ class LayerDense:
 class LayerDropout:
   def __init__(self, rate):
     self.rate = 1 - rate
-  def forward(self, _inputs):
+  def forward(self, _inputs, isTraining):
     self._inputs = _inputs
+
+    if not isTraining:
+      self.output = inputs.copy()
+      return
   
     self.binaryMask = np.random.binomial(1, self.rate, size=_inputs.shape) / self.rate
     self.output = _inputs * self.binaryMask
   def backward(self, dValues):
     self.dInputs = dValues * self.binaryMask
 
-class LayerInput(): # Made for inputing layers in my Model()
-  def forward(self, _inputs):
+class LayerInput():
+  def forward(self, _inputs, isTraining):
     self.output = _inputs
 
 class ActivationLinear:
-  def forward(self, _inputs):
+  def forward(self, _inputs, isTraining):
     self._inputs = _inputs
     self.output = _inputs
   def backward(self, dValues):
     self.dInputs = dValues.copy()
 
 class ActivationReLU:
-  def forward(self, _inputs):
+  def forward(self, _inputs, isTraining):
     self._inputs = _inputs
     self.output = np.maximum(0, _inputs)
   def backward(self, dValues):
@@ -254,15 +258,15 @@ class Model:
         self.layers[j].next = self.loss
   def train(self, x, y, *, epochs=1000, logEvery=100):
     for epoch in range(1, epochs+1):
-      output = self.forward(x)
+      output = self.forward(x, isTraining=True)
       print(epoch)
-  def forward(self, x):
-    self.inputLayer.forward(x)
-    # for layer in self.layers:
-    #   layer.forward(layer.prev.output)
-    #   pass
+  def forward(self, x, isTraining):
+    self.inputLayer.forward(x, isTraining)
+    for layer in self.layers:
+      layer.forward(layer.prev.output, isTraining)
+      pass
     
-    # return layer.output
+    return layer.output
 
 
 class Main:
