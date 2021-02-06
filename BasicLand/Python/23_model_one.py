@@ -264,7 +264,6 @@ class Model:
     self.inputLayer.forward(x, isTraining)
     for layer in self.layers:
       layer.forward(layer.prev.output, isTraining)
-      pass
     
     return layer.output
 
