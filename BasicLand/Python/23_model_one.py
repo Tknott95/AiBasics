@@ -243,8 +243,9 @@ class Model:
     self.optimizer = optimizer
     #self.accuracy = accuracy
   def finalize(self):
-    self.inputLayer = LayerInput() # Make Layer @TODO
+    self.inputLayer = LayerInput()
     layerCount = len(self.layers)
+    print('layerCount: ', layerCount)
   
     for j in range(layerCount):
       if j == 0:
@@ -256,11 +257,14 @@ class Model:
       else:
         self.layers[j].prev = self.layers[j-1]
         self.layers[j].next = self.loss
+    print('after layerCount: ', layerCount)
+
   def train(self, x, y, *, epochs=1000, logEvery=100, validationData=None):
-    self.accuracy.init(y)
+
     for epoch in range(1, epochs+1):
       output = self.forward(x, isTraining=True)
       print(epoch)
+
   def forward(self, x, isTraining):
     self.inputLayer.forward(x, isTraining)
     for layer in self.layers:
