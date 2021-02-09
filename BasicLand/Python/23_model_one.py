@@ -74,18 +74,20 @@ class ActivationReLU:
     self.dInputs[self._inputs <= 0] = 0 # Zero gradient where input values were negative
 
 class ActivationSoftmax:
-  def forward(self, _inputs):
+  def forward(self, _inputs, isTraining):
     self._inputs = _inputs
     exponential_values = np.exp(_inputs - np.max(_inputs, axis=1, keepdims=True))
     normalized_values = exponential_values / np.sum(exponential_values, axis=1, keepdims=True)
     self.output = normalized_values
-  def backward(self, dValues):
+  def backward(self, dValues): # Double check dis
     self.dInputs = np.empty_like(dValues)
     
     for index, (singleOutput, singleDValues) in enumerate(zip(self.output, dValues)):
       singleOutput = singleOutput.reshape(-1, 1)
       jacobianMatrix = np.diagflat(singleOutput) - np.dot(singleOutput, singleOutput.T)
       self.dInputs[index] = np.dot(jacobianMatrix, singleDValues)
+  def predictions(self, outputs):
+    return np.argmax(outputs, axis=1)
 
 class ActivationSigmoid:
   def forward(self, _inputs):
@@ -285,7 +287,9 @@ class Main:
   model.add(ActivationReLU())
   model.add(LayerDropout(0.1))
   model.add(LayerDense(64, 1))
-  model.add(ActivationReLU())
+  # model.add(ActivationReLU())
+  model.add(ActivationSoftmax())
+
 
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
   model.finalize()
