@@ -279,6 +279,7 @@ class Main:
   nnfs.init()
 
   x, y = sine_data()
+  epochs = 1000
  
   model = Model()
 
@@ -288,14 +289,16 @@ class Main:
   model.add(LayerDense(64, 1))
   model.add(ActivationSoftmax())
 
+  layerCount = len(model.layers) # move into model and call self @TODO
+  print("\nlayerCount: ", layerCount)
+  print("epochs: \n  ", epochs)
+  print("layers: \n  ", model.layers)
 
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
   model.finalize()
-  model.train(x, y, epochs=1000, logEvery=100)
+  model.train(x, y, epochs=epochs, logEvery=100)
 
-  layerCount = len(model.layers) # move into model and call self @TODO
-  print("\nlayerCount: ", layerCount)
-  print("layers: \n  ", model.layers)
+
 
 if __name__ == "__main":
   main()
