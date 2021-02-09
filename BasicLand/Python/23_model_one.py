@@ -298,7 +298,5 @@ class Main:
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
 
-
-
 if __name__ == "__main":
   main()
