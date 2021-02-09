@@ -282,12 +282,10 @@ class Main:
  
   model = Model()
 
-  # for i in range(4): # Adding mock layers for visualizing via the addres for meow
   model.add(LayerDense(1, 64, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4))
   model.add(ActivationReLU())
   model.add(LayerDropout(0.1))
   model.add(LayerDense(64, 1))
-  # model.add(ActivationReLU())
   model.add(ActivationSoftmax())
 
 
