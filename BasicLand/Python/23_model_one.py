@@ -2,7 +2,7 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import sine_data
-# Linting conveentions are fucked. @TODO fix
+# BRING I NTHE EXTRA FROSTING L8r
 
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
@@ -282,6 +282,8 @@ class Main:
 
   # for i in range(4): # Adding mock layers for visualizing via the addres for meow
   model.add(LayerDense(1, 64, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4))
+  model.add(ActivationReLU())
+  model.add(LayerDense(64, 1))
   model.add(ActivationReLU())
 
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
