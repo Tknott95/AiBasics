@@ -298,5 +298,27 @@ class Main:
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
 
+  #   # TESTING AND PLOTTING, NO VALIDATION 
+  # import matplotlib.pyplot as plt
+  # xTest, ytest = sine_data()
+
+  # modelTest = Model()
+
+  # modelTest.add(LayerDense(1, 64, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4))
+  # modelTest.add(ActivationReLU())
+  # modelTest.add(LayerDropout(0.1))
+  # modelTest.add(LayerDense(64, 1))
+  # modelTest.add(ActivationSoftmax())
+
+  # modelTest.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
+  # modelTest.finalize()
+  # modelTest.train(x, y, epochs=1, logEvery=1)
+
+  # plt.plot(xTest, ytest)
+  # plt.plot(xTest, modelTest.layers[4].output)
+  # plt.show()
+
+
+
 if __name__ == "__main":
   main()
