@@ -9,6 +9,8 @@
  - mnsit data next    
  -finish model.train()
 
+
+
 ##### .git.sh
 ```
  #!/bin/bash
