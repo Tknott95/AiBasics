@@ -262,6 +262,7 @@ class Model:
       else:
         self.layers[j].prev = self.layers[j-1]
         self.layers[j].next = self.loss
+        self.outputLayerActivation = self.layers[j]
     print('after layerCount: ', layerCount)
 
   def train(self, x, y, *, epochs=1000, logEvery=100, validationData=None):
