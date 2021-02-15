@@ -250,6 +250,7 @@ class Model:
     self.inputLayer = LayerInput()
     layerCount = len(self.layers)
     print('layerCount: ', layerCount)
+    self.trainableLayers = []
   
     for j in range(layerCount):
       if j == 0:
@@ -316,9 +317,9 @@ class Main:
   modelTest.finalize()
   modelTest.train(x, y, epochs=1, logEvery=1)
 
-  plt.plot(xTest, ytest)
-  plt.plot(xTest, modelTest.layers[4].output)
-  plt.show()
+  # plt.plot(xTest, ytest)
+  # plt.plot(xTest, modelTest.layers[4].output)
+  # plt.show()
 
 
 
