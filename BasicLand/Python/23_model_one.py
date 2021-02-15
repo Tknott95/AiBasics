@@ -236,14 +236,16 @@ class OptimizerAdam: # Adam -> Adaptive Momentum
   
 
 class Model:
+  # @NOTE - ACCURACY WAS PULLED UNTIL CPLX MVP 0001
   def __init__(self):
     self.layers = []
+    self.softmaxClassifierOutput = None
   def add(self, layer):
     self.layers.append(layer)
   def set(self, *, loss, optimizer): #, accuracy
     self.loss = loss
     self.optimizer = optimizer
-    #self.accuracy = accuracy
+    # self.accuracy = accuracy
   def finalize(self):
     self.inputLayer = LayerInput()
     layerCount = len(self.layers)
@@ -294,7 +296,7 @@ class Main:
   print("epochs: \n  ", epochs)
   print("layers: \n  ", model.layers)
 
-  model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
+  model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3)) # , accuracy=0
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
 
