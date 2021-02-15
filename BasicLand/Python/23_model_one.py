@@ -268,6 +268,13 @@ class Model:
         self.layers[j].prev = self.layers[j-1]
         self.layers[j].next = self.loss
         self.outputLayerActivation = self.layers[j]
+    
+      if hasattr(self.layers[j], 'weights'):
+        self.trainableLayers.append(self.layers[j])
+    
+    self.loss.persistTrainableLayers(self.trainableLayers)
+    if isinstance(self.layers[-1], ActivationSoftmax) and isinstance(self.loss, CategoricalCrossEntropyLoss):
+      self.softmaxClassifierOutput = ActivationSoftmaxLossCategoricalCrossEntropy()
     print('after layerCount: ', layerCount)
 
   def train(self, x, y, *, epochs=1000, logEvery=100, validationData=None):
