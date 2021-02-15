@@ -278,7 +278,8 @@ class Model:
     print('after layerCount: ', layerCount)
 
   def train(self, x, y, *, epochs=1000, logEvery=100, validationData=None):
-
+    # @NOTE when accuracy is put in add:
+    # self.accuracy.init(y)
     for epoch in range(1, epochs+1):
       output = self.forward(x, isTraining=True)
       print(epoch)
