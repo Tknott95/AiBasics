@@ -284,6 +284,24 @@ class Model:
       output = self.forward(x, isTraining=True)
       print(epoch)
 
+      dataLoss, regularizationLoss = self.loss.calculate(output, y, includeRegularization=True)
+      # @FIX loss = dataLoss + regularizationLoss
+
+      predictions = self.outputLayerActivation.predictions(output)
+      # @NOTE when accuracy is back in:
+      # accuracy = self.accuracy.calculate(predictions, y)
+      
+      # @NOTE when model.backward() is finished
+      # self.backward(output, y)
+      # @FIX
+      #self.optimizer.preUpdateParams()
+      #for layer in self.trainableLayers:
+      #  self.optimizer.updateParams(layer)
+      #self.optimizer.postUpdateParams()
+
+      if not epoch % logEvery:
+        print('some more tp?')
+
   def forward(self, x, isTraining):
     self.inputLayer.forward(x, isTraining)
     for layer in self.layers:
