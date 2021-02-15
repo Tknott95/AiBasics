@@ -113,10 +113,12 @@ class Loss:
     return regularizationLoss
   def persistTrainableLayers(self, trainableLayers):
     self.trainableLayers = trainableLayers
-  def calculate(self, output, y):
+  def calculate(self, output, y, includeRegularization=False):
     sampleLosses = self.forward(output, y)
     dataLoss = np.mean(sampleLosses)
-    return dataLoss
+    if not includeRegularization:
+      return dataLoss
+    return dataLoss, self.regularizationLoss
 
 class CategoricalCrossEntropyLoss(Loss):
   def forward(self, yPrediction, yTrue):
