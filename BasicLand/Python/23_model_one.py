@@ -111,6 +111,8 @@ class Loss:
         regularizationLoss += layer.biasRegularizerL2 * np.sum(layer.biases**2)
 
     return regularizationLoss
+  def persistTrainableLayers(self, trainableLayers):
+    self.trainableLayers = trainableLayers
   def calculate(self, output, y):
     sampleLosses = self.forward(output, y)
     dataLoss = np.mean(sampleLosses)
