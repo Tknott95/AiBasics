@@ -10,6 +10,7 @@
  - finish model.train()
  
 
+
 ##### .git.sh
 ```
  #!/bin/bash
@@ -17,6 +18,7 @@
   git commit -m "$1"
   git push
 ```
+
 
 
 ActiFuncs, Etc  In
