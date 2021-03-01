@@ -8,7 +8,7 @@
 @TODO 
  - mnsit data after train finished. Bring logic into model.train()   
  - finish model.train()
- 
+ - rmv old Qlearning pickle files.  
 
 
 ##### .git.sh
@@ -18,7 +18,6 @@
   git commit -m "$1"
   git push
 ```
-
 
 ActiFuncs, Etc  In
 * ReLU
