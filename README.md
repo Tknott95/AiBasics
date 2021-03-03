@@ -9,7 +9,7 @@
  - mnsit data after train finished. Bring logic into model.train()   
  - finish model.train()
  - rmv old Qlearning pickle files.  
-
+ - finish mnsit b4 4th
 
 
 ##### .git.sh
