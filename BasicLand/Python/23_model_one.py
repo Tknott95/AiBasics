@@ -309,7 +309,21 @@ class Model:
     
     return layer.output
   
-  # def backward(self, output, y):
+  def backward(self, output, y):
+    if self.softmaxClassifierOutput is not None:
+      self.softmaxClassifierOutput.backward(output, y)
+
+      self.layers[-1].dInputs = self.softmaxClassifierOutput.dInputs
+
+      for layer in reversed(self.layers[:-1]):
+        layer.backward(layer.next.dInputs)
+      
+      return
+    
+    self.loss.backward(output, y)
+
+    for layer in reversed(self.layers):
+      layer.backward(layer.next.dInputs)
     
 
 class Main:
