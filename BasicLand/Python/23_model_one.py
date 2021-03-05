@@ -97,7 +97,7 @@ class ActivationSigmoid:
     self.dInputs = dValues * (1 - self.output) * self.output
 
 class Loss:
-  def regularizationLoss(self, layer):
+  def regularizationLoss(self):
     regularizationLoss = 0
     
     for layer in self.trainableLayers:
@@ -113,11 +113,12 @@ class Loss:
     return regularizationLoss
   def persistTrainableLayers(self, trainableLayers):
     self.trainableLayers = trainableLayers
-  def calculate(self, output, y, includeRegularization=False):
+  def calculate(self, output, y, *, includeRegularization=False):
     sampleLosses = self.forward(output, y)
     dataLoss = np.mean(sampleLosses)
     if not includeRegularization:
       return dataLoss
+
     return dataLoss, self.regularizationLoss
 
 class CategoricalCrossEntropyLoss(Loss):
@@ -302,7 +303,8 @@ class Model:
       print(epoch)
 
       dataLoss, regularizationLoss = self.loss.calculate(output, y, includeRegularization=True)
-      loss = dataLoss + regularizationLoss
+      # @TODO FIX THIS -> loss = dataLoss + regularizationLoss
+      loss = dataLoss
 
       predictions = self.outputLayerActivation.predictions(output)
       accuracy = self.accuracy.calculate(predictions, y)
@@ -320,8 +322,9 @@ class Model:
             f'acc: {accuracy:.3f}, ' +
             f'loss: {loss:.3f}, ' +
             f'dataLoss: {dataLoss:.3f}, ' +
-            f'regLoss: {regularizationLoss:.3f}, ' +
-            f'lr: {optimizer.currLearningRate:.5}')
+            f'regLoss: {regularizationLoss}, ' +
+            f'lr: {self.optimizer.currLearningRate:.5}')
+      # @TODO fix regularizartionLoss
     
     if validationData is not None:
       xVal, yVal = validationData
