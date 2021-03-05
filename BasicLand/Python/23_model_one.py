@@ -309,7 +309,7 @@ class Model:
     
     return layer.output
   
-  def backward(self, output, y):
+  # def backward(self, output, y):
     
 
 class Main:
@@ -332,9 +332,9 @@ class Main:
   print("layers: \n  ", model.layers)
 
   # @TODO bring in accuracy as a parameter
-  # @TODO Change my loss function to a CategoricalCrossEntropyLoss()
 
-  model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3)) # , accuracy=0
+  # Was MeanSquaredErrorLoss()
+  model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3)) # , accuracy=0
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
 
