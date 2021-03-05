@@ -324,7 +324,7 @@ class Model:
             f'dataLoss: {dataLoss:.3f}, ' +
             f'regLoss: {regularizationLoss}, ' +
             f'lr: {self.optimizer.currLearningRate:.5}')
-      # @TODO fix regularizartionLoss
+      # @TODO fix regularizartionLoss # 529
     
     if validationData is not None:
       xVal, yVal = validationData
