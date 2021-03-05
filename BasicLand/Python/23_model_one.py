@@ -292,15 +292,20 @@ class Model:
       # accuracy = self.accuracy.calculate(predictions, y)
       
       # @NOTE when model.backward() is finished
-      # self.backward(output, y)
+      self.backward(output, y)
       # @FIX
-      #self.optimizer.preUpdateParams()
-      #for layer in self.trainableLayers:
-      #  self.optimizer.updateParams(layer)
-      #self.optimizer.postUpdateParams()
+      self.optimizer.preUpdateParams()
+      for layer in self.trainableLayers:
+       self.optimizer.updateParams(layer)
+      self.optimizer.postUpdateParams()
 
-      if not epoch % logEvery:
-        print('some more tp?')
+      # if not epoch % logEvery:
+      #   print(f'epoch: {epoch}, ' +
+      #       f'acc: {accuracy:.3f}, ' +
+      #       f'loss: {loss:.3f}, ' +
+      #       f'dataLoss: {dataLoss:.3f}, ' +
+      #       f'regLoss: {regularizationLoss:.3f}, ' +
+      #       f'lr: {optimizer.currLearningRate:.5}')
 
   def forward(self, x, isTraining):
     self.inputLayer.forward(x, isTraining)
