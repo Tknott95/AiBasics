@@ -302,7 +302,7 @@ class Model:
       print(epoch)
 
       dataLoss, regularizationLoss = self.loss.calculate(output, y, includeRegularization=True)
-      # @FIX loss = dataLoss + regularizationLoss
+      loss = dataLoss + regularizationLoss
 
       predictions = self.outputLayerActivation.predictions(output)
       accuracy = self.accuracy.calculate(predictions, y)
@@ -322,6 +322,16 @@ class Model:
             f'dataLoss: {dataLoss:.3f}, ' +
             f'regLoss: {regularizationLoss:.3f}, ' +
             f'lr: {optimizer.currLearningRate:.5}')
+    
+    if validationData is not None:
+      xVal, yVal = validationData
+      output = self.forward(xVal, isTraining = False)
+      loss = self.loss.calculate(output, yVal)
+      predictions = self.outputLayerActivation.predictions(output)
+      accuracy = self.accuracy.calculate(predictions, yVal)
+      print(f'validation, ' +
+            f'acc: {accuracy:.3f} , ' +
+            f'loss: {loss:.3f}')
 
   def forward(self, x, isTraining):
     self.inputLayer.forward(x, isTraining)
