@@ -329,6 +329,9 @@ class Main:
   print("epochs: \n  ", epochs)
   print("layers: \n  ", model.layers)
 
+  # @TODO bring in accuracy as a parameter
+  # @TODO Change my loss function to a CategoricalCrossEntropyLoss()
+
   model.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3)) # , accuracy=0
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
