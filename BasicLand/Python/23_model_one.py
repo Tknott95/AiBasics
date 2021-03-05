@@ -247,10 +247,10 @@ class Model:
     self.softmaxClassifierOutput = None
   def add(self, layer):
     self.layers.append(layer)
-  def set(self, *, loss, optimizer): #, accuracy
+  def set(self, *, loss, optimizer, accuracy): #, accuracy
     self.loss = loss
     self.optimizer = optimizer
-    # self.accuracy = accuracy
+    self.accuracy = accuracy
   def finalize(self):
     self.inputLayer = LayerInput()
     layerCount = len(self.layers)
@@ -352,7 +352,7 @@ class Main:
   # @TODO bring in accuracy as a parameter
 
   # Was MeanSquaredErrorLoss()
-  model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3)) # , accuracy=0
+  model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy())
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
 
