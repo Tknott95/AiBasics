@@ -308,7 +308,9 @@ class Model:
       layer.forward(layer.prev.output, isTraining)
     
     return layer.output
-
+  
+  def backward(self, output, y):
+    
 
 class Main:
   nnfs.init()
