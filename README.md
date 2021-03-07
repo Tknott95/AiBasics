@@ -8,7 +8,7 @@
 @TODO 
  - mnsit data after train finished. Bring logic into model.train()   
  - finish model.train()
- - rmv old Qlearning pickle files.  
+ - finish accuracy, left a few out for MVP
 
 
 ##### .git.sh
