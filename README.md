@@ -10,7 +10,6 @@
  - finish model.train()
  - finish accuracy, left a few out for MVP
 
-
 ##### .git.sh
 ```
  #!/bin/bash
