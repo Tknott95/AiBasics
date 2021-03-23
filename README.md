@@ -5,6 +5,7 @@
 * ++advanced as you ascend, around 16 is where partial dirs start
 * 23++ has a model class | Complexity Increasing
 
+
 @TODO 
  - mnsit data after train finished. Bring logic into model.train()   
  - finish model.train()
