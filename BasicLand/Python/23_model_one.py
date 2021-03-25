@@ -2,8 +2,9 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 from nnfs.datasets import sine_data
+
 # BRING I NTHE EXTRA FROSTING L8r
-# @TODO BRING IN AN ACCURACY CLASS
+# @TODO BRING IN AN ACCURACY PARAM
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
       self.weights = 0.1 * np.random.randn(_numOfInputs, _numOfNeurons)
