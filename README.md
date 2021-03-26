@@ -23,3 +23,5 @@ ActiFuncs, Etc  In
 * ReLU
 * Sigmoid
 * Etc...
+
+Early on they are written w/-out partials.
