@@ -256,7 +256,7 @@ class CategoricalAccuracy(Accuracy):
   def compare(self, predictions, y):
     if not self.binary and len(y.shape) == 2:
       y = np.argmax(y, axis=1)
-      return predictions == y
+    return predictions == y
   
 
 class Model:
@@ -383,7 +383,7 @@ class Main:
   # @TODO bring in accuracy as a parameter
 
   # Was MeanSquaredErrorLoss()
-  model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy())
+  model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy(binary=True))
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
 
