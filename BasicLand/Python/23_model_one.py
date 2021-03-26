@@ -383,7 +383,7 @@ class Main:
   # @TODO bring in accuracy as a parameter
 
   # Was MeanSquaredErrorLoss()
-  model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy(binary=True))
+  model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy())
   model.finalize()
   model.train(x, y, epochs=epochs, logEvery=100)
 
@@ -399,7 +399,7 @@ class Main:
   modelTest.add(LayerDense(64, 1))
   modelTest.add(ActivationSoftmax())
 
-  modelTest.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3))
+  modelTest.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy())
   modelTest.finalize()
   modelTest.train(x, y, epochs=1, logEvery=1)
 
