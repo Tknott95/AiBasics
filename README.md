@@ -23,4 +23,3 @@ ActiFuncs, Etc  In
 * Sigmoid
 * Etc...
 
-Early on they are written w/-out partials.
