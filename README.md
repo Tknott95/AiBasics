@@ -6,6 +6,8 @@
 
 
 
+
+
 @TODO 
  - mnsit data after train finished. Bring logic into model.train()   
  - finish model.train()
