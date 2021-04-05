@@ -3,8 +3,7 @@ import numpy as np
 import nnfs
 from nnfs.datasets import sine_data
 
-# BRING I NTHE EXTRA FROSTING L8r
-# @TODO BRING IN AN ACCURACY PARAM
+# Leaving out validation data
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
       self.weights = 0.1 * np.random.randn(_numOfInputs, _numOfNeurons)
@@ -401,7 +400,7 @@ class Main:
 
   modelTest.set(loss=MeanSquaredErrorLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy())
   modelTest.finalize()
-  modelTest.train(x, y, epochs=1, logEvery=1)
+  modelTest.train(x, y, epochs=1, logEvery=3)
 
   # plt.plot(xTest, ytest)
   # plt.plot(xTest, modelTest.layers[4].output)
