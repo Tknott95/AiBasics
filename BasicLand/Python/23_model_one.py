@@ -3,7 +3,7 @@ import numpy as np
 import nnfs
 from nnfs.datasets import sine_data
 
-# Leaving out validation data
+# @NOTE Leaving out validation data
 class LayerDense:
     def __init__(self, _numOfInputs, _numOfNeurons, weightRegularizerL1=0, weightRegularizerL2=0, biasRegularizerL1=0, biasRegularizerL2=0):
       self.weights = 0.1 * np.random.randn(_numOfInputs, _numOfNeurons)
