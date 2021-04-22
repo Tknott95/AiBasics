@@ -14,7 +14,13 @@ def loadMnistData(data, path):
   X, y = []
   
   for label in  labels:
+    for file in os.listdir(os.path.join(path, data, label)):
+      image = cv2.imread(os.path.join(path, data, label, file), cv2.IMREAD_UNCHANGED)
 
+      X.append(image)
+      y.append(label)
+  
+  return np.array(X), np.array(y).astype('uint8')
 
 
 # @NOTE Leaving out validation data
