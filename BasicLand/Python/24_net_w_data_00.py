@@ -14,7 +14,6 @@ def loadMnistData(data, path):
   X, y = []
   
   for label in  labels:
-    
 
 
 
