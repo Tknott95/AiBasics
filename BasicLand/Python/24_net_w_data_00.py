@@ -1,7 +1,11 @@
 import numpy as np
 # Pulling in nnfs data
 import nnfs
-from nnfs.datasets import sine_data
+
+DATA_URL = 'https://nnfs.io/datasets/fashion_mnist_images.zip'
+DATA_FILE = 'fashion_mnist_images.zip'
+DATA_FOLDER = 'fashion_mnist_images'
+
 
 # @NOTE Leaving out validation data
 class LayerDense:
