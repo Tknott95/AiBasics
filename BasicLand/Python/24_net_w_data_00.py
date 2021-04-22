@@ -2,10 +2,20 @@ import numpy as np
 # Pulling in nnfs data
 import nnfs
 
+import os
 # Libs for pulling my zip and decompressing it
 DATA_URL = 'https://nnfs.io/datasets/fashion_mnist_images.zip'
 DATA_FILE = 'fashion_mnist_images.zip'
 DATA_FOLDER = 'fashion_mnist_images'
+
+
+def loadMnistData(data, path):
+  labels = os.listdir(os.path.join(path, data))
+  X, y = []
+  
+  for label in  labels:
+    
+
 
 
 # @NOTE Leaving out validation data
