@@ -7,7 +7,7 @@ import cv2
 # Libs for pulling my zip and decompressing it
 DATA_URL = 'https://nnfs.io/datasets/fashion_mnist_images.zip'
 DATA_FILE = 'fashion_mnist_images.zip'
-DATA_FOLDER = 'fashion_mnist_images'
+DATA_FOLDER = 'Assets/fashion_mnist_images'
 
 """
   @NOTE : BRING IN THE VALIDATION DATA INTO MY MODEL.train() FOR INLINE TESTING ...
@@ -392,7 +392,7 @@ class Model:
 class Main:
   nnfs.init()
 
-  x, y, xTest, yTest = createMnistData('fashion_mnist_images')
+  x, y, xTest, yTest = createMnistData('Assets/fashion_mnist_images')
 
   keys = np.array(range(x.shape[0])) # shuffling the training dataset
   np.random.shuffle(keys)

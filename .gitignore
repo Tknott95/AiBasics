@@ -1,2 +1,4 @@
 *.sh
 **/__pycache__
+
+AiBasics/BasicLand/Python/Assets/**
