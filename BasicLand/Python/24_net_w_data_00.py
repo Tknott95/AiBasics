@@ -23,7 +23,6 @@ def loadMnistData(data, path):
   return np.array(X), np.array(y).astype('uint8')
 
 def createMnistData(path):
-  # I Really like how I, from following nnfs, load in the data here.
   X, y = loadMnistData('train', path)
   xTest, yTest = loadMnistData('test', path)
 
