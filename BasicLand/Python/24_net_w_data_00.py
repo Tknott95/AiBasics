@@ -15,8 +15,7 @@ DATA_FOLDER = 'fashion_mnist_images'
 """
 
 def loadMnistData(data, path):
-  if  not os.path.exists(path):
-    print('\n FETCHING MNIST DATA... \n')
+  if not os.path.exists(path): print('\n FETCHING MNIST DATA... \n')
   labels = os.listdir(os.path.join(path, data))
   X, y = []
   
