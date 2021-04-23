@@ -3,11 +3,16 @@ import numpy as np
 import nnfs
 
 import os
+import cv2
 # Libs for pulling my zip and decompressing it
 DATA_URL = 'https://nnfs.io/datasets/fashion_mnist_images.zip'
 DATA_FILE = 'fashion_mnist_images.zip'
 DATA_FOLDER = 'fashion_mnist_images'
 
+"""
+  @NOTE : BRING IN THE VALIDATION DATA INTO MY MODEL.train() FOR INLINE TESTING ...
+  ... RATHER THAN MY WACKY ASS OLD HACK
+"""
 
 def loadMnistData(data, path):
   labels = os.listdir(os.path.join(path, data))
@@ -16,7 +21,6 @@ def loadMnistData(data, path):
   for label in  labels:
     for file in os.listdir(os.path.join(path, data, label)):
       image = cv2.imread(os.path.join(path, data, label, file), cv2.IMREAD_UNCHANGED)
-
       X.append(image)
       y.append(label)
   
@@ -225,8 +229,7 @@ class ActivationSoftmaxLossCategoricalCrossEntropy():
     self.dInputs[range(samples), yTrue] -= 1 # calculate gradient
     self.dInputs = self.dInputs / samples # Normalize Gradient
 
-# BRING IN OTHER OPTIMIZERS LATER @TODO
-
+# @TODO BRING IN OTHER OPTIMIZERS LATER
 class OptimizerAdam: # Adam -> Adaptive Momentum
   def __init__(self, learningRate=0.001, decay=0., epsilon=1e-7, beta1=0.9, beta2=0.999):
     self.learningRate = learningRate
@@ -388,15 +391,26 @@ class Model:
 class Main:
   nnfs.init()
 
-  x, y = sine_data()
+  x, y, xTest, yTest = createMnistData('fashion_mnist_images')
+
+  keys = np.array(range(x.shape[0])) # shuffling the training dataset
+  np.random.shuffle(keys)
+  x = x[keys]
+  y = y[keys]
+
+  x = (x.reshape(x.shape[0], -1).astype(np.float32) - 127.5) / 127.5 # scaling and reshaping samples
+  xTest = (xTest.reshape(xTest.shape[0], -1).astype(np.float32) - 127.5) / 127.5
+
   epochs = 444
  
   model = Model()
 
-  model.add(LayerDense(1, 64, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4))
+  model.add(LayerDense(x.shape[1], 128, weightRegularizerL2=5e-4, biasRegularizerL2=5e-4))
   model.add(ActivationReLU())
-  model.add(LayerDropout(0.1))
-  model.add(LayerDense(64, 1))
+  # model.add(LayerDropout(0.1)) @NOTE bring back in l8r
+  model.add(LayerDense(128, 128))
+  model.add(ActivationReLU())
+  model.add(LayerDense(128, 10))
   model.add(ActivationSoftmax())
 
   layerCount = len(model.layers) # move into model and call self @TODO
