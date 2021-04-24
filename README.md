@@ -6,7 +6,7 @@
 * 24++ will use actual data
 * bring asset script form u24 into my 24 if file
 
-u<#>.py is an asset/util script always
+_u<#>.py is an asset/util script always_
 
 
 
