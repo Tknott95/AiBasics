@@ -4,7 +4,7 @@
 * ++advanced as you ascend, around 16 is where partial dirs start
 * 23++ has a model class | Complexity Increasing
 * 24++ will use actual data
-
+^ bring asset script form u24 into my 24 if file
 
 
 
