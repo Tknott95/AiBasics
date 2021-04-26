@@ -10,6 +10,8 @@
 _u<#>.py is an asset/util script always_
 
 
+
+
 @TODO 
  - mnsit data after train finished. Bring logic into model.train()   
  - use real data 4 24+
