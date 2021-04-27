@@ -7,6 +7,7 @@
 * bring asset script form u24 into my 24 if file
 
 
+_data is prepped after you run 24_
 _u<#>.py is an asset/util script always_
 
 
