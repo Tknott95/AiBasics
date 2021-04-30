@@ -3,7 +3,13 @@ import numpy as np
 import nnfs
 
 import os
+import urllib
+import urllib.request
+
+from zipfile import ZipFile
+
 import cv2
+
 # Libs for pulling my zip and decompressing it
 DATA_URL = 'https://nnfs.io/datasets/fashion_mnist_images.zip'
 DATA_FILE = 'fashion_mnist_images.zip'
@@ -12,10 +18,22 @@ DATA_FOLDER = 'Assets/fashion_mnist_images'
 """
   @NOTE : BRING IN THE VALIDATION DATA INTO MY MODEL.train() FOR INLINE TESTING ...
   ... RATHER THAN MY WACKY ASS OLD HACK
+
+  @TODO : 
+    - PULL IN LIB TO HANDLE A PROGRESS BAR IN THE SHELL
+    - IF LAZY JUST LOG EVERY ITERATION
 """
 
+# @TODO clean up var/param names, pulled this in fro mmy u24 asset pull script
 def loadMnistData(data, path):
-  if not os.path.exists(path): print('\n FETCHING MNIST DATA... \n')
+  if not os.path.isfile(DATA_FILE):
+    print(f'\n  Downloading {DATA_URL} and saving as {DATA_FILE}...')
+    urllib.request.urlretrieve(DATA_URL, DATA_FILE)
+  
+    print('\n  Decompressing Images...')
+    with ZipFile(DATA_FILE) as zipImages:
+      zipImages.extractall(DATA_FOLDER)
+
   labels = os.listdir(os.path.join(path, data))
   # X, y = [] throws a size error of int 0 instead of 2 so we jsut set each individually
   X = []
