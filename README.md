@@ -9,6 +9,8 @@
 
 
 
+
+_u scripts will be implemented in 24+ alrdy yet still modular for easy logic access_
 _data is prepped after you run 24_
 _u<#>.py is an asset/util script always_
 
