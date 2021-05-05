@@ -350,7 +350,7 @@ class Model:
     for epoch in range(1, epochs+1):
       output = self.forward(x, isTraining=True)
       print(epoch)
-
+      # @TODO Print my actual epoch data via. each train
       dataLoss, regularizationLoss = self.loss.calculate(output, y, includeRegularization=True)
       # @TODO FIX THIS -> loss = dataLoss + regularizationLoss
       loss = dataLoss
@@ -444,7 +444,7 @@ class Main:
   # Was MeanSquaredErrorLoss()
   model.set(loss=CategoricalCrossEntropyLoss(), optimizer=OptimizerAdam(learningRate=5e-3, decay=1e-3), accuracy=CategoricalAccuracy())
   model.finalize()
-  model.train(x, y, epochs=epochs, logEvery=100)
+  model.train(x, y, validationData=(xTest, yTest),  epochs=epochs, logEvery=100)
 
 
 if __name__ == "__main":
