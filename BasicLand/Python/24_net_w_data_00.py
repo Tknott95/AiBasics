@@ -24,6 +24,14 @@ DATA_FOLDER = 'Assets/fashion_mnist_images'
     - IF LAZY JUST LOG EVERY ITERATION
 """
 
+"""
+      print(f'epoch: {epoch}, ' +
+            f'acc: {accuracy:.3f}, ' +
+            f'loss: {loss:.3f}, ' +
+            f'dataLoss: {dataLoss:.3f}, ' +
+            f'regLoss: {regularizationLoss:.3f}, ' +
+            f'lr: {optimizer.currLearningRate:.5}')
+"""
 # @TODO clean up var/param names, pulled this in fro mmy u24 asset pull script
 def loadMnistData(data, path):
   if not os.path.isfile(DATA_FILE):
