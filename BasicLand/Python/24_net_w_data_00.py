@@ -361,7 +361,7 @@ class Model:
       # @TODO Print my actual epoch data via. each train
       dataLoss, regularizationLoss = self.loss.calculate(output, y, includeRegularization=True)
       # @TODO FIX THIS -> loss = dataLoss + regularizationLoss
-      loss = dataLoss
+      loss = dataLoss # + regularizationLoss
 
       predictions = self.outputLayerActivation.predictions(output)
       accuracy = self.accuracy.calculate(predictions, y)
