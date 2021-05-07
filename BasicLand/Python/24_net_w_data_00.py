@@ -177,7 +177,7 @@ class Loss:
     if not includeRegularization:
       return dataLoss
 
-    return dataLoss, self.regularizationLoss
+    return dataLoss, self.regularizationLoss()
 
 class CategoricalCrossEntropyLoss(Loss):
   def forward(self, yPrediction, yTrue):
