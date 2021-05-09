@@ -17,7 +17,7 @@ using namespace std;
 
 /* Will iterate through every row after base rhetoric*/ 
 /* Will make a transpose function so call sizes can be brought in matching up if needed transposed */
-float* dot(int input[], float weight[], int colSize) {
+float* dot(int input[], float* weight, int colSize) {
   float* dotProdArray = new float[colSize];
 
   for(int i=0;i<colSize; colSize++) {
