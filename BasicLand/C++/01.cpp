@@ -44,13 +44,14 @@ int main() {
    //int inputSize[2]; making a struct rather than a 2 arr maybe
    int inputSize[2];
    //inputSize[0]
-   /* m x n || row by col */
+   /* m x n || row by col */i
+/* @TODO make size of w instead? */
    inputSize[0] = sizeof(i) / sizeof(i[0]);      /* ROW */
    inputSize[1] =  sizeof(&i[0]) / sizeof(int);   /* COL */
    for(int currRow=0; currRow < inputSize[0]; currRow++) {
      float* example  = {dot(&i[0], &w[currRow][0], inputSize[1])};
      /* @TODO make below a print */
-     cout << example[0] << endl;
+     cout << example[currRow] << endl;
      cout << "  \e[0;33;40m InputShape(" << inputSize[0] << ", " << inputSize[1] << ")\e[0m" << endl;
    }
 
