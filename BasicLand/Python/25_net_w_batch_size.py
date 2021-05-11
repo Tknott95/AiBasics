@@ -431,6 +431,7 @@ class Main:
   xTest = (xTest.reshape(xTest.shape[0], -1).astype(np.float32) - 127.5) / 127.5
 
   epochs = 444
+  batchSize = 128
  
   model = Model()
 
