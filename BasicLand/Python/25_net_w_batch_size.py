@@ -391,10 +391,10 @@ class Model:
       trainSteps = len(x)
       if trainSteps * batchSize < len(x):
         trainSteps += 1 # @TODO make ++ ? 
-      if validationData is not None:
+      if validationData is not None:  
         validationSteps = len(xVal)
-        if validationSteps * batchSize < len(xVal):
-          validationSteps += 1
+        
+        if validationSteps * batchSize < len(xVal): validationSteps += 1
      
     for epoch in range(1, epochs+1):
       output = self.forward(x, isTraining=True)
