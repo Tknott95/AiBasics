@@ -321,6 +321,13 @@ class Accuracy:
     self.accumulatedCount += len(comparisons)
 
     return accuracy
+  def calculateAccumulated(self):
+    accuracy = self.accumulatedSum / self.accumulatedCount
+    return accuracy
+  def newPass(self):
+    self.accumulatedSum = 0
+    self.accumulatedCount = 0
+ 
 
 class CategoricalAccuracy(Accuracy):
   def __init__(self, *, binary=False):
