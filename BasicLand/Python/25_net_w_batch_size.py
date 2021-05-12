@@ -174,10 +174,24 @@ class Loss:
   def calculate(self, output, y, *, includeRegularization=False):
     sampleLosses = self.forward(output, y)
     dataLoss = np.mean(sampleLosses)
+
+    self.accumulatedSum += np.sum(sampleLosses)
+    self.accumulatedCount += len(sampleLosses)    
+
     if not includeRegularization:
       return dataLoss
 
     return dataLoss, self.regularizationLoss()
+  def calculateAccumulated(self, *, includeRegularization=False):
+    dataLoss = self.accumulatedSum / self.accumulatedCount
+    
+    if not includeRegularization:
+      return dataLoss
+
+    return dataLoss, self.regularizationLoss()
+  def newPass(self):
+    self.accumulatedSum = 0
+    self.accumulatedCount = 0
 
 class CategoricalCrossEntropyLoss(Loss):
   def forward(self, yPrediction, yTrue):
