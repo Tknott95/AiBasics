@@ -377,9 +377,25 @@ class Model:
       self.softmaxClassifierOutput = ActivationSoftmaxLossCategoricalCrossEntropy()
     print('after layerCount: ', layerCount)
 
-  def train(self, x, y, *, epochs=1000, logEvery=10, validationData=None):
+  def train(self, x, y, *, batchSize=None, epochs=1000, logEvery=10, validationData=None):
     # @NOTE when accuracy is put in add:
-    # self.accuracy.init(y)
+    self.accuracy.init(y)
+    # @NOTE if no batchSize trainSteps = 1, @TODO change this later
+    trainSteps = 1
+
+    if validationData is not None:
+      validationSteps = 1
+      xVal, yVal = validationData
+   
+    if batchSize is not None:
+      trainSteps = len(x)
+      if trainSteps * batchSize < len(x):
+        trainSteps += 1 # @TODO make ++ ? 
+      if validationData is not None:
+        validationSteps = len(xVal)
+        if validationSteps * batchSize < len(xVal):
+          validationSteps += 1
+     
     for epoch in range(1, epochs+1):
       output = self.forward(x, isTraining=True)
       # print(epoch)
