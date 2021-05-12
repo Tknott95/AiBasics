@@ -316,6 +316,10 @@ class Accuracy:
   def calculate(self, predictions, y):
     comparisons = self.compare(predictions, y)
     accuracy = np.mean(comparisons)
+
+    self.accumulatedSum += np.sum(comparisons)
+    self.accumulatedCount += len(comparisons)
+
     return accuracy
 
 class CategoricalAccuracy(Accuracy):
