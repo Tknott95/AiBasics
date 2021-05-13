@@ -397,32 +397,44 @@ class Model:
         if validationSteps * batchSize < len(xVal): validationSteps += 1
      
     for epoch in range(1, epochs+1):
-      output = self.forward(x, isTraining=True)
-      # print(epoch)
-      # @TODO Print my actual epoch data via. each train
-      dataLoss, regularizationLoss = self.loss.calculate(output, y, includeRegularization=True)
-      # @TODO FIX THIS -> loss = dataLoss + regularizationLoss
-      loss = dataLoss + regularizationLoss
+      self.loss.newPass()
+      self.accuracy.newPass()
+      
+      for step in range(trainSteps):
+        if batchSize is None:
+          batchX = x
+          batchY = y
+        else:
+          batchX = x[step*batchSize:(step+1)*batchSize]
+          batchY = y[step*batchSize:(step+1)*batchSize]
 
-      predictions = self.outputLayerActivation.predictions(output)
-      accuracy = self.accuracy.calculate(predictions, y)
+
+        output = self.forward(batchX, isTraining=True)
+        # print(epoch)
+        # @TODO Print my actual epoch data via. each train
+        dataLoss, regularizationLoss = self.loss.calculate(output, batchY, includeRegularization=True)
+        # @TODO FIX THIS -> loss = dataLoss + regularizationLoss
+        loss = dataLoss + regularizationLoss
+
+        predictions = self.outputLayerActivation.predictions(output)
+        accuracy = self.accuracy.calculate(predictions, batchY)
       
 
-      self.backward(output, y)
+        self.backward(output, batchY)
 
-      self.optimizer.preUpdateParams()
-      for layer in self.trainableLayers:
-       self.optimizer.updateParams(layer)
-      self.optimizer.postUpdateParams()
+        self.optimizer.preUpdateParams()
+        for layer in self.trainableLayers:
+         self.optimizer.updateParams(layer)
+        self.optimizer.postUpdateParams()
 
-      if not epoch % logEvery:
-        print(f'epoch: {epoch}, ' +
-            f'acc: {accuracy:.3f}, ' +
-            f'loss: {loss:.3f}, ' +
-            f'dataLoss: {dataLoss:.3f}, ' +
-            f'regLoss: {regularizationLoss}, ' +
-            f'lr: {self.optimizer.currLearningRate:.5}')
-      # @TODO fix regularizartionLoss # 529
+        if not step % logEvery or step == trainSteps-1:
+          print(f'epoch: {epoch}, ' +
+              f'acc: {accuracy:.3f}, ' +
+              f'loss: {loss:.3f}, ' +
+              f'dataLoss: {dataLoss:.3f}, ' +
+              f'regLoss: {regularizationLoss}, ' +
+              f'lr: {self.optimizer.currLearningRate:.5}')
+        # @TODO fix regularizartionLoss # 529
     
     if validationData is not None:
       xVal, yVal = validationData
