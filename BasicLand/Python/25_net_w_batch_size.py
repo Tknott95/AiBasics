@@ -417,8 +417,7 @@ class Model:
         loss = dataLoss + regularizationLoss
 
         predictions = self.outputLayerActivation.predictions(output)
-        accuracy = self.accuracy.calculate(predictions, batchY)
-      
+        accuracy = self.accuracy.calculate(predictions, batchY) 
 
         self.backward(output, batchY)
 
