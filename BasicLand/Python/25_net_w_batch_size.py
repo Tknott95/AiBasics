@@ -433,17 +433,37 @@ class Model:
               f'dataLoss: {dataLoss:.3f}, ' +
               f'regLoss: {regularizationLoss}, ' +
               f'lr: {self.optimizer.currLearningRate:.5}')
-        # @TODO fix regularizartionLoss # 529
+    epochDataLoss, epochRegularizationLoss = self.loss.calculateAccumulated(includeRegularization=True)
+    epochLoss = epochDataLoss + epochRegularizationLoss
+    epochAccuracy = self.accuracy.calculateAccumulated()
+
+    print(f'epoch: {step}, ' +
+        f'acc: {epochAccuracy:.3f}, ' +
+        f'loss: {epochLoss:.3f}, ' +
+        f'dataLoss: {epochDataLoss:.3f}, ' +
+        f'regLoss: {epochRegularizationLoss}, ' +
+        f'lr: {self.optimizer.currLearningRate:.5}')
     
+ 
     if validationData is not None:
-      xVal, yVal = validationData
-      output = self.forward(xVal, isTraining = False)
-      loss = self.loss.calculate(output, yVal)
-      predictions = self.outputLayerActivation.predictions(output)
-      accuracy = self.accuracy.calculate(predictions, yVal)
-      print(f'validation, ' +
-            f'acc: {accuracy:.3f} , ' +
-            f'loss: {loss:.3f}')
+      self.loss.newPass()
+      self.accuracy.newPass()
+
+      for step in range(validationSteps);
+        if batchSize is None:
+          batchX = xVal
+          batchY = yVal
+        else:
+          batchX = xVal[step*batchSize:(step+1)*batchSize]
+          batchY = yVal[step*batchSize:(step+1)*batchSize]
+
+        output = self.forward(batchX, isTraining = False)
+        self.loss.calculate(output, batchY)
+        predictions = self.outputLayerActivation.predictions(output)
+        self.accuracy.calculate(predictions, batchY)
+
+   validationLoss = 
+   validationAccuracy = 
 
   def forward(self, x, isTraining):
     self.inputLayer.forward(x, isTraining)
