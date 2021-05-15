@@ -449,7 +449,7 @@ class Model:
       self.loss.newPass()
       self.accuracy.newPass()
 
-      for step in range(validationSteps);
+      for step in range(validationSteps):
         if batchSize is None:
           batchX = xVal
           batchY = yVal
