@@ -7,7 +7,7 @@
 * bring asset script form u24 into my 24 if file
 
 
-
+* C++ has a linAlg lib in another repo that could be utilized like my other _ project
 
 
 
