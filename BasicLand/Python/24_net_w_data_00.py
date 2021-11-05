@@ -422,6 +422,7 @@ class Main:
 
   x, y, xTest, yTest = createMnistData('Assets/fashion_mnist_images')
 
+
   keys = np.array(range(x.shape[0])) # shuffling the training dataset
   np.random.shuffle(keys)
   x = x[keys]
@@ -430,6 +431,9 @@ class Main:
   x = (x.reshape(x.shape[0], -1).astype(np.float32) - 127.5) / 127.5 # scaling and reshaping samples
   xTest = (xTest.reshape(xTest.shape[0], -1).astype(np.float32) - 127.5) / 127.5
 
+  print("\n\n test\n", x[0])
+  print("\n  x[0].shape:  ", x[0].shape)
+  print(y[0])
   epochs = 444
  
   model = Model()
