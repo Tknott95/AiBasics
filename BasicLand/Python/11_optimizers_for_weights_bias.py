@@ -69,7 +69,7 @@ class Main:
   topLayer2Weights = layer2.weights.copy()
   topLayer2Biases = layer2.biases.copy()
 
-  for epoch in range(1000):
+  for epoch in range(9000):
     layer1.weights = 0.05 * np.random.randn(2, 3)
     layer1.biases = 0.05 * np.random.randn(1, 3)
     layer2.weights = 0.05 * np.random.randn(3, 3)
@@ -84,6 +84,11 @@ class Main:
     lossVal = lossFunction.calculate(activation2.output, y)
     predictions = np.argmax(activation2.output, axis=1)
     accuracy = np.mean(predictions == y)
+
+  
+    # print("\n ", predictions, "\n ", y)
+
+    # print(layer1.biases, "\n",  layer2.biases)
 
     if lossVal < lowestLoss:
       print('New set of weights found, epoch:', epoch, 'loss:', lossVal, 'acc:', accuracy)

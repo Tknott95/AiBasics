@@ -108,6 +108,7 @@ class Main:
 
   # nnfs book naming conventions for now
   X, y = spiral_data(samples=100, classes=3)
+  print(X)
 
 
   layer1 = LayerDense(2,64)
